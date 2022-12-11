@@ -4,7 +4,8 @@
     import Text from "$lib/Text.svelte";
 
     let choreographies = [
-        'one'
+        'one',
+        'two',
     ];
     
 </script>
@@ -24,6 +25,8 @@
 
 <Text position="bottom">
     <p>{$time}</p>
+    <p>{$duration}</p>
+    <p>{$seconds}</p>
 </Text>
 
 <style>
