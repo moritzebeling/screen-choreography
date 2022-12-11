@@ -1,37 +1,32 @@
 <script>
   
     import { duration, seconds, time } from "$lib/system";
+    import Text from "$lib/Text.svelte";
 
     let choreographies = [
+        'one'
     ];
     
 </script>
 
-<header>
+<Text>
     <h1>Client Choreography</h1>
     <nav>
         {#each choreographies as link}
             <a href="/{link}">{link}</a>
         {/each}
     </nav>
-</header>
+</Text>
 
 <main>
     <p>{$seconds}</p>
 </main>
 
-<aside>
+<Text position="bottom">
     <p>{$time}</p>
-</aside>
+</Text>
 
 <style>
-
-    header {
-        padding: 1rem;
-        position: fixed;
-        top: 0;
-        left: 0;
-    }
 
     nav {
         display: flex;
@@ -49,13 +44,6 @@
         align-items: center;
         text-align: center;
         font-size: 10vw;
-    }
-
-    aside {
-        padding: 1rem;
-        position: fixed;
-        bottom: 0;
-        left: 0;
     }
 
 </style>
