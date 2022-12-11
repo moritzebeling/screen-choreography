@@ -6,6 +6,7 @@
     let choreographies = [
         'one',
         'two',
+        'three',
     ];
     
 </script>
@@ -25,8 +26,7 @@
 
 <Text position="bottom">
     <p>{$time}</p>
-    <p>{$duration}</p>
-    <p>{$seconds}</p>
+    <p>Time on site {$duration}</p>
 </Text>
 
 <style>

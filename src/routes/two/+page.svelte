@@ -24,7 +24,7 @@
 
     main {
         position: fixed;
-        background-color: white;
+        background-color: #00f;
         transition: all 500ms ease-in-out;
         transition-property: width, height;
         width: 0;
