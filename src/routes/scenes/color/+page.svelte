@@ -1,8 +1,6 @@
 <script>
 
-    import { onMount } from "svelte";
     import { seconds } from "$lib/system";
-    import { random } from "$lib/helpers";
 
     let r = 0;
     let g = 0;
@@ -31,8 +29,6 @@
     $: switchTarget( $seconds );
 
 </script>
-
-<svelte:window />
 
 <main style="background-color:rgb({r},{g},{b});"></main>
 
