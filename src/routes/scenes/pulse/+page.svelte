@@ -11,7 +11,7 @@
     let currentSpeed = Math.random() > 0.5 ? random(75,2000) : random(4000,6500);
     let speedTarget = 3000;
 
-    let morphing = true;
+    let morphing = false;
 
     function morph( value, target, threshold = 150 ){
         const diff = target - value;
@@ -60,7 +60,7 @@
 
 </script>
 
-<svelte:window on:keydown|preventDefault={handle} />
+<svelte:window on:keydown|preventDefault={handle} on:click={handle} />
 
 <!-- <Text cl="blue">
     <p>
