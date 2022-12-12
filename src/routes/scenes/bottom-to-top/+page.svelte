@@ -28,9 +28,9 @@
         transform: translateY(var(--100vh));
     }
     div.animating {
-        animation: slide 2s linear;
+        animation: slide 2s ease-in-out;
         animation-iteration-count: infinite;
-        background: linear-gradient(0, rgba(0,0,0,1) 0%, rgba(255,255,255,1) 100%);
+        background: linear-gradient(0, rgba(0,0,0,1) 0%, rgba(0,0,255,1) 100%);
     }
     div.second {
         animation-delay: 1s;
@@ -41,7 +41,7 @@
             transform: translateY(var(--100vh));
         }
         to {
-            transform: translateY(-100vh);
+            transform: translateY(-150vh);
         }
     }
 

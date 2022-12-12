@@ -1,5 +1,6 @@
 <script>
 
+    import { fade } from 'svelte/transition';
     import { seconds } from "$lib/clock";
 
     let r = 0;
@@ -19,7 +20,7 @@
 
     function switchTarget( s ){
         i++;
-        if( i % 5 === 1 ){
+        if( i % 5 === 2 ){
             r = colors[c][0];
             g = colors[c][1];
             b = colors[c][2];
@@ -33,7 +34,9 @@
 
 </script>
 
-<main style="background-color:rgb({r},{g},{b});"></main>
+<div in:fade>
+    <main style="background-color:rgb({r},{g},{b});"></main>
+</div>
 
 <style>
 
