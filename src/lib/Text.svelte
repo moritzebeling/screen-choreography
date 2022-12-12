@@ -1,10 +1,11 @@
 <script>
 
+    export let cl = '';
     export let position = 'top';
 
 </script>
 
-<aside class="{position}">
+<aside class="{position} {cl}">
     <slot />
 </aside>
 
@@ -21,6 +22,9 @@
     }
     aside.bottom {
         bottom: 0;
+    }
+    aside.blue {
+        color: blue;
     }
 
 </style>

@@ -70,7 +70,7 @@
         font-size: 0.7em;
         padding: 0.15em 0.6em;
         display: block;
-        margin: 1em 0;
+        margin: 2rem auto;
         vertical-align: bottom;
         transform: translateY(-0.1em);
     }
