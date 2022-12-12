@@ -1,14 +1,14 @@
 <script>
     
-    import { signals } from "$lib/control";
+    import { scenes } from "$lib/control";
 
     import ControlButton from "$lib/ControlButton.svelte";
 
 </script>
 
 <nav>
-    {#each signals as signal, i}
-        <ControlButton {signal} />
+    {#each scenes as scene, i}
+        <ControlButton {scene} />
     {/each}
 </nav>
 
@@ -36,7 +36,7 @@
 
         <ControlButton id={5} />
         
-        <p>When spreading behavior logic, a complex system of individual agents can be created, each executing their own inputs in real time. Encapsulated or in cooperation with their peer agents.</p>
+        <p>When spreading behavior logic, a complex system of individual agents can be established, each executing their own inputs in real time. Encapsulated or in cooperation with their peer agents.</p>
 
         <ControlButton id={6} />
 

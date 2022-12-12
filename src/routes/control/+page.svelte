@@ -1,13 +1,13 @@
 <script>
     
-    import { signals } from "$lib/control";
+    import { scenes } from "$lib/control";
     import ControlButton from "$lib/ControlButton.svelte";
 
 </script>
 
 <nav>
-    {#each signals as signal, i}
-        <ControlButton {signal} />
+    {#each scenes as scene, i}
+        <ControlButton {scene} />
     {/each}
 </nav>
 

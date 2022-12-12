@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export const signals = [
+export const scenes = [
     ['sorting','Sorting'],
     ['random','Random'],
     ['synchronize','Synchronize'],
@@ -12,14 +12,14 @@ export const signals = [
     ['touch-display','Touch'],
 ];
 
-export const usedSignals = writable([]);
+export const pastScenes = writable([]);
 
-export function sendSignal( id ){
+export function switchScene( id ){
 
-    usedSignals.update( list => {
+    pastScenes.update( list => {
         list = [id,...list];
         return list;
     });
 
-    console.log('send signal', id);
+    console.log('send scene', id);
 }
