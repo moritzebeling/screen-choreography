@@ -1,23 +1,16 @@
 <script>
   
-    import { duration, seconds, time } from "$lib/system";
+    import { duration, seconds, time } from "$lib/clock";
     import Text from "$lib/Text.svelte";
-
-    let choreographies = [
-        'one',
-        'two',
-        'three',
-        'four',
-    ];
     
 </script>
 
 <Text>
     <h1>Client Choreography</h1>
     <nav>
-        {#each choreographies as link}
+        <!-- {#each choreographies as link}
             <a href="/{link}">{link}</a>
-        {/each}
+        {/each} -->
     </nav>
 </Text>
 

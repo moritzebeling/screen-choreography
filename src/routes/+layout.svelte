@@ -1,6 +1,6 @@
 <script>
     
-    import { tick } from "$lib/system";
+    import { tick } from "$lib/clock";
     import { onMount } from "svelte";
     import { io } from "$lib/realtime";
     import { currentScene } from "$lib/control";

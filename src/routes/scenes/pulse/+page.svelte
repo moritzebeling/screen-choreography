@@ -1,7 +1,7 @@
 <script>
 
     import { onMount } from "svelte";
-    import { seconds } from "$lib/system";
+    import { seconds } from "$lib/clock";
     import { random } from "$lib/helpers";
 
     let white = Math.random() > 0.5;

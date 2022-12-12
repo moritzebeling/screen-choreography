@@ -1,6 +1,6 @@
 <script>
 
-    import { seconds } from "$lib/system";
+    import { seconds } from "$lib/clock";
 
     let animating = false;
     let alternated = false;

@@ -1,6 +1,6 @@
 <script>
 
-    import { seconds } from "$lib/system";
+    import { seconds } from "$lib/clock";
 
     let r = 0;
     let g = 0;
