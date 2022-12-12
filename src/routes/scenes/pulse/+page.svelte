@@ -2,7 +2,6 @@
 
     import { onMount } from "svelte";
     import { seconds } from "$lib/system";
-    import Text from "$lib/Text.svelte";
     import { random } from "$lib/helpers";
 
     let white = Math.random() > 0.5;
@@ -62,16 +61,6 @@
 
 <svelte:window on:keydown|preventDefault={handle} on:click={handle} />
 
-<!-- <Text cl="blue">
-    <p>
-        Original: {currentSpeed}ms {white}<br />
-        Adjust: {morphing}<br />
-        Targeted: {$seconds} {whiteTarget}<br />
-    </p>
-</Text>
-
-<div class="test" class:whiteTarget style="--speed:{speedTarget}ms;"></div> -->
-
 <main class:white style="--speed:{currentSpeed}ms;"></main>
 
 <style>
@@ -86,21 +75,6 @@
         transition: background-color var(--speed) ease-in-out;
     }
     main.white {
-        background-color: white;
-    }
-
-    .test {
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        width: 100px;
-        height: 100px;
-        border-radius: 100px;
-        background-color: black;
-        z-index: 5;
-        transition: background-color var(--speed) ease-in-out;
-    }
-    .test.whiteTarget {
         background-color: white;
     }
 

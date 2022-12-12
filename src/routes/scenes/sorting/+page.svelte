@@ -5,7 +5,7 @@
 
     function handle( event ){
         if( event.code !== 'Space' ) return;
-        // @todo
+        // @todo actually count devices
         console.log('register device', event);
         success = true;
     }
