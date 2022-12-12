@@ -5,6 +5,8 @@
 
     onMount(()=>{
         tick();
+        let vh = window.innerHeight;
+        document.documentElement.style.setProperty('--100vh', `${vh}px`);
     });
     
 </script>

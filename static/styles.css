@@ -8,6 +8,10 @@
     color: inherit;
 }
 
+:root {
+    --100vh: 100vh;
+}
+
 body {
     background-color: black;
     color: white;

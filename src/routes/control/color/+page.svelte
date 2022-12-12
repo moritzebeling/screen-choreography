@@ -13,7 +13,7 @@
     nav {
         padding: 1rem;
         width: 100vw;
-        height: 100vh;
+        height: var(--100vh);
         display: flex;
         position: fixed;
         left: 0;
