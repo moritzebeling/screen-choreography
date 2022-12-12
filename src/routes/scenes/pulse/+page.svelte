@@ -7,10 +7,10 @@
     let white = Math.random() > 0.5;
     let whiteTarget = false;
 
-    let currentSpeed = Math.random() > 0.5 ? random(75,2000) : random(4000,6500);
+    let currentSpeed = Math.random() > 0.4 ? random(75,2000) : random(3500,5500);
     let speedTarget = 3000;
 
-    let morphing = false;
+    export let morphing = false;
 
     function morph( value, target, threshold = 150 ){
         const diff = target - value;

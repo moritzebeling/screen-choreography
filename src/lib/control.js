@@ -1,20 +1,25 @@
 import { writable } from 'svelte/store';
+import { io } from "$lib/realtime";
 
 export const scenes = [
+    ['intro','Intro'],
     ['sorting','Sorting'],
-    ['random','Random'],
+    ['pulse','Pulse'],
     ['synchronize','Synchronize'],
     ['colors','Colors'],
-    ['left-to-right','Left to Right'],
     ['circle','Circle'],
     ['bottom-to-top','Bottom to Top'],
     ['qr','QR'],
-    ['touch-display','Touch'],
+    ['touch','Touch'],
 ];
 
-export const pastScenes = writable([]);
+export const currentScene = writable('intro');
+
+export const pastScenes = writable(['intro']);
 
 export function switchScene( id ){
+
+    io.emit("setScene", id);
 
     pastScenes.update( list => {
         list = [id,...list];

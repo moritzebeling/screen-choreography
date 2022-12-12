@@ -16,16 +16,16 @@
         
     <section id="0">
         
-        <p><ControlButton id={2}>One thing</ControlButton> about programming as a tool for creating visual images is, that the result we see is being created in that very moment.</p>
+        <p><ControlButton id={3}>One thing</ControlButton> about programming as a tool for creating visual images is, that the result we see is being created in that very moment.</p>
         <p>When looking at other forms of media: a video, a painting, a static design, production and presentation are inherently separated processes.</p>
-        <p>Through the continuous iteration of computing and rendering, a programmed visual can be <ControlButton id={3}>altered</ControlButton> by input that is being created or updated during runtime, meaning that the image can be reactive to the situation in which it is also being consumed.</p>
+        <p>Through the continuous iteration of computing and rendering, a programmed visual can be <ControlButton id={4}>altered</ControlButton> by input that is being created or updated during runtime, meaning that the image can be reactive to the situation in which it is also being consumed.</p>
 
     </section>
     <section id="1">
         
         <p>Another thing about programming is that logic can be implemented in any layer, position and time step.</p>
 
-        <ControlButton id={4} />
+        <ControlButton id={5} />
 
         <p>With logic, a changing input variable can be transformed into behavior.</p>
 
@@ -33,8 +33,6 @@
     <section id="2">
 
         <p>Another thing about programming is that scale can be achieved comparatively easily.</p>
-
-        <ControlButton id={5} />
         
         <p>When spreading behavior logic, a complex system of individual agents can be established, each executing their own inputs in real time. Encapsulated or in cooperation with their peer agents.</p>
 
@@ -57,6 +55,11 @@
     }
     nav :global( button ){
         margin: 0.2rem;
+    }
+    @media (max-width: 600px){
+        nav {
+            position: static;
+        }
     }
 
     main {

@@ -2,6 +2,8 @@
     
     import { tick } from "$lib/system";
     import { onMount } from "svelte";
+    import { io } from "$lib/realtime";
+    import { currentScene } from "$lib/control";
 
     function cssVariables(){
         let vh = window.innerHeight;
@@ -11,6 +13,10 @@
     onMount(()=>{
         tick();
         cssVariables();
+
+        io.on("setScene", scene => {
+            currentScene.set( scene );
+        })
     });
     
 </script>

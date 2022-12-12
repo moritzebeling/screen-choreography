@@ -7,6 +7,7 @@
     let b = 255;
 
     const colors = [
+        [0,0,255],
         [255,0,255],
         [255,0,0],
         [0,255,0],
@@ -18,11 +19,13 @@
 
     function switchTarget( s ){
         i++;
-        if( i % 5 === 0 ){
+        if( i % 5 === 1 ){
             r = colors[c][0];
             g = colors[c][1];
             b = colors[c][2];
-            c++;
+            if( c < colors.length - 1 ){
+                c++;
+            }
         }
     }
 
