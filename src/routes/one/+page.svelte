@@ -7,7 +7,7 @@
     let large = false;
 
     function control(){
-        let rndm = seedrandom( $seconds / 2 )
+        let rndm = seedrandom( $seconds )
         large = rndm() > 0.5;
     }
     $: control( $seconds );

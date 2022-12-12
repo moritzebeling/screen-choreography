@@ -7,6 +7,7 @@
         'one',
         'two',
         'three',
+        'four',
     ];
     
 </script>
