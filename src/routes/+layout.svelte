@@ -15,15 +15,12 @@
         cssVariables();
         io.emit("connectUser");
         io.on("userUpdated", data => {
-            console.log( 'userUpdated', data );
             user.set( data );
         });
         io.on("usersUpdated", data => {
-            console.log( 'usersUpdated', data );
             users.set( data );
         });
         io.on("sceneSet", data => {
-            console.log( 'sceneSet', data );
             currentScene.set( data );
         });
     });
@@ -37,6 +34,14 @@
 <button on:click={()=> io.emit('reorderUser')}>Reorder</button>
 <button on:click={()=> io.emit('setScene','colors')}>Scene</button>
 
-<pre>user {JSON.stringify( $user, true, 4 )}</pre>
-<pre>users {JSON.stringify( $users, true, 4 )}</pre>
-<pre>scene {JSON.stringify( $currentScene, true, 4 )}</pre>
+<pre>user {JSON.stringify( $user )}</pre>
+<pre>users {JSON.stringify( $users )}</pre>
+<pre>scene {JSON.stringify( $currentScene )}</pre>
+
+<h1>{$user.num}</h1>
+
+<style>
+    h1 {
+        font-size: 8rem;
+    }
+</style>
