@@ -1,6 +1,16 @@
 <script>
 
     import { fade } from "svelte/transition";
+    import { onMount } from "svelte";
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+
+    onMount(()=>{
+        setTimeout(()=>{
+            dispatch('continue');
+        }, 5000);
+    });
+
 
 </script>
 

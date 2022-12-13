@@ -10,18 +10,24 @@
     import Up from './up/+page.svelte';
     import Qr from './qr/+page.svelte';
     import Touch from './touch/+page.svelte';
+
+    let localScene = false;
+    function controlLocalScene( global ){
+        localScene = false;
+    }
+    $: controlLocalScene( $currentScene );
     
 </script>
 
-{#if $currentScene === 'intro'}
-    <Intro />
+{#if !localScene && $currentScene === 'intro'}
+    <Intro on:continue={()=> localScene = 'sorting' } />
 {/if}
 
-{#if $currentScene === 'sorting'}
-    <Sorting />
+{#if $currentScene === 'sorting' || localScene === 'sorting' }
+    <Sorting on:continue={()=> localScene = 'pulse' } />
 {/if}
 
-{#if $currentScene === 'pulse' || $currentScene === 'synchronize' }
+{#if localScene === 'pulse' || $currentScene === 'pulse' || $currentScene === 'synchronize' }
     <Pulse morphing={$currentScene === 'synchronize'} />
 {/if}
 

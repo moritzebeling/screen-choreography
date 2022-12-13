@@ -15,9 +15,9 @@
 </script>
 
 <div class="first" class:animating></div>
+<div style="animation-delay: 2s;" class:animating></div>
 <div style="animation-delay: 4s;" class:animating></div>
-<div style="animation-delay: 8s;" class:animating></div>
-<div style="animation-delay: 12s;" class:animating></div>
+<div style="animation-delay: 6s;" class:animating></div>
 
 <style>
 
@@ -30,7 +30,7 @@
         transform: translateY(var(--100vh));
     }
     div.animating {
-        animation: slide 16s ease-in-out;
+        animation: slide 8s ease-in;
         animation-iteration-count: infinite;
         background: linear-gradient(0, rgba(0,0,0,1) 0%, rgba(0,0,255,1) 100%);
     }
