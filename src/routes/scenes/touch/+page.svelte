@@ -1,7 +1,8 @@
 <script>
 
-    /* @todo get number of online clients */
-    let total = 10;
+    import { users } from "$lib/realtime";
+
+    /* @todo get number of touch devices who have pressed */
     let pressed = 0;
     
     let fingerDown = false;
@@ -20,8 +21,8 @@
 <main
     on:pointerdown={down}
     on:pointerup={up}
-    style="background-color:rgb(0,0,{20+(pressed/total)*235});"
-    class:effect={fingerDown && total <= pressed}
+    style="background-color:rgb(0,0,{20+(pressed/$users)*235});"
+    class:effect={fingerDown && $users <= pressed}
     >
 </main>
 

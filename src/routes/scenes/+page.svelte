@@ -7,7 +7,7 @@
     import Pulse from './pulse/+page.svelte';
     import Colors from './colors/+page.svelte';
     import Circle from './circle/+page.svelte';
-    import BottomToTop from './bottom-to-top/+page.svelte';
+    import Up from './up/+page.svelte';
     import Qr from './qr/+page.svelte';
     import Touch from './touch/+page.svelte';
     
@@ -33,8 +33,8 @@
     <Circle />
 {/if}
 
-{#if $currentScene === 'bottom-to-top'}
-    <BottomToTop />
+{#if $currentScene === 'up'}
+    <Up />
 {/if}
 
 {#if $currentScene === 'qr'}

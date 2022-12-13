@@ -7,5 +7,5 @@ const socket = ioClient(ENDPOINT);
 
 export const io = socket;
 
-export const user = writable(null);
+export const user = writable({id:null,num:null});
 export const users = writable(0);

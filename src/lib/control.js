@@ -8,7 +8,7 @@ export const scenes = [
     ['synchronize','Synchronize'],
     ['colors','Colors'],
     ['circle','Circle'],
-    ['bottom-to-top','Bottom to Top'],
+    ['up','Up'],
     ['qr','QR'],
     ['touch','Touch'],
 ];

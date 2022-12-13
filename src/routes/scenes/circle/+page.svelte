@@ -1,9 +1,10 @@
 <script>
 
     import { seconds } from "$lib/clock";
+    import { user } from "$lib/realtime";
 
     let animating = false;
-    let alternated = false;
+    let alternated = $user.num % 2 === 0;
 
     function switchTarget( s ){
         if( s % 5 === 0 ){
@@ -12,10 +13,6 @@
     }
 
     $: switchTarget( $seconds );
-
-    /*
-    @todo ever seconds screen needs to be alternated
-    */
 
 </script>
 

@@ -41,12 +41,6 @@
         loop();
     });
 
-    function handle( event ){
-        if( event.code !== 'Space' ) return;
-        // @todo
-        morphing = true;
-    }
-
     function switchTarget( s ){
         if( s === whiteTarget ) return;
         whiteTarget = s;
@@ -58,8 +52,6 @@
     $: switchTarget( $seconds % 6 < 3 );
 
 </script>
-
-<svelte:window on:keydown|preventDefault={handle} on:click={handle} />
 
 <main class:white style="--speed:{currentSpeed}ms;"></main>
 

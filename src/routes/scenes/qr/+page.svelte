@@ -12,7 +12,7 @@
 
     $: switchTarget( $seconds );
 
-    /* @todo insert qe code */
+    /* @todo insert qr code */
 
 </script>
 

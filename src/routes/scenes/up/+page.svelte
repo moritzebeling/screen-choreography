@@ -5,7 +5,7 @@
     let animating = false;
 
     function switchTarget( s ){
-        if( s % 2 === 1 ){
+        if( s % 4 === 1 ){
             animating = true;
         }
     }
@@ -15,7 +15,9 @@
 </script>
 
 <div class="first" class:animating></div>
-<div class="second" class:animating></div>
+<div style="animation-delay: 4s;" class:animating></div>
+<div style="animation-delay: 8s;" class:animating></div>
+<div style="animation-delay: 12s;" class:animating></div>
 
 <style>
 
@@ -28,12 +30,9 @@
         transform: translateY(var(--100vh));
     }
     div.animating {
-        animation: slide 2s ease-in-out;
+        animation: slide 16s ease-in-out;
         animation-iteration-count: infinite;
         background: linear-gradient(0, rgba(0,0,0,1) 0%, rgba(0,0,255,1) 100%);
-    }
-    div.second {
-        animation-delay: 1s;
     }
 
     @keyframes slide {
