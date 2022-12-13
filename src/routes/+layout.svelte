@@ -29,19 +29,4 @@
 
 <svelte:window on:resize={cssVariables} />
 
-<!-- <slot /> -->
-
-<button on:click={()=> io.emit('reorderUser')}>Reorder</button>
-<button on:click={()=> io.emit('setScene','colors')}>Scene</button>
-
-<pre>user {JSON.stringify( $user )}</pre>
-<pre>users {JSON.stringify( $users )}</pre>
-<pre>scene {JSON.stringify( $currentScene )}</pre>
-
-<h1>{$user.num}</h1>
-
-<style>
-    h1 {
-        font-size: 8rem;
-    }
-</style>
+<slot />

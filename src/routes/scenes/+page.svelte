@@ -3,6 +3,7 @@
     import { currentScene } from "$lib/control";
 
     import Intro from './intro/+page.svelte';
+    import Sorting from './sorting/+page.svelte';
     import Pulse from './pulse/+page.svelte';
     import Colors from './colors/+page.svelte';
     import Circle from './circle/+page.svelte';
@@ -14,6 +15,10 @@
 
 {#if $currentScene === 'intro'}
     <Intro />
+{/if}
+
+{#if $currentScene === 'sorting'}
+    <Sorting />
 {/if}
 
 {#if $currentScene === 'pulse' || $currentScene === 'synchronize' }

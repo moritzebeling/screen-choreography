@@ -1,28 +1,25 @@
 <script>
 
-    import { io } from "$lib/realtime";
-    import { onMount } from "svelte";
+    import { io, user } from "$lib/realtime";
 
-    let number;
+    let show = false;
 
     function handle( event ){
         if( event.code !== 'Space' ) return;
-        io.emit("registerDevice");
-    }
-
-    onMount(()=>{
-        io.on("deviceRegistered", n =>{
-            number = n;
+        io.emit("reorderUser");
+        console.log('reorder');
+        io.on("userUpdated", data => {
+            show = true;
         });
-    });
+    }
 
 </script>
 
 <svelte:window on:keydown|preventDefault={handle} />
 
 <main>
-    {#if number}
-        <h1>{number}</h1>
+    {#if $user !== null && show}
+        <h1>{$user.num}</h1>
     {/if}
 </main>
 

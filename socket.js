@@ -16,6 +16,7 @@ export function socketServer( server ){
     console.log('SocketIO injected');
 
     let allUsers = [];
+    let allUsersSorted = [];
 
     /*
     io = server or all clients
@@ -44,31 +45,29 @@ export function socketServer( server ){
                 id: socket.data.userId,
                 num: allUsers.indexOf( socket.data.userId )
             });
-            io.emit('usersUpdated', {
-                ids: allUsers,
-                count: allUsers.length
-            });
+            io.emit('usersUpdated', allUsers.length );
         });
 
         socket.on('reorderUser', async (uId) => {
             allUsers = allUsers.filter((id) => id !== socket.data.userId);
             allUsers.push(socket.data.userId);
+            allUsersSorted = allUsersSorted.filter((id) => id !== socket.data.userId);
+            allUsersSorted.push(socket.data.userId);
             const sockets = await io.fetchSockets();
             for (const s of sockets) {
                 s.emit('userUpdated', {
                     id: s.data.userId,
-                    num: allUsers.indexOf( s.data.userId )
+                    // num: allUsers.indexOf( s.data.userId )
+                    num: allUsersSorted.indexOf( s.data.userId )
                 });
             }
-            io.emit('usersUpdated', {
-                ids: allUsers,
-                count: allUsers.length
-            });
+            io.emit('usersUpdated', allUsers.length );
         });
 
         socket.on("disconnect", async (reason) => {
             console.log('disconnect', reason);
             allUsers = allUsers.filter((id) => id !== socket.data.userId);
+            allUsersSorted = allUsersSorted.filter((id) => id !== socket.data.userId);
             const sockets = await io.fetchSockets();
             for (const s of sockets) {
                 s.emit('userUpdated', {
