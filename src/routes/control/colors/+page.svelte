@@ -5,7 +5,7 @@
 </script>
 
 <nav>
-    <ControlButton id={3}>Update</ControlButton>
+    <ControlButton id={4}>Update</ControlButton>
 </nav>
 
 <style>
