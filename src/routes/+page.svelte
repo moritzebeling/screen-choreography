@@ -7,20 +7,7 @@
 
 <Text>
     <h1>Client Choreography</h1>
-    <nav>
-        <!-- {#each choreographies as link}
-            <a href="/{link}">{link}</a>
-        {/each} -->
-    </nav>
-</Text>
-
-<main>
-    <p>{$seconds}</p>
-</main>
-
-<Text position="bottom">
-    <p>{$time}</p>
-    <p>Time on site {$duration}</p>
+    <a href="/scenes">Start</a>
 </Text>
 
 <style>

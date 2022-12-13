@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
 
-export function uniqueId(length = 4) {
+export function uniqueId(length = 16) {
 	let result = '';
 	let budget = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	var max = budget.length;

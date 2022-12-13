@@ -4,6 +4,7 @@
     import { onMount } from "svelte";
     import { io, user, users } from "$lib/realtime";
     import { currentScene } from "$lib/control";
+    import Debug from "$lib/Debug.svelte";
 
     function cssVariables(){
         let vh = window.innerHeight;
@@ -28,5 +29,7 @@
 </script>
 
 <svelte:window on:resize={cssVariables} />
+
+<Debug />
 
 <slot />
