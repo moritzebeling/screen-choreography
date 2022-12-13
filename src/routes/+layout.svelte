@@ -5,6 +5,7 @@
     import { io, user, users } from "$lib/realtime";
     import { currentScene } from "$lib/control";
     import Debug from "$lib/Debug.svelte";
+    import { random } from "$lib/helpers";
 
     function cssVariables(){
         let vh = window.innerHeight;
@@ -23,6 +24,11 @@
         });
         io.on("sceneSet", data => {
             currentScene.set( data );
+        });
+        io.on("refresh", () => {
+            setTimeout(() => {
+                location.reload();
+            }, random(50,500));
         });
     });
     

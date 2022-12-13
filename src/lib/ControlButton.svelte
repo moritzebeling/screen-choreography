@@ -18,22 +18,8 @@
 
 <style>
 
-    button {
-        cursor: pointer;
-        display: block;
-        padding: 0.5em 1em;
-        border-radius: 2em;
-        background-color: white;
-        color: black;
-        transition: background-color 200ms ease;
-    }
     button.last {
         background-color: #999;
-    }
-    button:hover,
-    button.active {
-        background-color: #00f;
-        color: black;
     }
 
 </style>

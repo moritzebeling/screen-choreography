@@ -23,3 +23,18 @@ pre {
     white-space: pre-wrap;
     font-family: monospace;
 }
+
+button {
+    cursor: pointer;
+    display: block;
+    padding: 0.5em 1em;
+    border-radius: 2em;
+    background-color: white;
+    color: black;
+    transition: background-color 200ms ease;
+}
+button:hover,
+button.active {
+    background-color: #00f;
+    color: black;
+}

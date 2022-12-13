@@ -3,6 +3,7 @@
     import { scenes } from "$lib/control";
 
     import ControlButton from "$lib/ControlButton.svelte";
+    import { io } from "$lib/realtime";
 
 </script>
 
@@ -10,6 +11,7 @@
     {#each scenes as scene, i}
         <ControlButton {scene} />
     {/each}
+    <button on:click={()=>io.emit("refresh")}>Refresh</button>
 </nav>
 
 <main>

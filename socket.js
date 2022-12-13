@@ -72,13 +72,19 @@ export function socketServer( server ){
             for (const s of sockets) {
                 s.emit('userUpdated', {
                     id: s.data.userId,
-                    num: allUsers.indexOf( s.data.userId )
+                    num: allUsersSorted.length > 0 ? allUsersSorted.indexOf( s.data.userId ) : allUsers.indexOf( s.data.userId )
                 });
             }
         });
 
         socket.on('setScene', (scene) => {
             io.emit('sceneSet', scene);
+        });
+        
+        socket.on('refresh', () => {
+            allUsers = [];
+            allUsersSorted = [];
+            io.emit('refresh');
         });
 
     });
