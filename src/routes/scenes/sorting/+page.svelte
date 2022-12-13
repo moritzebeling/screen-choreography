@@ -1,21 +1,27 @@
 <script>
 
-    export let number = 1;
-    export let success = false;
+    import { io } from "$lib/realtime";
+    import { onMount } from "svelte";
+
+    let number;
 
     function handle( event ){
         if( event.code !== 'Space' ) return;
-        // @todo actually count devices
-        console.log('register device', event);
-        success = true;
+        io.emit("registerDevice");
     }
+
+    onMount(()=>{
+        io.on("deviceRegistered", n =>{
+            number = n;
+        });
+    });
 
 </script>
 
 <svelte:window on:keydown|preventDefault={handle} />
 
 <main>
-    {#if success}
+    {#if number}
         <h1>{number}</h1>
     {/if}
 </main>

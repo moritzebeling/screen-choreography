@@ -2,7 +2,7 @@
     
     import { tick } from "$lib/clock";
     import { onMount } from "svelte";
-    import { io } from "$lib/realtime";
+    import { io, user, users } from "$lib/realtime";
     import { currentScene } from "$lib/control";
 
     function cssVariables(){
@@ -13,14 +13,30 @@
     onMount(()=>{
         tick();
         cssVariables();
-
-        io.on("setScene", scene => {
-            currentScene.set( scene );
-        })
+        io.emit("connectUser");
+        io.on("userUpdated", data => {
+            console.log( 'userUpdated', data );
+            user.set( data );
+        });
+        io.on("usersUpdated", data => {
+            console.log( 'usersUpdated', data );
+            users.set( data );
+        });
+        io.on("sceneSet", data => {
+            console.log( 'sceneSet', data );
+            currentScene.set( data );
+        });
     });
     
 </script>
 
 <svelte:window on:resize={cssVariables} />
 
-<slot />
+<!-- <slot /> -->
+
+<button on:click={()=> io.emit('reorderUser')}>Reorder</button>
+<button on:click={()=> io.emit('setScene','colors')}>Scene</button>
+
+<pre>user {JSON.stringify( $user, true, 4 )}</pre>
+<pre>users {JSON.stringify( $users, true, 4 )}</pre>
+<pre>scene {JSON.stringify( $currentScene, true, 4 )}</pre>
