@@ -1,9 +1,8 @@
 import ioClient from "socket.io-client";
 import { writable } from 'svelte/store';
+import { PUBLIC_SOCKET } from '$env/static/public';
 
-const ENDPOINT = "http://localhost:5173";
-
-const socket = ioClient(ENDPOINT);
+const socket = ioClient(PUBLIC_SOCKET);
 
 export const io = socket;
 
