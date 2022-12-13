@@ -1,5 +1,6 @@
 <script>
 
+    import { fade } from "svelte/transition";
     import { seconds } from "$lib/clock";
     import { user } from "$lib/realtime";
 
@@ -18,7 +19,9 @@
 
 <svelte:window on:click={() => alternated = true } />
 
-<main class:animating class:alternated></main>
+<div transition:fade>
+    <main class:animating class:alternated></main>
+</div>
 
 <style>
 

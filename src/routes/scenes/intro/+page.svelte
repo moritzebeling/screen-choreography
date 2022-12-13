@@ -1,7 +1,10 @@
 <script>
+
+    import { fade } from "svelte/transition";
+
 </script>
 
-<main>
+<main transition:fade>
     <h1>This is just an excercise</h1>
 </main>
 

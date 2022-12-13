@@ -1,5 +1,6 @@
 <script>
 
+    import { fade } from "svelte/transition";
     import { seconds } from "$lib/clock";
 
     let animating = false;
@@ -16,7 +17,7 @@
 
 </script>
 
-<main>
+<main transition:fade>
     <figure class:animating><h1>QR</h1></figure>
 </main>
 

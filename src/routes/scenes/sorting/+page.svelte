@@ -1,5 +1,6 @@
 <script>
 
+    import { fade } from "svelte/transition";
     import { io, user } from "$lib/realtime";
 
     let show = false;
@@ -19,7 +20,7 @@
 
 <main>
     {#if $user !== null && show}
-        <h1>{$user.num}</h1>
+        <h1 transition:fade>{$user.num}</h1>
     {/if}
 </main>
 
