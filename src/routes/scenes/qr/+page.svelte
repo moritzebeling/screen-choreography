@@ -2,28 +2,42 @@
 
     import { fade } from "svelte/transition";
     import { seconds } from "$lib/clock";
+    import { user } from "$lib/realtime";
 
     let animating = false;
+    let alternated = $user.num % 2 === 0;
 
     function switchTarget( s ){
-        if( s % 3 === 1 ){
+        if( s % 4 === 0 ){
             animating = true;
         }
     }
 
     $: switchTarget( $seconds );
 
-    /* @todo insert qr code */
+    /*
+    @todo insert qr code
+    https://lmy.de/iu6N4
+    */
 
 </script>
 
-<main transition:fade>
-    <figure class:animating><h1>QR</h1></figure>
-</main>
+<svelte:window on:click={() => alternated = true } />
+
+{#if animating}
+    <main transition:fade>
+        <figure class:animating class:alternated>
+            <img src="/qr.png" />
+        </figure>
+        <figure class="caption" class:animating class:alternated>
+            <figcaption>https://lmy.de/iu6N4</figcaption>
+        </figure>
+    </main>
+{/if}
 
 <style>
-
-    main {
+    
+    figure {
         position: fixed;
         top: 0;
         left: 0;
@@ -32,28 +46,38 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: white;
     }
-
-    figure {
-        width: 70vh;
-        height: 70vh;
-        background-color: black;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    img {
+        width: 50vh;
+        height: 50vh;
     }
     figure.animating {
-        animation: hovering 5s ease-in-out infinite;
+        animation: swiping 8s linear infinite;
+        animation-fill-mode: both;
+    }
+    figure.alternated {
+        animation-delay: 4s;
+    }
+    .caption {
+        animation-delay: 4s !important;
+        font-size: 3rem;
+    }
+    .caption.alternated {
+        animation-delay: 0s !important;
     }
 
-    @keyframes hovering {
-        0%, 100% {
-            transform: scale(1);
+    @keyframes swiping {
+        0% {
+            transform: translateX(-100vw);
+        }
+        /* 10%, 40% {
+            transform: translateX(0);
         }
         50% {
-            transform: scale(0.5);
+            transform: translateX(100vw);
+        } */
+        100% {
+            transform: translateX(100vw);
         }
     }
 
