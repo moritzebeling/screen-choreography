@@ -27,7 +27,7 @@
     <Sorting on:continue={() => localScene = 'pulse'} />
 {/if}
 
-{#if ($currentScene === 'sorting' || localScene === 'pulse') || $currentScene === 'pulse' || $currentScene === 'synchronize' }
+{#if ($currentScene === 'sorting' && localScene === 'pulse') || $currentScene === 'pulse' || $currentScene === 'synchronize' }
     <Pulse morphing={$currentScene === 'synchronize'} />
 {/if}
 
