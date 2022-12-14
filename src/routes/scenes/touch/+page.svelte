@@ -1,17 +1,17 @@
 <script>
 
-    import { users } from "$lib/realtime";
+    import { io, users } from "$lib/realtime";
 
-    /* @todo get number of touch devices who have pressed */
     let pressed = 0;
-    
     let fingerDown = false;
 
     function down(){
+        io.emit("fingerDown");
         fingerDown = true;
         pressed++;
     }
     function up(){
+        io.emit("fingerUp");
         fingerDown = false;
         pressed--;
     }
@@ -21,8 +21,8 @@
 <main
     on:pointerdown={down}
     on:pointerup={up}
-    style="background-color:rgb(0,0,{20+(pressed/$users)*235});"
-    class:effect={fingerDown && $users <= pressed}
+    style="background-color:rgb(0,0,{($users.pressed/$users.mobile)*255});"
+    class:effect={fingerDown && $users.pressed >= $users.mobile}
     >
 </main>
 
@@ -37,7 +37,7 @@
         transition: background-color 500ms ease;
     }
     main.effect {
-        animation: effect 500ms linear infinite;
+        animation: effect 400ms linear infinite;
     }
 
     @keyframes effect {

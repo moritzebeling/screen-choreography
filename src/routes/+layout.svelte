@@ -5,7 +5,7 @@
     import { io, user, users } from "$lib/realtime";
     import { currentScene } from "$lib/control";
     import Debug from "$lib/Debug.svelte";
-    import { random } from "$lib/helpers";
+    import { isTouchDevice, random } from "$lib/helpers";
 
     function cssVariables(){
         let vh = window.innerHeight;
@@ -15,7 +15,9 @@
     onMount(()=>{
         tick();
         cssVariables();
-        io.emit("connectUser");
+        io.emit("connectUser",{
+            mobile: isTouchDevice()
+        });
         io.on("userUpdated", data => {
             user.set( data );
         });

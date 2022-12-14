@@ -74,8 +74,11 @@ export function socketServer( server ){
 
         socket.data.userId = uniqueId();
 
-        socket.on('connectUser', () => {    
+        socket.on('connectUser', (user) => {    
             users.add( socket.data.userId );
+            if( user.mobile ){
+                users.add( socket.data.userId, 'mobile' );
+            }
             socket.emit('userUpdated', {
                 id: socket.data.userId,
                 num: users.getPosition( socket.data.userId )
@@ -109,6 +112,15 @@ export function socketServer( server ){
 
         socket.on('setScene', (scene) => {
             io.emit('sceneSet', scene);
+        });
+        
+        socket.on('fingerDown', () => {
+            users.add( socket.data.userId, 'pressed' );
+            io.emit('usersUpdated', users.stats);
+        });
+        socket.on('fingerUp', () => {
+            users.remove( socket.data.userId, 'pressed' );
+            io.emit('usersUpdated', users.stats);
         });
         
         socket.on('refresh', () => {

@@ -14,3 +14,9 @@ export function morph( value, target, threshold = 100, step = 0.1 ){
     }
     return Math.floor( value );
 }
+
+export function isTouchDevice() {
+    return ( 'ontouchstart' in window ) ||
+           ( navigator.maxTouchPoints > 0 ) ||
+           ( navigator.msMaxTouchPoints > 0 );
+}
