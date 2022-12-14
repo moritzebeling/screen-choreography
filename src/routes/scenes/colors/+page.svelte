@@ -67,7 +67,7 @@
             color = blue;
         // } else if( speed > 2500 ) {
         } else {
-            color = [red,blue,green][ (3-$user.num+i) % 3 ];
+            color = [red,blue,green][ (i + 100 - $user.num) % 3 ];
         // } else {
         //     color = [white,black][ ($user.num+i) % 2 ];
         }
@@ -80,7 +80,7 @@
 
 </script>
 
-<div in:fade>
+<div in:fade={{duration:800}}>
     <main style="--speed:{speed}ms;background-color:rgb({color[0]},{color[1]},{color[2]});"></main>
 </div>
 

@@ -35,4 +35,19 @@
         line-height: 1;
     }
 
+    h1 {
+        animation: fadeOut 3s ease-in-out;
+        animation-delay: 3s;
+        animation-fill-mode: both;
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
 </style>
