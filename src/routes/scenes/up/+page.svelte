@@ -5,7 +5,8 @@
     import { fade } from "svelte/transition";
 
     let animating = false;
-    let speed = 10000;
+    $: speed = $users.ordered * 2000;
+    $: delay = ($user.num/$users.ordered)*speed;
 
     function switchTarget( s ){
         if( s % 2 === 0 ){
@@ -19,7 +20,7 @@
 
 {#if animating}
     <main transition:fade>
-        <div class:animating style="--speed:{speed}ms; animation-delay:{($users.ordered/$user.num)*1000}ms;"></div>
+        <div class:animating style="--speed:{speed}ms; animation-delay:{delay}ms;"></div>
     </main>
 {/if}
 
