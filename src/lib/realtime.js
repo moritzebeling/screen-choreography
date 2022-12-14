@@ -7,4 +7,4 @@ const socket = ioClient(PUBLIC_SOCKET);
 export const io = socket;
 
 export const user = writable({id:null,num:null});
-export const users = writable(0);
+export const users = writable({total:0,ordered:0,mobile:0,pressed:0});

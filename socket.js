@@ -10,13 +10,53 @@ export function uniqueId(length = 16) {
 	return result;
 }
 
+class Users {
+    reset(){
+        this.total = [];
+        this.ordered = [];
+        this.mobile = [];
+        this.pressed = [];
+    }
+    constructor(){
+        this.reset();
+    }
+    get stats(){
+        return {
+            total: this.total.length,
+            ordered: this.ordered.length,
+            mobile: this.mobile.length,
+            pressed: this.pressed.length
+        }
+    }
+    add(id, list = 'total'){
+        if( !this[list].includes(id) ){
+            this[list].push(id);
+        }
+    }
+    remove(id, list = 'total'){
+        this[list] = this[list].filter((i) => i !== id);
+    }
+    order(id, list = 'ordered'){
+        this.remove(id,list);
+        this.add(id,list);
+    }
+    getPosition(id){
+        let order = 0;
+        if( this.ordered.length > 0 ){
+            order = this.ordered.indexOf(id);
+        } else {
+            order = this.total.indexOf(id);
+        }
+        return Math.max( 0, order );
+    }
+}
+
 export function socketServer( server ){
 
     const io = new Server(server.httpServer);
     console.log('SocketIO injected');
 
-    let allUsers = [];
-    let allUsersSorted = [];
+    let users = new Users();
 
     /*
     io = server or all clients
@@ -25,56 +65,39 @@ export function socketServer( server ){
 
     io.on('connection', (socket) => {
 
-        /*
-        a new client is connected
-        */
-
         socket.data.userId = uniqueId();
 
         socket.on('connectUser', () => {    
-            /*
-            that new client sent a `connectUser` event
-            */
-            if( !allUsers.includes(socket.data.userId) ){
-                allUsers.push(socket.data.userId);
-            }
-            /*
-            return a user object and update all other clients with the new users list
-            */
+            users.add( socket.data.userId );
             socket.emit('userUpdated', {
                 id: socket.data.userId,
-                num: allUsers.indexOf( socket.data.userId )
+                num: users.getPosition( socket.data.userId )
             });
-            io.emit('usersUpdated', allUsers.length );
+            io.emit('usersUpdated', users.stats);
         });
 
-        socket.on('reorderUser', async (uId) => {
-            allUsers = allUsers.filter((id) => id !== socket.data.userId);
-            allUsers.push(socket.data.userId);
-            allUsersSorted = allUsersSorted.filter((id) => id !== socket.data.userId);
-            allUsersSorted.push(socket.data.userId);
+        socket.on('reorderUser', async () => {
+            users.order( socket.data.userId );
             const sockets = await io.fetchSockets();
             for (const s of sockets) {
                 s.emit('userUpdated', {
                     id: s.data.userId,
-                    // num: allUsers.indexOf( s.data.userId )
-                    num: allUsersSorted.indexOf( s.data.userId )
+                    num: users.getPosition( s.data.userId )
                 });
             }
-            io.emit('usersUpdated', allUsers.length );
+            io.emit('usersUpdated', users.stats);
         });
 
-        socket.on("disconnect", async (reason) => {
-            console.log('disconnect', reason);
-            allUsers = allUsers.filter((id) => id !== socket.data.userId);
-            allUsersSorted = allUsersSorted.filter((id) => id !== socket.data.userId);
+        socket.on("disconnect", async () => {
+            users.remove( socket.data.userId );
             const sockets = await io.fetchSockets();
             for (const s of sockets) {
                 s.emit('userUpdated', {
                     id: s.data.userId,
-                    num: allUsersSorted.length > 0 ? allUsersSorted.indexOf( s.data.userId ) : allUsers.indexOf( s.data.userId )
+                    num: users.getPosition( s.data.userId )
                 });
             }
+            io.emit('usersUpdated', users.stats);
         });
 
         socket.on('setScene', (scene) => {
@@ -82,9 +105,8 @@ export function socketServer( server ){
         });
         
         socket.on('refresh', () => {
-            allUsers = [];
-            allUsersSorted = [];
             io.emit('refresh');
+            users.reset();
         });
 
     });
