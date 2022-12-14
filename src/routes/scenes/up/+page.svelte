@@ -15,9 +15,7 @@
 </script>
 
 <div class="first" class:animating></div>
-<div style="animation-delay: 2s;" class:animating></div>
 <div style="animation-delay: 4s;" class:animating></div>
-<div style="animation-delay: 6s;" class:animating></div>
 
 <style>
 

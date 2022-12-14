@@ -2,7 +2,8 @@
 
     import { fade } from 'svelte/transition';
     import { seconds } from "$lib/clock";
-    import { user } from "$lib/realtime";
+    import { user, users } from "$lib/realtime";
+    import { morph } from '$lib/helpers';
 
     let red = [255,0,0];
     let green = [0,255,0];
@@ -12,19 +13,6 @@
 
     let color = blue;
 
-    function morph( value, target, factor = 0.9 ){
-        const diff = target - value;
-        if( Math.abs(diff) < 50 ){
-            return target;
-        }
-        if( value < target ){
-            value = Math.min( value * 1.1, target );
-        } else {
-            value = Math.max( value * 0.9, target );
-        }
-        return Math.floor( value );
-    }
-
     let s = 0;
     let i = 0;
     let speed = 5000;
@@ -32,23 +20,25 @@
     let speedUp = 0;
 
     function autoPilot(){
-        inAutopilot = true;
 
-        color = [white,black,black,black][ ($user.num+i) % 4 ];
+        let p = (i - $user.num) % $users.ordered;
+
+        color = p === 0 ? white : black;
 
         console.log( i, speed, color );
 
         if( speedUp >= 0 ){
-            speed = morph( speed, 100, 0.98 );
-            if( speed < 150 ){
+            speed = morph( speed, 150, 50, 0.05 );
+            if( speed <= 150 ){
                 speedUp++;
             }
-            if( speedUp > 200 ){
+            if( speedUp > 80 ){
                 speedUp = -1;
             }
         } else {
-            speed = morph( speed, 5000 );
+            speed = morph( speed, 5000, 50 );
         }
+
         i++;
         setTimeout(() => {
             autoPilot();
@@ -59,6 +49,7 @@
 
         if( speed < 2000 || inAutopilot ){
             if( !inAutopilot ){
+                inAutopilot = true;
                 autoPilot();
             }
             return;
@@ -70,14 +61,15 @@
         }
         s = 0;
 
-        speed = morph( speed, 0, 0.95 );
+        speed = morph( speed, 0, 50, 0.075 );
 
         if( i < 1 ){
             color = blue;
-        } else if( speed > 3500 ){
-            color = [red,green,blue][ ($user.num+i) % 3 ];
+        // } else if( speed > 2500 ) {
         } else {
-            color = [white,black][ ($user.num+i) % 2 ];
+            color = [red,blue,green][ (3-$user.num+i) % 3 ];
+        // } else {
+        //     color = [white,black][ ($user.num+i) % 2 ];
         }
 
         console.log( i, speed, color );

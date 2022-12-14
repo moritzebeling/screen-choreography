@@ -2,7 +2,7 @@
 
     import { onMount } from "svelte";
     import { seconds } from "$lib/clock";
-    import { random } from "$lib/helpers";
+    import { morph, random } from "$lib/helpers";
 
     let white = Math.random() > 0.5;
     let whiteTarget = false;
@@ -12,24 +12,11 @@
 
     export let morphing = false;
 
-    function morph( value, target, threshold = 150 ){
-        const diff = target - value;
-        if( Math.abs(diff) < threshold ){
-            return target;
-        }
-        if( value < target ){
-            value = Math.min( value * 1.1, target );
-        } else {
-            value = Math.max( value * 0.9, target );
-        }
-        return Math.floor( value );
-    }
-
     function loop(){
         white = !white;
         
         if( morphing ){
-            currentSpeed = morph( currentSpeed, speedTarget );
+            currentSpeed = morph( currentSpeed, speedTarget, 150, 0.1 );
         }
         if( currentSpeed !== speedTarget ){
             console.log( currentSpeed );
