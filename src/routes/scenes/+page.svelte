@@ -19,15 +19,15 @@
     
 </script>
 
-{#if !localScene && $currentScene === 'intro'}
-    <Intro on:continue={()=> localScene = 'sorting' } />
+{#if $currentScene === 'intro'}
+    <Intro />
 {/if}
 
-{#if $currentScene === 'sorting' || localScene === 'sorting' }
-    <Sorting on:continue={()=> localScene = 'pulse' } />
+{#if $currentScene === 'sorting' }
+    <Sorting />
 {/if}
 
-{#if localScene === 'pulse' || $currentScene === 'pulse' || $currentScene === 'synchronize' }
+{#if $currentScene === 'pulse' || $currentScene === 'synchronize' }
     <Pulse morphing={$currentScene === 'synchronize'} />
 {/if}
 

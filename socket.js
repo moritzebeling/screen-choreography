@@ -34,7 +34,14 @@ class Users {
         }
     }
     remove(id, list = 'total'){
-        this[list] = this[list].filter((i) => i !== id);
+        if( list === 'all' ){
+            this.total = this.total.filter((i) => i !== id);
+            this.ordered = this.ordered.filter((i) => i !== id);
+            this.mobile = this.mobile.filter((i) => i !== id);
+            this.pressed = this.pressed.filter((i) => i !== id);
+        } else {
+            this[list] = this[list].filter((i) => i !== id);
+        }
     }
     order(id, list = 'ordered'){
         this.remove(id,list);
@@ -89,7 +96,7 @@ export function socketServer( server ){
         });
 
         socket.on("disconnect", async () => {
-            users.remove( socket.data.userId );
+            users.remove( socket.data.userId, 'all' );
             const sockets = await io.fetchSockets();
             for (const s of sockets) {
                 s.emit('userUpdated', {

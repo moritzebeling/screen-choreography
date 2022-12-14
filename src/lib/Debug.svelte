@@ -30,7 +30,11 @@ Time on site: {$duration}
 
 User: {$user.id}
 Order: {$user.num}
-Total: {$users}
+
+Total: {$users.total}
+Ordered: {$users.ordered}
+Mobile: {$users.mobile}
+Pressed: {$users.pressed}
 
 Scene: {$currentScene}</pre>
     </Text>
