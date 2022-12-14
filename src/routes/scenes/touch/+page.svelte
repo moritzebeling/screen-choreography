@@ -1,12 +1,16 @@
 <script>
-  import { isTouchDevice } from "$lib/helpers";
-
-
+    
+    import { onMount } from "svelte";
+    import { isTouchDevice } from "$lib/helpers";
     import { io, users } from "$lib/realtime";
 
     let pressed = 0;
     let fingerDown = false;
-    let isMobile = isTouchDevice();
+    let isMobile = false;
+    
+    onMount(()=>{
+        isMobile = isTouchDevice();
+    });
 
     function down(){
         io.emit("fingerDown");
