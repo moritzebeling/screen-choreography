@@ -15,7 +15,7 @@
 
     let s = 0;
     let i = 0;
-    let speed = 5000;
+    let speed = 4000;
 
     function switchColor(){
 

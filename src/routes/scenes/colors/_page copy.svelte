@@ -11,7 +11,7 @@
     let black = [0,0,0];
     let white = [255,255,255];
 
-    let color = black;
+    let color = blue;
 
     let s = 0;
     let i = 0;
@@ -28,7 +28,7 @@
         console.log( i, speed, color );
 
         if( speedUp >= 0 ){
-            speed = morph( speed, 150, 50 );
+            speed = morph( speed, 150, 50, 0.05 );
             if( speed <= 150 ){
                 speedUp++;
             }
@@ -37,9 +37,6 @@
             }
         } else {
             speed = morph( speed, 5000, 50 );
-            if( speed > 4000 ){
-                return;
-            }
         }
 
         i++;
@@ -64,9 +61,17 @@
         }
         s = 0;
 
-        speed = morph( speed, 0, 50 );
-        
-        color = [white,black][ ($user.num+i) % 2 ];
+        speed = morph( speed, 0, 50, 0.075 );
+
+        if( i < 1 ){
+            color = blue;
+        // } else if( speed > 2500 ) {
+        } else {
+            color = [red,blue,green][ (i + 100 - $user.num) % 3 ];
+        // } else {
+        //     color = [white,black][ ($user.num+i) % 2 ];
+        }
+
         console.log( i, speed, color );
         i++;
     }

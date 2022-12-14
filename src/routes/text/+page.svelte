@@ -43,11 +43,11 @@
     </section>
     <section id="1">
         
+        <ControlButton id={5} />
+        
         <p>
             Another thing about programming is
             that logic can be implemented in any layer, position and time step.</p>
-
-        <ControlButton id={5} />
 
         <p>
             With logic, a changing input variable
