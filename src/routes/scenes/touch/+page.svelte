@@ -19,10 +19,10 @@
 </script>
 
 <main
-    on:pointerdown={down}
-    on:pointerup={up}
+    on:touchstart={down}
+    on:touchend={up}
     style="background-color:rgb(0,0,{($users.pressed/$users.mobile)*255});"
-    class:effect={fingerDown && $users.pressed >= $users.mobile}
+    class:effect={fingerDown && $users.pressed > 2 && $users.pressed >= $users.mobile}
     >
 </main>
 
@@ -35,6 +35,8 @@
         width: 100vw;
         height: var(--100vh);
         transition: background-color 500ms ease;
+        -webkit-user-select: none;
+        user-select: none;
     }
     main.effect {
         animation: effect 400ms linear infinite;
