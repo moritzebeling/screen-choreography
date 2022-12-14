@@ -23,6 +23,10 @@
     aside.bottom {
         bottom: 0;
     }
+    aside.right {
+        right: 0;
+        left: unset;
+    }
     aside.blue {
         color: blue;
     }

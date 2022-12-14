@@ -15,6 +15,11 @@
 </nav>
 
 <main>
+
+    <article>
+        <p>https://lmy.de/gHRxE</p>
+    </article>
+
         
     <section id="0">
         
@@ -90,6 +95,13 @@
         nav {
             position: static;
         }
+    }
+
+    article {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     main {

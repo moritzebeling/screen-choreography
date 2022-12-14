@@ -23,7 +23,7 @@
 <svelte:window on:keydown={handle} />
 
 {#if show}
-    <Text position="bottom">
+    <Text position="top right">
 <pre>Date: {$time}
 Seconds: {$seconds}
 Time on site: {$duration}
@@ -44,6 +44,7 @@ Scene: {$currentScene}</pre>
 
     pre {
         margin-top: 1em;
+        text-align: right;
     }
 
 </style>

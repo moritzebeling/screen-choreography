@@ -8,7 +8,7 @@
     let alternated = $user.num % 2 === 0;
 
     function switchTarget( s ){
-        if( s % 5 === 0 ){
+        if( s % 3 === 0 ){
             animating = true;
         }
     }
@@ -16,8 +16,6 @@
     $: switchTarget( $seconds );
 
 </script>
-
-<svelte:window on:click={() => alternated = true } />
 
 <div transition:fade>
     <main class:animating class:alternated></main>

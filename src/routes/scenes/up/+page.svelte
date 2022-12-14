@@ -1,11 +1,14 @@
 <script>
 
     import { seconds } from "$lib/clock";
+    import { user, users } from "$lib/realtime";
+    import { fade } from "svelte/transition";
 
     let animating = false;
+    let speed = 10000;
 
     function switchTarget( s ){
-        if( s % 4 === 1 ){
+        if( s % 2 === 0 ){
             animating = true;
         }
     }
@@ -14,8 +17,11 @@
 
 </script>
 
-<div class="first" class:animating></div>
-<div style="animation-delay: 4s;" class:animating></div>
+{#if animating}
+    <main transition:fade>
+        <div class:animating style="--speed:{speed}ms; animation-delay:{($users.ordered/$user.num)*1000}ms;"></div>
+    </main>
+{/if}
 
 <style>
 
@@ -25,20 +31,30 @@
         left: 0;
         width: 100vw;
         height: var(--100vh);
-        transform: translateY(var(--100vh));
     }
     div.animating {
-        animation: slide 8s ease-in;
+        animation: circle var(--speed) linear;
         animation-iteration-count: infinite;
-        background: linear-gradient(0, rgba(0,0,0,1) 0%, rgba(0,0,255,1) 100%);
     }
 
-    @keyframes slide {
-        from {
-            transform: translateY(var(--100vh));
+    @keyframes circle {
+        0%, 100% {
+            background-color: rgb(0,0,255);
         }
-        to {
-            transform: translateY(-150vh);
+        16% {
+            background-color: rgb(255,0,255);
+        }
+        32% {
+            background-color: rgb(255,0,0);
+        }
+        48% {
+            background-color: rgb(255,255,0);
+        }
+        64% {
+            background-color: rgb(0,255,0);
+        }
+        80% {
+            background-color: rgb(0,255,255);
         }
     }
 
