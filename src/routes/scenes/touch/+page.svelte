@@ -1,9 +1,12 @@
 <script>
+  import { isTouchDevice } from "$lib/helpers";
+
 
     import { io, users } from "$lib/realtime";
 
     let pressed = 0;
     let fingerDown = false;
+    let isMobile = isTouchDevice();
 
     function down(){
         io.emit("fingerDown");
@@ -16,13 +19,15 @@
         pressed--;
     }
 
+    $: effect = ( (isMobile && fingerDown) || (!isMobile) ) && ( $users.pressed > 2 && $users.pressed >= $users.mobile );
+
 </script>
 
 <main
     on:touchstart={down}
     on:touchend={up}
     style="background-color:rgb(0,0,{($users.pressed/$users.mobile)*255});"
-    class:effect={fingerDown && $users.pressed > 2 && $users.pressed >= $users.mobile}
+    class:effect
     >
 </main>
 
