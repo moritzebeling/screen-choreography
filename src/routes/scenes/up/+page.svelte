@@ -4,7 +4,7 @@
     import { user, users } from "$lib/realtime";
     import { fade } from "svelte/transition";
 
-    let animating = false;
+    let animating = true;
     $: speed = $users.ordered * 2000;
     $: delay = ($user.num/$users.ordered)*speed;
 
@@ -36,6 +36,7 @@
     div.animating {
         animation: circle var(--speed) linear;
         animation-iteration-count: infinite;
+        animation-fill-mode: both;
     }
 
     @keyframes circle {
