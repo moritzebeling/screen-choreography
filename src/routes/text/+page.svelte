@@ -42,10 +42,10 @@
                 meaning that the image can be reactive
                 to the situation in which it is also being consumed.</p>
 
+                <ControlButton id={5} />
+
         </section>
         <section id="1">
-            
-            <ControlButton id={5} />
             
             <p>
                 Another thing about programming is
