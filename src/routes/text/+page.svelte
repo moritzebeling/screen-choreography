@@ -67,12 +67,12 @@
             Encapsulated or in cooperation with their peer agents,
             they form complex networks.</p>
 
+        <ControlButton id={6} />
+
         <p>
             These could be pixels on a screen,
             devices in a circle,
             people in a room.</p>
-        
-        <ControlButton id={6} />
         
         <p>All orchestrated by the algorithm.</p>
         
