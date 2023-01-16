@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"start": "node -r dotenv/config server/server.js",
+		"start": "node server/server.js",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",

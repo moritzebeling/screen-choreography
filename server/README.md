@@ -1,19 +1,18 @@
-# How to handle the Digital Ocean server
+# Setting up a Digital Ocean server
 
 1. Login to Digital Ocean
 2. Create a droplet running Ubuntu
 3. Create a DNS record
 
-IP `164.92.138.141`
-Domain `screens.moritzebeling.com`
-DNS `screens.moritzebeling.com 60 IN A 164.92.138.141`
+- IP `164.92.138.141`
+- Domain `screens.moritzebeling.com`
+- DNS `screens.moritzebeling.com 60 IN A 164.92.138.141`
 
 ## Login
 
 Register your SSH key with the Digital Ocean droplet.
 
 ```
-# login
 ssh root@{IP}
 ```
 
@@ -55,7 +54,11 @@ sudo apt install -y certbot python3-certbot-nginx
 
 ```
 sudo nano /etc/nginx/sites-available/screens.config
+```
 
+https://socket.io/docs/v3/reverse-proxy/#nginx
+
+```
 # /etc/nginx/sites-available/screens.config
 server {
     server_name screens.moritzebeling.com;
@@ -138,11 +141,10 @@ cd screens
 git checkout node-server-with-socket
 ```
 
-Create `.env` file
-
 ```
 sudo nano .env
-
+```
+```
 # .env
 PUBLIC_SOCKET=https://{DOMAIN}:3000
 HOST={DOMAIN}
@@ -161,6 +163,25 @@ npm run build
 
 # serve
 pm2 start server/server.js
+```
+
+Use PM2 instead of Node
+
+```
+# start
+pm2 start {service}
+
+# list active services
+pm2 list
+
+# stop
+pm2 stop {service}
+
+# delete service
+pm2 delete all
+
+# monitor
+pm2 monit
 ```
 
 ### Troubleshooting
