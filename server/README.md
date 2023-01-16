@@ -55,12 +55,40 @@ sudo apt install -y certbot python3-certbot-nginx
 
 ```
 sudo nano /etc/nginx/sites-available/screens.config
-```
 
-```
 # /etc/nginx/sites-available/screens.config
 server {
-    server_name screens.moritzebeling.com
+    server_name screens.moritzebeling.com;
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/screens.moritzebeling.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/screens.moritzebeling.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    location ~ /.well-known {
+        allow all;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+    }   
+}
+server {
+    if ($host = screens.moritzebeling.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    server_name screens.moritzebeling.com;
+    listen 80;
+    return 404; # managed by Certbot
 }
 ```
 
@@ -146,17 +174,7 @@ systemctl status nginx
 
 # restart nginx
 sudo systemctl restart nginx
+
+# try to run the app via node
+node server/server.js
 ```
-
-
-
-server {
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}

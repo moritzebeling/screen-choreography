@@ -6,7 +6,7 @@ import { Users } from './Users.js';
 export function socketServer( server ){
 
     const io = new Server(server);
-    console.log('SocketIO injected');
+    console.log('Socket.io: server started', server);
 
     let users = new Users();
 
@@ -18,6 +18,7 @@ export function socketServer( server ){
     io.on('connection', (socket) => {
 
         socket.emit('testLog', 'Hello, World 👋');
+        console.log('Socket.io: new user connected', socket);
 
         socket.data.userId = uniqueId();
 
