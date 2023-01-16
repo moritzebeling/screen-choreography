@@ -1,7 +1,7 @@
 <script>
 
     import { fade } from "svelte/transition";
-    import { io, user } from "$lib/realtime";
+    import { socket, user } from "$lib/realtime";
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
@@ -9,9 +9,9 @@
 
     function handle( event ){
         if( event.code !== 'Space' ) return;
-        io.emit("reorderUser");
+        socket.emit("reorderUser");
         console.log('reorder');
-        io.on("userUpdated", data => {
+        socket.on("userUpdated", data => {
             show = true;
             setTimeout(()=>{
                 dispatch('continue');

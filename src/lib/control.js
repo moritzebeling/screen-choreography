@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { io } from "$lib/realtime";
+import { socket } from "$lib/realtime";
 
 export const scenes = [
     ['intro','Intro'],
@@ -19,7 +19,7 @@ export const pastScenes = writable(['intro']);
 
 export function switchScene( id ){
 
-    io.emit("setScene", id);
+    socket.emit("setScene", id);
 
     pastScenes.update( list => {
         list = [id,...list];

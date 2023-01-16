@@ -1,6 +1,7 @@
 # How to handle the Digital Ocean server
 
-Create a Digital Ocean droplet
+Create a Digital Ocean droplet.
+Current IP is `161.35.67.18`
 
 ## Login
 
@@ -8,7 +9,7 @@ Register your SSH key with the Digital Ocean droplet
 
 ```
 # login
-ssh root@161.35.67.18
+ssh root@{IP}
 ```
 
 ## Droplet installation
@@ -34,7 +35,19 @@ nvm use 19
 ```
 git clone https://github.com/moritzebeling/choreography.git
 cd choreography
+
 npm install
+
+sudo nano .env
+
+npm run build
+```
+
+```
+# .env
+PUBLIC_SOCKET=http://{IP}:3000
+HOST={IP}
+PORT=3000
 ```
 
 ## Run server
@@ -43,4 +56,5 @@ https://github.com/sveltejs/kit/tree/master/packages/adapter-node
 
 ```
 node -r dotenv/config build
+node -r dotenv/config server.js
 ```

@@ -1,5 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { socketServer } from './socket.js';
+import { socketServer } from './server/socket.js';
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -8,10 +8,18 @@ const config = {
 		{
 			name: 'sveltekit-socket-io',
 			configureServer(server) {
-				socketServer(server);
+				socketServer(server.httpServer);
 			}
 		}
-	]
+	],
+	server: {
+		port: 3000,
+		strictPort: false,
+	},
+	preview: {
+		port: 3000,
+		strictPort: false,
+	}
 };
 
 export default config;

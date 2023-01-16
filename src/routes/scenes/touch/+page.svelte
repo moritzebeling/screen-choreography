@@ -2,7 +2,7 @@
     
     import { onMount } from "svelte";
     import { isTouchDevice } from "$lib/helpers";
-    import { io, users } from "$lib/realtime";
+    import { socket, users } from "$lib/realtime";
 
     let pressed = 0;
     let fingerDown = false;
@@ -13,12 +13,12 @@
     });
 
     function down(){
-        io.emit("fingerDown");
+        socket.emit("fingerDown");
         fingerDown = true;
         pressed++;
     }
     function up(){
-        io.emit("fingerUp");
+        socket.emit("fingerUp");
         fingerDown = false;
         pressed--;
     }

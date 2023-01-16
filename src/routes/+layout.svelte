@@ -2,7 +2,7 @@
     
     import { tick } from "$lib/clock";
     import { onMount } from "svelte";
-    import { io, user, users } from "$lib/realtime";
+    import { socket, user, users } from "$lib/realtime";
     import { currentScene } from "$lib/control";
     import Debug from "$lib/Debug.svelte";
     import { isTouchDevice, random } from "$lib/helpers";
@@ -15,22 +15,25 @@
     onMount(()=>{
         tick();
         cssVariables();
-        io.emit("connectUser",{
+        socket.emit("connectUser",{
             mobile: isTouchDevice()
         });
-        io.on("userUpdated", data => {
+        socket.on("userUpdated", data => {
             user.set( data );
         });
-        io.on("usersUpdated", data => {
+        socket.on("usersUpdated", data => {
             users.set( data );
         });
-        io.on("sceneSet", data => {
+        socket.on("sceneSet", data => {
             currentScene.set( data );
         });
-        io.on("refresh", () => {
+        socket.on("refresh", () => {
             setTimeout(() => {
                 location.reload();
             }, random(50,500));
+        });
+        socket.on("testLog", data => {
+            console.log( 'testLog', data );
         });
     });
     
