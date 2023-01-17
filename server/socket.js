@@ -70,6 +70,10 @@ export function socketServer( server ){
             users.remove( socket.data.userId, 'pressed' );
             io.emit('usersUpdated', users.stats);
         });
+
+        socket.on('updateVisual', ( data ) => {
+            io.emit('visualUpdated', data);
+        });
         
         socket.on('refresh', () => {
             io.emit('refresh');
