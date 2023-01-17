@@ -2,10 +2,11 @@
 
     import { onMount } from "svelte";
     import { socket } from "$lib/realtime";
+    import Menu from "./Menu.svelte";
 
     let data = {
         speed: 1000,
-        color: { r: 255, g: 255, b: 255 }
+        color: { r: 0, g: 0, b: 0 }
     };
 
     onMount(()=>{
@@ -21,6 +22,8 @@
     transition-duration:{data.speed}ms;
     background-color:rgb({data.color.r},{data.color.g},{data.color.b});
     "></main>
+
+<Menu />
 
 <style>
 

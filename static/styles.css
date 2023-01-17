@@ -38,3 +38,7 @@ pre {
     background-color: #00f;
     color: black;
 }
+
+a.button {
+    text-decoration: none;
+}

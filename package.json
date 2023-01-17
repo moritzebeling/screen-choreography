@@ -29,6 +29,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"qrcode": "^1.5.1",
 		"seedrandom": "^3.0.5",
 		"socket.io-client": "^4.5.4"
 	}
