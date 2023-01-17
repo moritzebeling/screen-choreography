@@ -208,3 +208,21 @@ sudo systemctl restart nginx
 # try to run the app via node
 node server/server.js
 ```
+
+## Update app
+
+```
+cd ~/screens
+
+pm2 stop server
+pm2 delete all
+
+# maybe check branch
+git pull
+
+# maybe check .env file
+npm install
+npm run build
+
+pm2 start server/server.js
+```
