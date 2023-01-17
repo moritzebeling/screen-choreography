@@ -6,6 +6,7 @@ export class User {
         this._id = null;
         this._position = null;
         this._touch = null;
+        this._admin = false;
     }
 
     // id
@@ -21,6 +22,15 @@ export class User {
     }
     assignId(){
         this.id = uniqueId();
+    }
+
+    // admin
+
+    /**
+     * @param {boolean} a
+     */
+    set admin( a ){
+        this._admin = a;
     }
 
     // touch

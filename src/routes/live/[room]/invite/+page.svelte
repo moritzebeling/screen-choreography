@@ -1,62 +1,66 @@
 <script>
     
     import { page } from "$app/stores";
-    import { goto } from '$app/navigation';
+    import Menu from "$lib/Menu.svelte";
     import QRCode from 'qrcode';
-
-    console.log( $page.url );
 
     let url = `${$page.url.origin}/live/${$page.params.room}`;
 
-    function printQrCode( canvas ){
-        let size = Math.min( canvas.offsetWidth, canvas.offsetHeight );
+    function printQrCode( figure ){
+        let canvas = figure.querySelector('canvas');
+        let size = Math.min(
+            figure.clientWidth,
+            figure.clientHeight, 
+        );
+        console.log( size );
         let options = {
             width: size,
             height: size,
         };
         QRCode.toCanvas(canvas, url, options, function (error) {
-            if (error) console.error(error)
+            if (error) console.error(error);
+
         })
     }
 
 </script>
 
-<svelte:window on:click={()=>goto(url)} />
+<main class="layout">
 
-<main>
-
-    <figure class="qr">
-        <canvas use:printQrCode></canvas>
+    <figure use:printQrCode>
+        <a href="{url}">
+            <canvas width="100" height="100"></canvas>
+        </a>
     </figure>
 
-    <p>{url}</p>
+    <div>
+        <Menu>
+            <a class="button" href="{url}">{url}</a>
+        </Menu>
+    </div>
 
 </main>
 
 <style>
 
     main {
-        height: var(--100vh);
         background-color: white;
         color: black;
-        display: flex;
-        flex-direction: column;
     }
-
+    
     figure {
         flex: 1;
-        padding: 1rem;
-        text-align: center;
+    }
+
+    a {
+        display: block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     canvas {
-        width: 100%;
-        height: 100%;
-    }
-
-    p {
-        text-align: center;
-        padding: 1rem;
+        display: block;
     }
 
 </style>

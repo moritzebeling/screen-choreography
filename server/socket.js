@@ -71,8 +71,8 @@ export function socketServer( server ){
             io.emit('usersUpdated', users.stats);
         });
 
-        socket.on('updateVisual', ( data ) => {
-            io.emit('visualUpdated', data);
+        socket.on('updateScene', ( data ) => {
+            io.emit('updateScene', data);
         });
         
         socket.on('refresh', () => {

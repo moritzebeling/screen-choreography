@@ -32,9 +32,9 @@
             <a href="/live/{id}">Live room »{title}«</a>
         {/each}
         
-        {#each performance as {title, id}}
+        <!-- {#each performance as {title, id}}
             <a href="/performance/{id}">Performance »{title}«</a>
-        {/each}
+        {/each} -->
 
     </nav>
 

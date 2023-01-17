@@ -2,35 +2,29 @@
 
     import { onMount } from "svelte";
     import { socket } from "$lib/realtime";
-    import Menu from "./Menu.svelte";
+    import { page } from "$app/stores";
+    import { sceneStore } from "./store.js";
+    import { Scene } from "$lib/models/Scene.js";
 
-    let data = {
-        speed: 1000,
-        color: { r: 0, g: 0, b: 0 }
-    };
+    import Menu from "$lib/Menu.svelte";
+    import Renderer from "./Renderer.svelte";
 
     onMount(()=>{
-        socket.on("visualUpdated", d => {
-            console.log('visual updated', d);
-            data = d;
+        socket.on("updateScene", data => {
+            let scene = new Scene(data);
+            sceneStore.set(scene);
+            console.log('updateScene', scene);
         });
     });
 
 </script>
 
-<main style="
-    transition-duration:{data.speed}ms;
-    background-color:rgb({data.color.r},{data.color.g},{data.color.b});
-    "></main>
+<Renderer />
 
-<Menu />
+<Menu fixed={true}>
+    <a class="button" href="{$page.url.href}/invite">Invite</a>
+    <a class="button" href="{$page.url.href}/control">Control</a>
+</Menu>
 
 <style>
-
-    main {
-        height: var(--100vh);
-        transition-property: background-color;
-        transition-timing-function: ease-in-out;
-    }
-
 </style>

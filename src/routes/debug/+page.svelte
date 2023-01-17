@@ -16,10 +16,10 @@
         user: {
             id: $user.id,
             orderInRoom: $user.num,
-            isTouch: true, // todo
+            isTouch: 'unknown', // todo
         },
         room: {
-            connected: true, // todo
+            connected: 'unknown', // todo
             id: $currentScene,
             totalUsers: $users.total,
         },

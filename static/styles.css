@@ -8,6 +8,13 @@
     color: inherit;
 }
 
+/* webfont */
+@font-face {
+	font-family: 'Raster';
+	src:  url('./FKRasterGrotesk-Smooth.woff2') format('woff2'),
+		  url('./FKRasterGrotesk-Smooth.woff') format('woff');
+}
+
 :root {
     --100vh: 100vh;
 }
@@ -15,13 +22,13 @@
 body {
     background-color: black;
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Raster', monospace;
     line-height: 1.2;
 }
 
 pre {
     white-space: pre-wrap;
-    font-family: monospace;
+    /* font-family: monospace; */
 }
 
 .button {
@@ -39,6 +46,29 @@ pre {
     color: black;
 }
 
-a.button {
+a {
     text-decoration: none;
+}
+
+
+
+
+
+
+
+
+.layout {
+    height: var(--100vh);
+    display: flex;
+    flex-direction: column;
+}
+.layout.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.layout > .bar {
+    padding: 1rem;
+    gap: 2rem;
 }
