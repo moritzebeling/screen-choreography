@@ -1,33 +1,55 @@
-<script>
-  
-    import { duration, seconds, time } from "$lib/clock";
-    import Text from "$lib/Text.svelte";
-    
+<script>   
+
+    let live = [
+        {
+            title: 'Test',
+            id: 'test'
+        }
+    ];
+
+    let performance = [
+        {
+            title: 'Class Meeting',
+            id: '1-class-meeting'
+        },
+        {
+            title: 'HFBK Annual Show 2023',
+            id: '2-annual-show'
+        },
+    ];
+
 </script>
 
-<Text>
-    <h1>Client Choreography</h1>
-    <a href="/scenes">Start</a>
-</Text>
+<main>
+
+    <h1>Screens Choreography</h1>
+
+    <nav>
+
+        <a href="/debug">Debug</a>
+
+        {#each live as {title, id}}
+            <a href="/live/{id}">Live room »{title}«</a>
+        {/each}
+        
+        {#each performance as {title, id}}
+            <a href="/performance/{id}">Performance »{title}«</a>
+        {/each}
+
+    </nav>
+
+</main>
 
 <style>
 
-    nav {
-        display: flex;
-        gap: 0.5em;
-    }
-
     main {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        font-size: 10vw;
+        margin: 1rem;
+    }
+    h1 {
+        margin-bottom: 1rem;
+    }
+    nav a {
+        display: block;
     }
 
 </style>

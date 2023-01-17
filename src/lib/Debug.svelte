@@ -6,7 +6,7 @@
     import Text from "$lib/Text.svelte";
     import { onMount } from "svelte";
 
-    let show = true;
+    let show = false;
 
     onMount(()=>{
         console.info('Press CTRL+D to toggle debug info');

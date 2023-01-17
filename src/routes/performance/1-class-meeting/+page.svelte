@@ -2,14 +2,14 @@
 
     import { currentScene } from "$lib/control";
 
-    import Intro from './intro/+page.svelte';
-    import Sorting from './sorting/+page.svelte';
-    import Pulse from './pulse/+page.svelte';
-    import Colors from './colors/+page.svelte';
-    import Circle from './circle/+page.svelte';
-    import Up from './up/+page.svelte';
-    import Qr from './qr/+page.svelte';
-    import Touch from './touch/+page.svelte';
+    import Intro from './_scenes/intro/+page.svelte';
+    import Sorting from './_scenes/sorting/+page.svelte';
+    import Pulse from './_scenes/pulse/+page.svelte';
+    import Colors from './_scenes/colors/+page.svelte';
+    import Circle from './_scenes/circle/+page.svelte';
+    import Up from './_scenes/up/+page.svelte';
+    import Qr from './_scenes/qr/+page.svelte';
+    import Touch from './_scenes/touch/+page.svelte';
 
     let localScene = false;
     function controlLocalScene( global ){
