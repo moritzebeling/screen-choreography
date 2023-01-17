@@ -14,5 +14,5 @@ socketServer(server);
 app.use(handler);
 
 server.listen( process.env.PORT, () => {
-    console.log(`SvelteKit and Socket.io running on ${process.env.PUBLIC_SOCKET}`);
+    console.log(`SvelteKit and Socket.io running on ${process.env.HOST}:${process.env.PORT} serving ${process.env.PUBLIC_SOCKET}`);
 });

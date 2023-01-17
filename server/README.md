@@ -4,9 +4,9 @@
 2. Create a droplet running Ubuntu
 3. Create a DNS record
 
-- IP `164.92.138.141`
+- IP `138.68.71.128`
 - Domain `screens.moritzebeling.com`
-- DNS `screens.moritzebeling.com 60 IN A 164.92.138.141`
+- DNS `screens 60 IN A 138.68.71.128`
 
 ## Login
 
@@ -37,7 +37,7 @@ source ~/.bashrc
 nvm install node
 
 # install pm2
-sudo npm install pm2@latest -g
+npm install pm2@latest -g
 ```
 
 ### Let’s encrypt
@@ -48,6 +48,43 @@ https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-
 sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
 sudo apt install -y certbot python3-certbot-nginx
+```
+
+### HTTPS
+
+```
+# check firewall status
+sudo ufw status
+
+# enable service
+sudo ufw enable
+
+# open for nginx service
+sudo ufw allow 'Nginx Full'
+
+# remove http
+sudo ufw delete allow 'Nginx HTTP'
+
+sudo ufw status
+```
+
+Double check that you’re not locking yourself out with the firewall:
+
+```
+# allow ssh
+sudo ufw allow ssh
+
+sudo ufw status
+```
+
+### SSL
+
+```
+# request new certificate
+sudo certbot --nginx -d screens.moritzebeling.com
+
+# start auto renewal
+sudo certbot renew --dry-run
 ```
 
 ### Nginx
@@ -105,34 +142,6 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-### HTTPS
-
-```
-# check firewall status
-sudo ufw status
-
-# enable service
-sudo ufw enable
-
-# open for nginx service
-sudo ufw allow 'Nginx Full'
-
-# remove http
-sudo ufw delete allow 'Nginx HTTP'
-
-sudo ufw status
-```
-
-### SSL
-
-```
-# request new certificate
-sudo certbot --nginx -d {DOMAIN}
-
-# start auto renewal
-sudo certbot renew --dry-run
-```
-
 ### Project installation
 
 ```
@@ -146,8 +155,8 @@ sudo nano .env
 ```
 ```
 # .env
-PUBLIC_SOCKET=https://{DOMAIN}:3000
-HOST={DOMAIN}
+PUBLIC_SOCKET=https://screens.moritzebeling.com
+HOST=screens.moritzebeling.com
 PORT=3000
 ```
 
