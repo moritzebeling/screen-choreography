@@ -1,7 +1,12 @@
 <script>
     
     import { page } from "$app/stores";
+    import { goto } from '$app/navigation';
     import QRCode from 'qrcode';
+
+    console.log( $page.url );
+
+    let url = `${$page.url.origin}/live/${$page.params.room}`;
 
     function printQrCode( canvas ){
         let size = Math.min( canvas.offsetWidth, canvas.offsetHeight );
@@ -9,12 +14,14 @@
             width: size,
             height: size,
         };
-        QRCode.toCanvas(canvas, $page.url.href, options, function (error) {
+        QRCode.toCanvas(canvas, url, options, function (error) {
             if (error) console.error(error)
         })
     }
 
 </script>
+
+<svelte:window on:click={()=>goto(url)} />
 
 <main>
 
@@ -22,7 +29,7 @@
         <canvas use:printQrCode></canvas>
     </figure>
 
-    <p>{$page.url.href}</p>
+    <p>{url}</p>
 
 </main>
 

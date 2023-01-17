@@ -147,7 +147,7 @@ sudo systemctl reload nginx
 ```
 git clone https://github.com/moritzebeling/screen-choreography.git screens
 cd screens
-git checkout node-server-with-socket
+git checkout develop
 ```
 
 ```

@@ -2,7 +2,7 @@
     
     import { page } from "$app/stores";
 
-    let open = true;
+    let open = false;
 
     function toggle(){
         open = !open;
