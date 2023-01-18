@@ -1,26 +1,38 @@
 <script>
 
     import { socket } from "$lib/realtime";    
-    import Select from "./Select.svelte";
     import { settingsStore, sceneStore } from "../store.js";
+    import Select from "./Select.svelte";
+    import AnimationSelect from "./AnimationSelect.svelte";
 
     function updateScene(){
         console.log( $sceneStore );
         socket.emit( "updateScene", $sceneStore );
     }
 
-    let showBackgroundColorSelect = false;
+    let showBackgroundColorSelect = true;
+    let showAnimationSelect = false;
 
 </script>
 
 <main class="layout">
 
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="screens">
+    <!-- <div class="screens">
         <div class="background" style="{$sceneStore.background.toCss()}" on:click={()=>showBackgroundColorSelect=true}>
             <p>Background</p>
         </div>
-    </div>
+        <div class="animation" style="{$sceneStore.background.toCss()}" on:click={()=>showAnimationSelect=true}>
+            <p>Animation</p>
+        </div>
+    </div> -->
+
+    {#if showBackgroundColorSelect}
+        <Select options={$settingsStore.colors}
+            on:select={(e)=>{$sceneStore.background = e.detail; updateScene()}}
+            on:close={()=> showBackgroundColorSelect = false }
+            />
+    {/if}
 
     <div class="bar">
         <p>Speed</p>
@@ -30,12 +42,13 @@
 
 </main>
 
-{#if showBackgroundColorSelect}
-    <Select options={$settingsStore.colors}
-        on:select={(e)=>{$sceneStore.background = e.detail; showBackgroundColorSelect = false; updateScene()}}
-        on:close={()=> showBackgroundColorSelect = false }
+
+<!-- {#if showAnimationSelect}
+    <AnimationSelect
+        on:select={(e)=>{$sceneStore.animation = e.detail; updateScene()}}
+        on:close={()=> showAnimationSelect = false }
         />
-{/if}
+{/if} -->
 
 <style>
 
@@ -46,6 +59,7 @@
     }
     .screens > div {
         padding: 1rem;
+        cursor: pointer;
     }
 
     .bar {

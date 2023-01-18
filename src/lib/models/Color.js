@@ -20,7 +20,7 @@ export class Color {
         this.b = color.b;
     }
 
-    toString( seperator = '<br />' ){
+    toHtml( seperator = '<br />' ){
         return [this.r,this.g,this.b].join( seperator );
     }
     toCss(){

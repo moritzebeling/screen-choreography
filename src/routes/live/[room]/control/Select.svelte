@@ -9,28 +9,29 @@
 
 </script>
 
-<div class="layout fixed">
+<div>
 
     <ul>
         <!-- svelte-ignore a11y-click-events-have-key-events -->    
         {#each options as option}
             <li on:click={()=> dispatch('select',option) } style={option.toCss()}>
-                <p>{@html option.toString()}</p>
+                <p>{@html option.toHtml()}</p>
             </li>
         {/each}
     </ul>
     
-    <div>
+    <!-- <div>
         <Menu>
             <button class="button" on:click={()=> dispatch('close')}>Back</button>
         </Menu>
-    </div>
+    </div> -->
 
 </div>
 
 <style>
 
-    .layout {
+    div {
+        flex: 1;
         background-color: black;
     }
 
@@ -38,6 +39,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         flex: 1;
+        height: 100%;
     }
 
     li {

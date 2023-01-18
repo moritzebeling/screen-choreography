@@ -1,5 +1,6 @@
 <script>
 
+    import RenderComposition from "./render/RenderComposition.svelte";
     import { sceneStore } from "./store.js";
 
 </script>
@@ -7,7 +8,13 @@
 <main style="
     transition-duration:{$sceneStore.backgroundSpeed}ms;
     {$sceneStore.background.toCss()}
-    "></main>
+    ">
+
+    {#if $sceneStore.animation.styles}
+        <RenderComposition composition={$sceneStore.animation} />
+    {/if}
+
+</main>
 
 <style>
 
