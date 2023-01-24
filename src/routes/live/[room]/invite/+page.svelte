@@ -27,6 +27,10 @@
 
 <main class="layout">
 
+    <div class="bar">
+        {url}
+    </div>
+
     <figure use:printQrCode>
         <a href="{url}">
             <canvas width="100" height="100"></canvas>
@@ -35,7 +39,7 @@
 
     <div>
         <Menu>
-            <a class="button" href="{url}">{url}</a>
+            <a class="button" href="/live/{$page.params.room}">Close</a>
         </Menu>
     </div>
 
@@ -46,6 +50,7 @@
     main {
         background-color: white;
         color: black;
+        text-align: center;
     }
     
     figure {
@@ -53,7 +58,6 @@
     }
 
     a {
-        display: block;
         display: flex;
         justify-content: center;
         align-items: center;

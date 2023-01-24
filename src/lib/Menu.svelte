@@ -36,7 +36,7 @@
     nav {
         display: flex;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.3em;
     }
 
 </style>

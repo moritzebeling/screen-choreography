@@ -3,9 +3,13 @@
     import { PUBLIC_SOCKET } from '$env/static/public';
     import { dev } from '$app/environment';
 
+    import { page } from "$app/stores";
+    import Menu from "$lib/Menu.svelte";
+
     import { duration, seconds, time } from "$lib/clock";
     import { currentScene } from "$lib/control";
     import { user, users } from "$lib/realtime";
+  import { config } from '$lib/config';
 
     $: data = {
         date: {
@@ -26,24 +30,29 @@
         system: {
             host: PUBLIC_SOCKET,
             environment: dev ? 'development' : 'production',
-        },
-        app: {
-            website: 'https://screens.moritzebeling.com',
-            repo: 'https://github.com/moritzebeling/screen-choreography.git',
-            issues: 'https://github.com/moritzebeling/screen-choreography/issues'
         }
     };
 
 </script>
 
-<main>
-    <pre>{JSON.stringify(data, null, 4)}</pre>
+<main class="layout">
+
+    <div class="text">
+        <pre>{JSON.stringify(data, null, 4)}</pre>
+    </div>
+        
+    <Menu>
+        <a class="button" href="/live/{$page.params.room}">Close</a>
+        <a class="button" href="{config.issues}" target="_blank" rel="noopener nofollow noreferrer">Report bug or suggest feature</a>
+    </Menu>
+
 </main>
 
 <style>
 
-    pre {
-        margin: 1rem;
+    .text {
+        padding: 1rem;
+        flex: 1;
     }
 
 </style>

@@ -1,10 +1,18 @@
 <script>
+  import Menu from "$lib/Menu.svelte";
+
 
     const allowEntering = true;
     const allowCreating = true;
 
     /* todo: get list of open rooms from server */
     let openRooms = [{
+        id: 'test',
+        users: 2
+    },{
+        id: 'test',
+        users: 2
+    },{
         id: 'test',
         users: 2
     }];
@@ -19,23 +27,23 @@
 
     {#if allowCreating}
         <main>
-            <nav>
+            <Menu>
                 <a class="button" href="/live/new">Open new room</a>
-            </nav>
+            </Menu>
         </main>
     {/if}
 
     {#if allowEntering}
         <footer>
             <p>Or join one of the following rooms:</p>
-            <nav>
+            <Menu>
                 {#each openRooms as {id, users}}
                     <a class="button" href="/live/{id}">
                         {id}
                         ({users} users)
                     </a>
                 {/each}
-            </nav>
+            </Menu>
         </footer>
     {/if}
 
