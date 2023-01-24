@@ -9,7 +9,7 @@
     import { duration, seconds, time } from "$lib/clock";
     import { currentScene } from "$lib/control";
     import { user, users } from "$lib/realtime";
-  import { config } from '$lib/config';
+    import { config } from '$lib/config';
 
     $: data = {
         date: {

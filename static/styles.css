@@ -40,8 +40,12 @@ pre {
     color: black;
     transition: background-color 200ms ease;
 }
-.button:hover,
-.button.active {
+.button[disabled],
+.button.subtle {
+    background-color: #222;
+}
+.button:not([disabled]):hover,
+.button:not([disabled]).active {
     background-color: #00f;
     color: black;
 }

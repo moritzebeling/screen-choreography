@@ -1,4 +1,4 @@
-import { slug } from '../../../server/helpers.js';
+import { slug } from '$lib/helpers';
 
 export class Room {
     

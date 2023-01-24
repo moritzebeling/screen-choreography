@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
 
-import { uniqueId } from './helpers.js';
+import { uniqueId } from '../src/lib/helpers.js';
 import { Users } from './Users.js';
 
 export function socketServer( server ){

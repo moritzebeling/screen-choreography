@@ -1,4 +1,4 @@
-import { uniqueId } from '../../../server/helpers.js';
+import { uniqueId } from '$lib/helpers';
 
 export class User {
     
