@@ -72,3 +72,12 @@ a {
     padding: 1rem;
     gap: 2rem;
 }
+
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+nav .button {
+    margin: 3px;
+}

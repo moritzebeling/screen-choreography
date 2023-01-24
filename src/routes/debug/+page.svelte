@@ -29,7 +29,8 @@
         },
         app: {
             website: 'https://screens.moritzebeling.com',
-            repo: 'https://github.com/moritzebeling/screen-choreography.git'
+            repo: 'https://github.com/moritzebeling/screen-choreography.git',
+            issues: 'https://github.com/moritzebeling/screen-choreography/issues'
         }
     };
 

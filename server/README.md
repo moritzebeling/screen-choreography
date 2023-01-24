@@ -13,7 +13,7 @@
 Register your SSH key with the Digital Ocean droplet.
 
 ```
-ssh root@{IP}
+ssh root@138.68.71.128
 ```
 
 ## Installation

@@ -1,55 +1,61 @@
-<script>   
+<script>
 
-    let live = [
-        {
-            title: 'Test',
-            id: 'test'
-        }
-    ];
+    const allowEntering = true;
+    const allowCreating = true;
 
-    let performance = [
-        {
-            title: 'Class Meeting',
-            id: '1-class-meeting'
-        },
-        {
-            title: 'HFBK Annual Show 2023',
-            id: '2-annual-show'
-        },
-    ];
+    /* todo: get list of open rooms from server */
+    let openRooms = [{
+        id: 'test',
+        users: 2
+    }];
 
 </script>
 
-<main>
+<div class="layout">
 
-    <h1>Screens Choreography</h1>
+    <header>
+        <h1>Screens Choreography</h1>
+    </header>
 
-    <nav>
+    {#if allowCreating}
+        <main>
+            <nav>
+                <a class="button" href="/live/new">Open new room</a>
+            </nav>
+        </main>
+    {/if}
 
-        <a href="/debug">Debug</a>
+    {#if allowEntering}
+        <footer>
+            <p>Or join one of the following rooms:</p>
+            <nav>
+                {#each openRooms as {id, users}}
+                    <a class="button" href="/live/{id}">
+                        {id}
+                        ({users} users)
+                    </a>
+                {/each}
+            </nav>
+        </footer>
+    {/if}
 
-        {#each live as {title, id}}
-            <a href="/live/{id}">Live room »{title}«</a>
-        {/each}
-        
-        <!-- {#each performance as {title, id}}
-            <a href="/performance/{id}">Performance »{title}«</a>
-        {/each} -->
-
-    </nav>
-
-</main>
+</div>
 
 <style>
 
-    main {
+    .layout {
+        text-align: center;
+        justify-content: space-between;
+    }
+
+    header, nav {
         margin: 1rem;
     }
-    h1 {
-        margin-bottom: 1rem;
-    }
-    nav a {
-        display: block;
+    main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
 </style>

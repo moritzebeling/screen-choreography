@@ -1,3 +1,7 @@
+/**
+ * @param {number} length 
+ * @returns {string}
+ */
 export function uniqueId(length = 16) {
 	let result = '';
 	let budget = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -6,4 +10,12 @@ export function uniqueId(length = 16) {
 		result += budget.charAt( Math.floor(Math.random() * max) );
 	}
 	return result;
+}
+
+/**
+ * @param {string} string 
+ * @returns {string}
+ */
+export function slug( string ){
+	return string.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g,'');
 }
