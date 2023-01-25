@@ -17,8 +17,8 @@ export class Room {
      * @param {string?} options.title
      * @param {string?} options.id
      * @param {string?} options.password
-     * @param {Date} options.dateOpened
-     * @param {Date} options.dateLastUpdated
+     * @param {Date} options.created
+     * @param {Date} options.updated
      * @param {Object} options.dimensions
      * @param {string[]} options.users - A list of user ids
      */
@@ -27,8 +27,8 @@ export class Room {
         this.id = options.id || null;
         this.title = options.title || null;
         this.password = options.password || null;
-        this.dateOpened = new Date( options.dateOpened || undefined );
-        this.dateLastUpdated = new Date( options.dateLastUpdated || undefined );
+        this.created = options.created ? new Date(options.created) : new Date();
+        this.updated = options.updated ? new Date(options.updated) : new Date();
         this.dimensions = options.dimensions || false;
         this.users = options.users || [];
     }
@@ -65,6 +65,21 @@ export class Room {
     removeAllUsers(){
         this.users = [];
         return this.users;
+    }
+
+    ping(){
+        this.updated = new Date();
+    }
+
+    isAbandoned(){
+        if( this.users.length > 0){
+            return false;
+        }
+        const threshold = 1000 * 60; // 1 minute
+        if( this.updated.getTime() > (Date.now() - threshold) ){
+            return false;
+        }
+        return true;
     }
 
     get count(){

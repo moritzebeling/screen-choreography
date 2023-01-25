@@ -1,22 +1,20 @@
 <script>
-  import Menu from "$lib/Menu.svelte";
+    
+    import { socketHome as socket } from "$lib/sockets";
+    import { onMount } from "svelte";
+    import Menu from "$lib/Menu.svelte";
 
+    let rooms = [];
 
-    const allowEntering = true;
-    const allowCreating = true;
-
-    /* todo: get list of open rooms from server */
-    let openRooms = [{
-        id: 'test',
-        users: 2
-    },{
-        id: 'test',
-        users: 2
-    },{
-        id: 'test',
-        users: 2
-    }];
-
+    onMount(()=>{
+        socket.on("rooms:update", data => {
+            rooms = data;
+        });
+        socket.on("log", data => {
+            console.info( data );
+        });
+    });
+    
 </script>
 
 <div class="layout">
@@ -25,22 +23,20 @@
         <h1>Screens Choreography</h1>
     </header>
 
-    {#if allowCreating}
-        <main>
-            <Menu>
-                <a class="button" href="/live/new">Open new room</a>
-            </Menu>
-        </main>
-    {/if}
+    <main>
+        <Menu>
+            <a class="button" href="/live/new">Open new room</a>
+        </Menu>
+    </main>
 
-    {#if allowEntering}
+    {#if rooms.length > 0}
         <footer>
             <p>Or join one of the following rooms:</p>
             <Menu>
-                {#each openRooms as {id, users}}
-                    <a class="button" href="/live/{id}">
-                        {id}
-                        ({users} users)
+                {#each rooms as room}
+                    <a class="button" href="/live/{room.id}">
+                        {room.title || room.id}
+                        ({room.users.length} users)
                     </a>
                 {/each}
             </Menu>

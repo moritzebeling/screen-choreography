@@ -16,6 +16,14 @@ export function socketServer( server ){
     socket = client
     */
 
+    io.of('/home').on('connection', (socket) => {
+
+        console.log('io/home', 'connection');
+        socket.emit('log', 'io/home Successfully connected');
+        io.of('/home').emit('rooms:update', rooms.activeList );
+
+    });
+
     io.of('/live').on('connection', (socket) => {
         
         console.log('io/live', 'connection');
@@ -35,9 +43,10 @@ export function socketServer( server ){
             socket.join( room.id );
             
             console.log('io/live', 'room:enter', room.id, user.id);
-            io.of('/live').to( room.id ).emit('room:update', room );
-
+            
             socket.emit('user:update', socket.data.user );
+            io.of('/live').to( room.id ).emit('room:update', room );
+            io.of('/home').emit('rooms:update', rooms.activeList );
 
         });
 
@@ -48,9 +57,12 @@ export function socketServer( server ){
                 room.removeUser( socket.data.user.id );
                 io.of('/live').to( room.id ).emit('room:update', room );
             }
+            rooms.purge();
 
             socket.leave( socket.data.roomId );
             socket.data.roomId = null;
+
+            io.of('/home').emit('rooms:update', rooms.activeList );
         
         });
 
@@ -61,9 +73,12 @@ export function socketServer( server ){
                 room.removeUser( socket.data.user.id );
                 io.of('/live').to( room.id ).emit('room:update', room );
             }
+            rooms.purge();
 
             socket.leave( socket.data.roomId );
             socket.data.roomId = null;
+
+            io.of('/home').emit('rooms:update', rooms.activeList );
              
         });
         
@@ -76,7 +91,8 @@ export function socketServer( server ){
         });
         
         socket.on("scene:update", scene => {
-            
+
+            rooms.get( socket.data.roomId );
             // check password
             console.log('io/live', 'scene:update', socket.data.roomId );
             io.of('/live').to( socket.data.roomId ).emit('scene:update', scene);
@@ -116,72 +132,72 @@ export function socketServer( server ){
 
 
 
-    let users = new Users();
+    // let users = new Users();
 
-    io.of('/performance').on('connection', (socket) => {
+    // io.of('/performance').on('connection', (socket) => {
 
-        socket.emit('testLog', 'Hello, World 👋');
+    //     socket.emit('testLog', 'Hello, World 👋');
 
-        socket.data.userId = uniqueId();
+    //     socket.data.userId = uniqueId();
 
-        socket.on('connectUser', (user) => {    
-            users.add( socket.data.userId );
-            if( user.mobile ){
-                users.add( socket.data.userId, 'mobile' );
-            }
-            socket.emit('userUpdated', {
-                id: socket.data.userId,
-                num: users.getPosition( socket.data.userId )
-            });
-            io.emit('usersUpdated', users.stats);
-        });
+    //     socket.on('connectUser', (user) => {    
+    //         users.add( socket.data.userId );
+    //         if( user.mobile ){
+    //             users.add( socket.data.userId, 'mobile' );
+    //         }
+    //         socket.emit('userUpdated', {
+    //             id: socket.data.userId,
+    //             num: users.getPosition( socket.data.userId )
+    //         });
+    //         io.emit('usersUpdated', users.stats);
+    //     });
 
-        socket.on('reorderUser', async () => {
-            users.order( socket.data.userId );
-            const sockets = await io.fetchSockets();
-            for (const s of sockets) {
-                s.emit('userUpdated', {
-                    id: s.data.userId,
-                    num: users.getPosition( s.data.userId )
-                });
-            }
-            io.emit('usersUpdated', users.stats);
-        });
+    //     socket.on('reorderUser', async () => {
+    //         users.order( socket.data.userId );
+    //         const sockets = await io.fetchSockets();
+    //         for (const s of sockets) {
+    //             s.emit('userUpdated', {
+    //                 id: s.data.userId,
+    //                 num: users.getPosition( s.data.userId )
+    //             });
+    //         }
+    //         io.emit('usersUpdated', users.stats);
+    //     });
 
-        socket.on("disconnect", async () => {
-            users.remove( socket.data.userId, 'all' );
-            const sockets = await io.fetchSockets();
-            for (const s of sockets) {
-                s.emit('userUpdated', {
-                    id: s.data.userId,
-                    num: users.getPosition( s.data.userId )
-                });
-            }
-            io.emit('usersUpdated', users.stats);
-        });
+    //     socket.on("disconnect", async () => {
+    //         users.remove( socket.data.userId, 'all' );
+    //         const sockets = await io.fetchSockets();
+    //         for (const s of sockets) {
+    //             s.emit('userUpdated', {
+    //                 id: s.data.userId,
+    //                 num: users.getPosition( s.data.userId )
+    //             });
+    //         }
+    //         io.emit('usersUpdated', users.stats);
+    //     });
 
-        socket.on('setScene', (scene) => {
-            io.emit('sceneSet', scene);
-        });
+    //     socket.on('setScene', (scene) => {
+    //         io.emit('sceneSet', scene);
+    //     });
         
-        socket.on('fingerDown', () => {
-            users.add( socket.data.userId, 'pressed' );
-            io.emit('usersUpdated', users.stats);
-        });
-        socket.on('fingerUp', () => {
-            users.remove( socket.data.userId, 'pressed' );
-            io.emit('usersUpdated', users.stats);
-        });
+    //     socket.on('fingerDown', () => {
+    //         users.add( socket.data.userId, 'pressed' );
+    //         io.emit('usersUpdated', users.stats);
+    //     });
+    //     socket.on('fingerUp', () => {
+    //         users.remove( socket.data.userId, 'pressed' );
+    //         io.emit('usersUpdated', users.stats);
+    //     });
 
-        socket.on('updateScene', ( data ) => {
-            io.emit('updateScene', data);
-        });
+    //     socket.on('updateScene', ( data ) => {
+    //         io.emit('updateScene', data);
+    //     });
         
-        socket.on('refresh', () => {
-            io.emit('refresh');
-            users.reset();
-        });
+    //     socket.on('refresh', () => {
+    //         io.emit('refresh');
+    //         users.reset();
+    //     });
 
-    });
+    // });
 
 }

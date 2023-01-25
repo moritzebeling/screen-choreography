@@ -26,7 +26,11 @@ export class Rooms {
      * @returns {Room}
      */
     get( roomId ){
-        return this.rooms[ roomId ];
+        let room = this.rooms[ roomId ];
+        if( room ){
+            room.ping();
+        }
+        return room;
     } 
     
     /**
@@ -34,7 +38,7 @@ export class Rooms {
      * @returns {Room}
      */
     update( room ){
-        this.rooms[ room.id ] = room;
+        this.rooms[ room.id ] = new Room( room );
         return this.rooms[ room.id ];
     }
 
@@ -56,6 +60,19 @@ export class Rooms {
      */
     exists( roomId ){
         return this.rooms.hasOwnProperty( roomId );
+    }
+
+    purge(){
+        for( let room of Object.values( this.rooms ) ){
+            console.log( room );
+            if( room.isAbandoned() ){
+                this.close( room.id );
+            }
+        }
+    }
+
+    get activeList(){
+        return Object.values( this.rooms ).filter( room => room.count > 0);
     }
 
 }
