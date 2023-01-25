@@ -2,6 +2,7 @@
     
     import { page } from "$app/stores";
     import Menu from "$lib/Menu.svelte";
+    import { roomStore } from "$lib/stores";
     import QRCode from 'qrcode';
 
     let url = `${$page.url.origin}/live/${$page.params.room}`;
@@ -12,7 +13,6 @@
             figure.clientWidth,
             figure.clientHeight, 
         );
-        console.log( size );
         let options = {
             width: size,
             height: size,
@@ -28,13 +28,20 @@
 <main class="layout">
 
     <div class="bar">
-        {url}
+        {#if $roomStore}
+            {#if $roomStore.count === 1}
+                <p>Please join me</p>
+            {:else}
+                <p>{$roomStore.count} people are waiting for you</p>
+            {/if}
+        {/if}
+        <p>
+            <a href="{url}">{url}</a>
+        </p>
     </div>
 
     <figure use:printQrCode>
-        <a href="{url}">
-            <canvas width="100" height="100"></canvas>
-        </a>
+        <canvas width="100" height="100"></canvas>
     </figure>
 
     <div>
@@ -55,9 +62,6 @@
     
     figure {
         flex: 1;
-    }
-
-    a {
         display: flex;
         justify-content: center;
         align-items: center;

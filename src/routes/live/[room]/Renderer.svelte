@@ -1,7 +1,7 @@
 <script>
 
     import RenderComposition from "./render/RenderComposition.svelte";
-    import { sceneStore } from "./store.js";
+    import { sceneStore } from "$lib/stores";
 
 </script>
 

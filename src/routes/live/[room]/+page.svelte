@@ -1,21 +1,9 @@
 <script>
 
-    import { onMount } from "svelte";
-    import { socketLive as socket } from "$lib/sockets";
     import { page } from "$app/stores";
-    import { sceneStore } from "./store.js";
-    import { Scene } from "$lib/models/Scene.js";
 
     import Menu from "$lib/Menu.svelte";
     import Renderer from "./Renderer.svelte";
-
-    onMount(()=>{
-        // socket.on("scene:update", data => {
-        //     let scene = new Scene(data);
-        //     sceneStore.set(scene);
-        //     console.log('updateScene', scene);
-        // });
-    });
 
 </script>
 

@@ -1,7 +1,7 @@
 <script>
 
     import { socketLive as socket } from "$lib/sockets";
-    import { settingsStore, sceneStore } from "../store.js";
+    import { settingsStore, sceneStore } from "$lib/stores";
     import Select from "./Select.svelte";
     import AnimationSelect from "./AnimationSelect.svelte";
 

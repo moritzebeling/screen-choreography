@@ -15,7 +15,7 @@ export class Room {
     /**
      * @param {Object} options
      * @param {string?} options.title
-     * @param {string} options.id
+     * @param {string?} options.id
      * @param {string?} options.password
      * @param {Date} options.dateOpened
      * @param {Date} options.dateLastUpdated
@@ -23,8 +23,8 @@ export class Room {
      * @param {string[]} options.users - A list of user ids
      */
     
-    constructor( options ){
-        this.id = options.id;
+    constructor( options = {} ){
+        this.id = options.id || null;
         this.title = options.title || null;
         this.password = options.password || null;
         this.dateOpened = new Date( options.dateOpened || undefined );

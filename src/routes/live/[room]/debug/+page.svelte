@@ -7,30 +7,17 @@
     import Menu from "$lib/Menu.svelte";
 
     import { duration, seconds, time } from "$lib/clock";
-    import { currentScene } from "$lib/control";
-    import { user, users } from "$lib/realtime";
+    import { userStore, roomStore, sceneStore } from "$lib/stores";
     import { config } from '$lib/config';
 
-    $: data = {
-        date: {
-            time: $time,
-            seconds: $seconds,
-            timeOnSite: $duration,
-        },
-        user: {
-            id: $user.id,
-            orderInRoom: $user.num,
-            isTouch: 'unknown', // todo
-        },
-        room: {
-            connected: 'unknown', // todo
-            id: $currentScene,
-            totalUsers: $users.total,
-        },
-        system: {
-            host: PUBLIC_SOCKET,
-            environment: dev ? 'development' : 'production',
-        }
+    $: date = {
+        time: $time,
+        seconds: $seconds,
+        timeOnSite: $duration,
+    };
+    const system = {
+        environment: dev ? 'development' : 'production',
+        host: PUBLIC_SOCKET,
     };
 
 </script>
@@ -38,7 +25,11 @@
 <main class="layout">
 
     <div class="text">
-        <pre>{JSON.stringify(data, null, 4)}</pre>
+        <pre>Date {JSON.stringify(date, null, 4)}</pre>
+        <pre>User {JSON.stringify($userStore, null, 4)}</pre>
+        <pre>Room {JSON.stringify($roomStore, null, 4)}</pre>
+        <pre>Scene {JSON.stringify($sceneStore, null, 4)}</pre>
+        <pre>System {JSON.stringify(system, null, 4)}</pre>
     </div>
         
     <Menu>
@@ -51,8 +42,10 @@
 <style>
 
     .text {
-        padding: 1rem;
         flex: 1;
+    }
+    pre {
+        margin: 1rem;
     }
 
 </style>

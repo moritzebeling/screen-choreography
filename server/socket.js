@@ -37,8 +37,7 @@ export function socketServer( server ){
             console.log('io/live', 'room:enter', room.id, user.id);
             io.of('/live').to( room.id ).emit('room:update', room );
 
-            // is user:update needed here?
-            // socket.emit('user:update', socket.data.user );
+            socket.emit('user:update', socket.data.user );
 
         });
 
