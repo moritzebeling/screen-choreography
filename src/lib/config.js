@@ -4,4 +4,5 @@ export const config = {
     repository: 'https://github.com/moritzebeling/screen-choreography.git',
     issues: 'https://github.com/moritzebeling/screen-choreography/issues',
     donate: 'https://www.paypal.me/cryptomunich',
+    keepEmptyRooms: 1000 * 60 * 60, // 1 hour
 };

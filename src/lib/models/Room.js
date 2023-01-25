@@ -1,5 +1,5 @@
+import { config } from '../config';
 import { slug } from '../helpers';
-import { Users } from './Users';
 
 /*
 dimensions
@@ -25,7 +25,7 @@ export class Room {
     
     constructor( options = {} ){
         this.id = options.id || null;
-        this.title = options.title || null;
+        this.title = options.title || options.id || null;
         this.password = options.password || null;
         this.created = options.created ? new Date(options.created) : new Date();
         this.updated = options.updated ? new Date(options.updated) : new Date();
@@ -75,8 +75,7 @@ export class Room {
         if( this.users.length > 0){
             return false;
         }
-        const threshold = 1000 * 60; // 1 minute
-        if( this.updated.getTime() > (Date.now() - threshold) ){
+        if( this.updated.getTime() > (Date.now() - config.keepEmptyRooms) ){
             return false;
         }
         return true;
