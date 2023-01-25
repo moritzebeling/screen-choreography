@@ -1,4 +1,4 @@
-import { uniqueId } from '../helpers';
+import { uniqueId } from '../helpers.js';
 
 class Device {
 

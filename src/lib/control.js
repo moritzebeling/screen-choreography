@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { socket } from "$lib/realtime";
+import { socket } from "$lib/realtime.js";
 
 export const scenes = [
     ['intro','Intro'],

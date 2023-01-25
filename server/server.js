@@ -1,8 +1,8 @@
 import http from "http";
 import express from 'express';
-import { socketServer } from './socket';
+import { socketServer } from './socket.js';
 import * as dotenv from 'dotenv';
-import { handler } from '../build/handler';
+import { handler } from '../build/handler.js';
 
 dotenv.config();
 

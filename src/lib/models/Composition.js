@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { Color } from './Color';
+import { Color } from './Color.js';
 
 export class Composition {
 

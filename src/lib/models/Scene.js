@@ -1,5 +1,5 @@
-import { Color } from './Color';
-import { Composition } from './Composition';
+import { Color } from './Color.js';
+import { Composition } from './Composition.js';
 
 export class Scene {
     

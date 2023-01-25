@@ -1,5 +1,5 @@
-import { config } from '../config';
-import { slug } from '../helpers';
+import { config } from '../config.js';
+import { slug } from '../helpers.js';
 
 /*
 dimensions
