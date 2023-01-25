@@ -1,24 +1,127 @@
 import { Server } from 'socket.io';
 
-import { uniqueId } from '../src/lib/helpers.js';
-import { Users } from './Users.js';
+import { User } from '../src/lib/models/User.js';
+import { Users } from '../src/lib/models/Users.js';
+import { Rooms } from '../src/lib/models/Rooms.js';
+
+let rooms = new Rooms();
 
 export function socketServer( server ){
 
     const io = new Server(server);
-    console.log('Socket.io: server started');
-
-    let users = new Users();
+    console.log('io', 'server started');
 
     /*
     io = server or all clients
     socket = client
     */
 
-    io.on('connection', (socket) => {
+    io.of('/live').on('connection', (socket) => {
+        
+        console.log('io/live', 'connection');
+        socket.emit('log', 'io/live Successfully connected');
+
+        socket.on("room:enter", ({ roomId, device }) => {
+
+            // user
+            let user = new User( device );
+            user.assignId();
+            socket.data.user = user;
+            
+            // room
+            let room = rooms.open( roomId );
+            room.addUser( user.id );
+            socket.data.roomId = room.id;
+            socket.join( room.id );
+            
+            console.log('io/live', 'room:enter', room.id, user.id);
+            io.of('/live').to( room.id ).emit('room:update', room );
+
+            // is user:update needed here?
+            // socket.emit('user:update', socket.data.user );
+
+        });
+
+        socket.on("disconnect", () => {
+            
+            let room = rooms.get( socket.data.roomId );
+            if( room ){
+                room.removeUser( socket.data.user.id );
+                io.of('/live').to( room.id ).emit('room:update', room );
+            }
+
+            socket.leave( socket.data.roomId );
+            socket.data.roomId = null;
+        
+        });
+
+        socket.on("room:leave", () => {
+
+            let room = rooms.get( socket.data.roomId );
+            if( room ){
+                room.removeUser( socket.data.user.id );
+                io.of('/live').to( room.id ).emit('room:update', room );
+            }
+
+            socket.leave( socket.data.roomId );
+            socket.data.roomId = null;
+             
+        });
+        
+        socket.on("room:update", ({room}) => {
+
+            // check password
+            room = rooms.update( room );
+            io.of('/live').to( socket.data.roomId ).emit('room:update', room);
+            
+        });
+        
+        socket.on("scene:update", scene => {
+            
+            // check password
+            console.log('io/live', 'scene:update', socket.data.roomId );
+            io.of('/live').to( socket.data.roomId ).emit('scene:update', scene);
+            
+        });
+        
+        socket.on('refresh', () => {
+            
+            // check password
+            rooms.get( socket.data.roomId ).removeAllUsers();
+            rooms.close( socket.data.roomId );
+
+            socket.data.user = null;
+            socket.data.roomId = null;
+
+            io.of('/live').to( socket.data.roomId ).emit('refresh');
+
+        });
+
+        socket.on('log', data => {
+
+            console.info('io/live', 'log', data );
+            io.of('/live').to( socket.data.roomId ).emit('log', data);
+
+        });
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+    let users = new Users();
+
+    io.of('/performance').on('connection', (socket) => {
 
         socket.emit('testLog', 'Hello, World 👋');
-        console.log('Socket.io: new user connected');
 
         socket.data.userId = uniqueId();
 

@@ -1,5 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { socketServer } from './server/socket.js';
+import { socketServer } from './server/socket';
 
 /** @type {import('vite').UserConfig} */
 const config = {

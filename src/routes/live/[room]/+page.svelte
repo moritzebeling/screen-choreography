@@ -1,7 +1,7 @@
 <script>
 
     import { onMount } from "svelte";
-    import { socket } from "$lib/realtime";
+    import { socketLive as socket } from "$lib/sockets";
     import { page } from "$app/stores";
     import { sceneStore } from "./store.js";
     import { Scene } from "$lib/models/Scene.js";
@@ -10,11 +10,11 @@
     import Renderer from "./Renderer.svelte";
 
     onMount(()=>{
-        socket.on("updateScene", data => {
-            let scene = new Scene(data);
-            sceneStore.set(scene);
-            console.log('updateScene', scene);
-        });
+        // socket.on("scene:update", data => {
+        //     let scene = new Scene(data);
+        //     sceneStore.set(scene);
+        //     console.log('updateScene', scene);
+        // });
     });
 
 </script>

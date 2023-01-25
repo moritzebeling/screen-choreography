@@ -3,6 +3,7 @@
     import Menu from "$lib/Menu.svelte";
     import { slug } from "$lib/helpers";
     import { page } from "$app/stores";
+    import { goto } from "$app/navigation";
 
     let title;
     let password;
@@ -21,7 +22,7 @@
     $: valid = validate( title, password );
 
     function create(){
-        // todo: create new room
+        goto(`/live/${id}`);
     }
 
 </script>

@@ -1,13 +1,13 @@
 <script>
 
-    import { socket } from "$lib/realtime";    
+    import { socketLive as socket } from "$lib/sockets";
     import { settingsStore, sceneStore } from "../store.js";
     import Select from "./Select.svelte";
     import AnimationSelect from "./AnimationSelect.svelte";
 
     function updateScene(){
         console.log( $sceneStore );
-        socket.emit( "updateScene", $sceneStore );
+        socket.emit( "scene:update", $sceneStore );
     }
 
     let showBackgroundColorSelect = true;
@@ -41,7 +41,6 @@
     </div>
 
 </main>
-
 
 <!-- {#if showAnimationSelect}
     <AnimationSelect

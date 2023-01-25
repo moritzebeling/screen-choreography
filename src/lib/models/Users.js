@@ -1,13 +1,18 @@
+import { User } from './User';
+
 export class Users {
+
+    constructor(){
+        this.reset();
+    }
+
     reset(){
         this.total = [];
         this.ordered = [];
         this.mobile = [];
         this.pressed = [];
     }
-    constructor(){
-        this.reset();
-    }
+    
     get stats(){
         return {
             total: this.total.length,
@@ -16,11 +21,13 @@ export class Users {
             pressed: this.pressed.length
         }
     }
+
     add(id, list = 'total'){
         if( !this[list].includes(id) ){
             this[list].push(id);
         }
     }
+
     remove(id, list = 'total'){
         if( list === 'all' ){
             this.total = this.total.filter((i) => i !== id);
@@ -31,10 +38,12 @@ export class Users {
             this[list] = this[list].filter((i) => i !== id);
         }
     }
+
     order(id, list = 'ordered'){
         this.remove(id,list);
         this.add(id,list);
     }
+
     getPosition(id){
         let order = 0;
         if( this.ordered.length > 0 ){
@@ -44,4 +53,5 @@ export class Users {
         }
         return Math.max( 0, order );
     }
+    
 }

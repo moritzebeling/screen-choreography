@@ -1,63 +1,33 @@
-import { uniqueId } from '$lib/helpers';
+import { uniqueId } from '../helpers';
+
+/*
+system: 'unknown' | 'windows' | 'mac' | 'linux' | 'ios' | 'android'
+*/
 
 export class User {
     
-    constructor(){
-        this._id = null;
-        this._position = null;
-        this._touch = null;
-        this._admin = false;
+    constructor( options = {} ){
+        this.id = options.id || null;
+        this.password = options.password || null;
+        this.system = options.system || null;
+        this.lang = options.lang || false;
+        this.touch = options.touch || false;
     }
 
-    // id
-
-    /**
-     * @param {string|null} i
-     */
-    set id( i ){
-        this._id = i;
-    }
-    get id(){
-        return this._id;
-    }
-    assignId(){
-        this.id = uniqueId();
-    }
-
-    // admin
-
-    /**
-     * @param {boolean} a
-     */
-    set admin( a ){
-        this._admin = a;
-    }
-
-    // touch
-
-    get touch(){
-        return this._touch;
-    }
-    isTouch(){
-        if( window ){
-            this._touch = ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 ) || ( navigator.msMaxTouchPoints > 0 );
+    static detectDevice(){
+        if( !window || !navigator ){
+            return false;
         }
-        return this._touch;
+        return {
+            system: null,
+            lang: navigator.language,
+            touch: ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 ) || ( navigator.msMaxTouchPoints > 0 ),
+        };
     }
 
-    // position
-
-    /**
-     * @param {number|null} p
-     */
-    set position( p ){
-        this._position = p;
-    }
-    get position(){
-        return this._position;
-    }
-    resetPosition(){
-        this.position = null;
+    assignId(){
+        this.id = uniqueId( 32 );
+        return this.id;
     }
 
 }
