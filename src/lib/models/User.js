@@ -2,6 +2,10 @@ import { uniqueId } from '../helpers.js';
 
 class Device {
 
+    static detectAgent(){
+        return navigator.userAgent;
+    }
+
     static detectSystem(){
         const userAgent = navigator.userAgent.toLowerCase();
         const options = [ 'windows', 'mac', 'linux', 'ios', 'android' ];
@@ -46,6 +50,7 @@ export class User {
     constructor( options = {} ){
         this.id = options.id || null;
         this.password = options.password || null;
+        this.agent = options.agent || null;
         this.system = options.system || null;
         this.browser = options.browser || null;
         this.lang = options.lang || false;
@@ -57,6 +62,7 @@ export class User {
             return false;
         }
         return {
+            agent: Device.detectAgent(),
             system: Device.detectSystem(),
             browser: Device.detectBrowser(),
             lang: Device.detectLanguage(),

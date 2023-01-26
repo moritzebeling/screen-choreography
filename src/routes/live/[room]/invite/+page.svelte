@@ -5,8 +5,6 @@
     import { roomStore } from "$lib/stores";
     import QRCode from 'qrcode';
 
-    let url = `${$page.url.origin}/live/${$page.params.room}`;
-
     function printQrCode( figure ){
         let canvas = figure.querySelector('canvas');
         let size = Math.min(
@@ -36,7 +34,7 @@
             {/if}
         {/if}
         <p>
-            <a href="{url}">{url}</a>
+            <a href="{$page.url.origin}/live/{$page.params.room}">{$page.url.origin}<wbr />/live/{$page.params.room}</a>
         </p>
     </div>
 

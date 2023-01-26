@@ -1,4 +1,6 @@
 <script>
+
+    import Renderer from "./Renderer.svelte";
     
     import { onMount } from "svelte";
     import { page } from "$app/stores";
@@ -47,5 +49,7 @@
     });
     
 </script>
+
+<Renderer />
 
 <slot />

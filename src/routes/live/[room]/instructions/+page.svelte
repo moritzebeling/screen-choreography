@@ -62,6 +62,9 @@
 
 <style>
 
+    main {
+        mix-blend-mode: difference;
+    }
     .text {
         padding: 1rem;
         flex: 1;

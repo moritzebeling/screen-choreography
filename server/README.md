@@ -209,6 +209,13 @@ sudo systemctl restart nginx
 node server/server.js
 ```
 
+## Test the app locally
+
+```
+npm run build
+npm run start
+```
+
 ## Update app
 
 ```

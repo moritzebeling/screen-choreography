@@ -51,6 +51,10 @@
 
 <style>
 
+    .layout {
+        background: black;
+    }
+
     .screens {
         display: grid;
         grid-template-columns: repeat(2, 1fr);

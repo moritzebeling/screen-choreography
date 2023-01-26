@@ -1,7 +1,7 @@
 <script>
 
     import { PUBLIC_SOCKET } from '$env/static/public';
-    import { dev } from '$app/environment';
+    import { browser, dev } from '$app/environment';
 
     import { page } from "$app/stores";
     import Menu from "$lib/Menu.svelte";
@@ -17,7 +17,7 @@
     };
     const system = {
         environment: dev ? 'development' : 'production',
-        host: PUBLIC_SOCKET,
+        host: PUBLIC_SOCKET
     };
 
 </script>
@@ -41,6 +41,9 @@
 
 <style>
 
+    main {
+        mix-blend-mode: difference;
+    }
     .text {
         flex: 1;
     }

@@ -19,9 +19,14 @@
 <style>
 
     main {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: var(--100vh);
         transition-property: background-color;
         transition-timing-function: ease-in-out;
+        z-index: -1;
     }
 
 </style>
