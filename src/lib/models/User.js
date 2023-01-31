@@ -1,5 +1,3 @@
-import { uniqueId } from '../helpers.js';
-
 class Device {
 
     static detectAgent(){
@@ -8,7 +6,7 @@ class Device {
 
     static detectSystem(){
         const userAgent = navigator.userAgent.toLowerCase();
-        const options = [ 'windows', 'mac', 'linux', 'ios', 'android' ];
+        const options = [ 'windows', 'macintosh', 'linux', 'iphone', 'android' ];
         for( const option of options ){
             if( userAgent.includes( option ) ){
                 return option;
@@ -68,11 +66,6 @@ export class User {
             lang: Device.detectLanguage(),
             touch: Device.detectTouch()
         };
-    }
-
-    assignId(){
-        this.id = uniqueId( 32 );
-        return this.id;
     }
 
 }

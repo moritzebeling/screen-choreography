@@ -5,4 +5,5 @@ export const config = {
     issues: 'https://github.com/moritzebeling/screen-choreography/issues',
     support: 'https://www.paypal.me/cryptomunich',
     keepEmptyRooms: 1000 * 60 * 60, // 1 hour
+    rememberUsers: 60 * 60 * 24, // 1 day
 };

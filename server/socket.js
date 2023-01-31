@@ -1,14 +1,21 @@
 import { Server } from 'socket.io';
+import { parse as parseCookie } from "cookie";
 
 import { User } from '../src/lib/models/User.js';
-import { Users } from '../src/lib/models/Users.js';
 import { Rooms } from '../src/lib/models/Rooms.js';
 
 let rooms = new Rooms();
 
+function readUserIdFromCookie( cookies = '' ){
+    cookies = parseCookie( '' + cookies );
+    return cookies?.userId || false;
+}
+
 export function socketServer( server ){
 
-    const io = new Server(server);
+    const io = new Server(server,{
+        cookie: true
+    });
     console.log('io', 'server started');
 
     /*
@@ -32,8 +39,10 @@ export function socketServer( server ){
         socket.on("room:enter", ({ roomId, device }) => {
 
             // user
-            let user = new User( device );
-            user.assignId();
+            let user = new User({
+                id: readUserIdFromCookie( socket.handshake.headers.cookie ),
+                ...device
+            });
             socket.data.user = user;
             
             // room

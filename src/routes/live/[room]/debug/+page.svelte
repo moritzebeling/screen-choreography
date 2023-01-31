@@ -1,7 +1,7 @@
 <script>
 
     import { PUBLIC_SOCKET } from '$env/static/public';
-    import { browser, dev } from '$app/environment';
+    import { dev } from '$app/environment';
 
     import { page } from "$app/stores";
     import Menu from "$lib/Menu.svelte";
