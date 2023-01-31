@@ -56,6 +56,7 @@
             <button disabled class="button" title="Please enter a room number and password" on:click={()=> alert('Please enter a room number and password')}>Create</button>
         {/if}
         <a class="button subtle" href="/">Cancel</a>
+        <a class="button subtle" href="/support">1€</a>
     </Menu>
 </form>
 

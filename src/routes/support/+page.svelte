@@ -1,22 +1,28 @@
 <script>
     
-    import { page } from "$app/stores";
     import { config } from "$lib/config";
     import Menu from "$lib/Menu.svelte";
+
+    import { afterNavigate } from '$app/navigation';
+
+    let previousPage = '/';
+    afterNavigate(({from}) => {
+        previousPage = from?.url.pathname || previousPage || '/';
+    }) 
 
 </script>
 
 <main class="layout">
 
     <div class="text">
-        <p>Please consider supporting this project by donating 1€ via PayPal</p>
+        <p>Please consider supporting this project with 1€</p>
         <Menu>
-            <a class="button" href="{config.donate}" target="_Blank" rel="noreferrer noopener nofollow">PayPal</a>
+            <a class="button" href="{config.support}" target="_blank" rel="noreferrer noopener nofollow">PayPal</a>
         </Menu>
     </div>
 
     <Menu>
-        <a class="button" href="/live/{$page.params.room}">Close</a>
+        <a class="button" href="{previousPage}">Close</a>
     </Menu>
     
 </main>
