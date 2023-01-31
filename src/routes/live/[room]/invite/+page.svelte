@@ -7,6 +7,7 @@
 
     function printQrCode( figure ){
         let canvas = figure.querySelector('canvas');
+        let url = $page.url.origin + '/live/' + $page.params.room;
         let size = Math.min(
             figure.clientWidth,
             figure.clientHeight, 
