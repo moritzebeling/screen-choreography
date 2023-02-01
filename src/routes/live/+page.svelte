@@ -2,7 +2,7 @@
 
     import Menu from "$lib/Menu.svelte";
     import { onMount } from "svelte";
-    import { socketLive as socket } from "$lib/sockets";
+    import { socket } from "./socket.js";
     import { slug } from "$lib/helpers";
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
@@ -31,20 +31,14 @@
 
     function create(){
         pending = true;
-        socket.emit("room:create",{
-            roomId: id,
-            password: password,
-            title: title
-        });
+        socket.emit("room:create",{ id, password, title });
     }
 
     onMount(()=>{
         socket.on('room:created', room => {
-            console.log('room:created', room);
             goto( `/live/${room.id}` );
         });
-        socket.on('room:exists', room => {
-            console.log('room:exists', room);
+        socket.on('room:exists', () => {
             pending = false;
             exists = true;
         });

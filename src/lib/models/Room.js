@@ -20,7 +20,7 @@ export class Room {
      * @param {Date} options.created
      * @param {Date} options.updated
      * @param {Object} options.dimensions
-     * @param {string[]} options.users - A list of user ids
+     * @param {Object} options.users - { userId: isAdmin }
      */
     
     constructor( options = {} ){
@@ -30,7 +30,7 @@ export class Room {
         this.created = options.created ? new Date(options.created) : new Date();
         this.updated = options.updated ? new Date(options.updated) : new Date();
         this.dimensions = options.dimensions || false;
-        this.users = options.users || [];
+        this.users = options.users || {};
     }
 
     /**
@@ -44,26 +44,37 @@ export class Room {
     /**
      * @param {string} userId
      */
-    addUser( userId ){
-        if( !this.users.includes( userId ) ){
-            this.users.push( userId );
+    addUser( userId, asAdmin = false ){
+        if( !this.users.hasOwnProperty(userId) ){
+            this.users[userId] = asAdmin === true;
         }
+    }
+    
+    /**
+     * @param {string} userId
+     * @returns {boolean}
+     */
+    isAdmin( userId ){
+        if( this.users.hasOwnProperty(userId) ){
+            return this.users[userId] === true;
+        }
+        return false;
     }
 
     /**
      * @param {string} userId
-     * @returns {string[]}
+     * @returns {Object}
      */
     removeUser( userId ){
-        this.users = this.users.filter( id => id !== userId );
+        delete this.users[userId];
         return this.users;
     }
     
     /**
-     * @returns {string[]}
+     * @returns {Object}
      */
     removeAllUsers(){
-        this.users = [];
+        this.users = {};
         return this.users;
     }
 
@@ -75,7 +86,7 @@ export class Room {
      * @returns {boolean}
      */
     isAbandoned(){
-        if( this.users.length > 0){
+        if( this.userIds.length > 0){
             return false;
         }
         if( this.updated.getTime() > (Date.now() - config.settings.keepEmptyRooms) ){
@@ -84,8 +95,12 @@ export class Room {
         return true;
     }
 
+    get userIds(){
+        return Object.keys(this.users);
+    }
+
     get count(){
-        return this.users.length;
+        return this.userIds.length;
     }
 
 }

@@ -1,7 +1,6 @@
 import { Server } from 'socket.io';
 import { parse as parseCookie } from "cookie";
 
-import { User } from '../src/lib/models/User.js';
 import { Rooms } from '../src/lib/models/Rooms.js';
 
 let rooms = new Rooms();
@@ -36,44 +35,34 @@ export function socketServer( server ){
         console.log('io/live', 'connection');
         socket.emit('log', 'io/live Successfully connected');
 
-        /*
-        todo
-        can the user object be created here?
-        */
+        socket.data.userId = readUserIdFromCookie( socket.handshake.headers.cookie );
 
-        socket.on('room:create', ({ roomId, password, title }) => {
-            if( rooms.allowedToCreate( roomId ) ){
-                let room = rooms.open({ id: roomId, password, title }, true);
+        socket.on('room:create', ({ id, password, title }) => {
+            if( rooms.allowedToCreate( id ) ){
+
+                let room = rooms.open({ id, password, title }, true);
+                room.addUser( socket.data.userId, true );
+                
+                console.log('io/live', 'room:created', room.id, socket.data.userId);
+
                 socket.emit('room:created', room);
-                /*
-                todo
-                - save password to user object
-                - add user to room
-                */
+                io.of('/home').emit('rooms:update', rooms.activeList );
+
             } else {
-                let room = rooms.get( roomId );
-                socket.emit('room:exists', room );
+                socket.emit('room:exists');
             }
         });
 
-        socket.on('room:enter', ({ roomId, device }) => {
+        socket.on('room:enter', ({ id }) => {
 
-            // user
-            let user = new User({
-                id: readUserIdFromCookie( socket.handshake.headers.cookie ),
-                ...device
-            });
-            socket.data.user = user;
-            
-            // room @todo
-            let room = rooms.open({ id: roomId });
-            room.addUser( user.id );
+            let room = rooms.open({ id: id });
+            room.addUser( socket.data.userId );
+
             socket.data.roomId = room.id;
             socket.join( room.id );
             
-            console.log('io/live', 'room:enter', room.id, user.id);
+            console.log('io/live', 'room:enter', room.id, socket.data.userId);
             
-            socket.emit('user:update', socket.data.user );
             io.of('/live').to( room.id ).emit('room:update', room );
             io.of('/home').emit('rooms:update', rooms.activeList );
 
@@ -81,60 +70,81 @@ export function socketServer( server ){
 
         socket.on('disconnect', () => {
             
-            let room = rooms.get( socket.data.roomId );
-            if( room ){
-                room.removeUser( socket.data.user.id );
-                io.of('/live').to( room.id ).emit('room:update', room );
+            if( socket.data.roomId && socket.data.userId ){
+                let room = rooms.get( socket.data.roomId );
+                if( room ){
+                    room.removeUser( socket.data.userId );
+                    io.of('/live').to( room.id ).emit('room:update', room );
+                }
+                socket.leave( socket.data.roomId );
             }
-            rooms.purge();
-
-            socket.leave( socket.data.roomId );
             socket.data.roomId = null;
-
+            
+            rooms.purge();
             io.of('/home').emit('rooms:update', rooms.activeList );
         
         });
 
         socket.on('room:leave', () => {
 
-            let room = rooms.get( socket.data.roomId );
-            if( room ){
-                room.removeUser( socket.data.user.id );
-                io.of('/live').to( room.id ).emit('room:update', room );
+            /* duplicate of disconnect */
+
+            if( socket.data.roomId && socket.data.userId ){
+                let room = rooms.get( socket.data.roomId );
+                if( room ){
+                    room.removeUser( socket.data.userId );
+                    io.of('/live').to( room.id ).emit('room:update', room );
+                }
+                socket.leave( socket.data.roomId );
             }
-            rooms.purge();
-
-            socket.leave( socket.data.roomId );
             socket.data.roomId = null;
-
+            
+            rooms.purge();
             io.of('/home').emit('rooms:update', rooms.activeList );
              
         });
         
         socket.on('room:update', ({room}) => {
 
-            // check password
-            room = rooms.update( room );
+            if( !rooms.isAdmin( socket.data.roomId, socket.data.userId ) ){
+                return;
+            }
+
+            rooms.update( room );
+            console.log('io/live', 'room:update', socket.data.roomId );
+
             io.of('/live').to( socket.data.roomId ).emit('room:update', room);
             
         });
         
         socket.on('scene:update', scene => {
 
-            rooms.get( socket.data.roomId );
-            // check password
+            if( !rooms.isAdmin( socket.data.roomId, socket.data.userId ) ){
+                return;
+            }
+
+            /*
+            @todo:
+            - check if update is not too old
+            - should scene be saved to room?
+            */
+
             console.log('io/live', 'scene:update', socket.data.roomId );
+
             io.of('/live').to( socket.data.roomId ).emit('scene:update', scene);
             
         });
         
         socket.on('refresh', () => {
+
+            if( !rooms.isAdmin( socket.data.roomId, socket.data.userId ) ){
+                return;
+            }
             
-            // check password
             rooms.get( socket.data.roomId ).removeAllUsers();
             rooms.close( socket.data.roomId );
 
-            socket.data.user = null;
+            socket.data.userId = null;
             socket.data.roomId = null;
 
             io.of('/live').to( socket.data.roomId ).emit('refresh');

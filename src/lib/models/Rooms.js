@@ -14,15 +14,14 @@ export class Rooms {
      * @param {Room|object} room
      * @returns {Room|false}
      */
-    open( room, update = false ){
-        if( !room.hasOwnProperty('id') ){
-            console.error('Rooms.open(): Please provide a room id', room);
-            return false;
+    open( room, override = false ){
+        if( this.exists( room.id ) && override === false ){
+            room = this.rooms[ room.id ];
+            room.ping();
+        } else {
+            room = new Room( room );
         }
-        if( !this.exists( room.id ) || update === true ){
-            this.rooms[ room.id ] = new Room( room );
-        }
-        return this.rooms[ room.id ];
+        return room;
     }
 
     /**
@@ -79,6 +78,18 @@ export class Rooms {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * @param {string} roomId
+     * @returns {boolean}
+     */
+    isAdmin( roomId, userId ){
+        let room = this.get( roomId );
+        if( !room ){
+            return false;
+        }
+        return room.isAdmin( userId );
     }
 
     purge(){

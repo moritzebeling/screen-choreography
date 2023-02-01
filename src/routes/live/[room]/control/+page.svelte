@@ -1,6 +1,6 @@
 <script>
 
-    import { socketLive as socket } from "$lib/sockets";
+    import { socket } from "../../socket.js";
     import { settingsStore, sceneStore, roomStore } from "$lib/stores";
     import Select from "./Select.svelte";
     import AnimationSelect from "./AnimationSelect.svelte";

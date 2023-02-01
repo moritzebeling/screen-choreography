@@ -1,6 +1,6 @@
 <script>
     
-    import { socketHome as socket } from "$lib/sockets";
+    import { socket } from "./socket.js";
     import { onMount } from "svelte";
     import Menu from "$lib/Menu.svelte";
     import { config } from "$lib/config";
@@ -14,6 +14,10 @@
         socket.on('log', data => {
             console.info( data );
         });
+        return () => {
+            socket.off('rooms:update');
+            socket.close();
+        }
     });
     
 </script>
@@ -41,7 +45,7 @@
                 {#each rooms as room}
                     <a class="button" href="/live/{room.id}">
                         {room.title || room.id}
-                        ({room.users.length} users)
+                        ({Object.keys(room.users).length} users)
                     </a>
                 {/each}
             </Menu>
