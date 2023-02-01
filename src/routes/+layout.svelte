@@ -1,6 +1,7 @@
 <script>
     
     import { tick } from "$lib/clock";
+    import Meta from "$lib/Meta.svelte";
     import { onMount } from "svelte";
 
     function cssVariables(){
@@ -16,5 +17,7 @@
 </script>
 
 <svelte:window on:resize={cssVariables} />
+
+<Meta />
 
 <slot />
