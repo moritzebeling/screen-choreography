@@ -7,10 +7,10 @@
     let rooms = [];
 
     onMount(()=>{
-        socket.on("rooms:update", data => {
+        socket.on('rooms:update', data => {
             rooms = data;
         });
-        socket.on("log", data => {
+        socket.on('log', data => {
             console.info( data );
         });
     });

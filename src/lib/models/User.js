@@ -6,10 +6,17 @@ class Device {
 
     static detectSystem(){
         const userAgent = navigator.userAgent.toLowerCase();
-        const options = [ 'windows', 'macintosh', 'linux', 'iphone', 'android' ];
-        for( const option of options ){
+        const options = {
+            windows: 'windows',
+            macintosh: 'mac',
+            linux: 'linux',
+            iphone: 'ios',
+            ipad: 'ios',
+            android: 'android',
+        };
+        for( const option of Object.keys(options) ){
             if( userAgent.includes( option ) ){
-                return option;
+                return options[option];
             }
         }
         return 'unknown';

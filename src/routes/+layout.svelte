@@ -1,7 +1,6 @@
 <script>
     
     import { tick } from "$lib/clock";
-    import { socketHome as socket } from "$lib/sockets";
     import { onMount } from "svelte";
 
     function cssVariables(){
@@ -12,12 +11,6 @@
     onMount(()=>{
         tick();
         cssVariables();
-        socket.on("rooms:update", data => {
-            console.log('List of rooms updated', data);
-        });
-        socket.on("log", data => {
-            console.info( data );
-        });
     });
     
 </script>

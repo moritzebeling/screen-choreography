@@ -15,24 +15,24 @@
     onMount(()=>{
         tick();
         cssVariables();
-        socket.emit("connectUser",{
+        socket.emit('connectUser',{
             mobile: isTouchDevice()
         });
-        socket.on("userUpdated", data => {
+        socket.on('userUpdated', data => {
             user.set( data );
         });
-        socket.on("usersUpdated", data => {
+        socket.on('usersUpdated', data => {
             users.set( data );
         });
-        socket.on("sceneSet", data => {
+        socket.on('sceneSet', data => {
             currentScene.set( data );
         });
-        socket.on("refresh", () => {
+        socket.on('refresh', () => {
             setTimeout(() => {
                 location.reload();
             }, random(50,500));
         });
-        socket.on("testLog", data => {
+        socket.on('testLog', data => {
             console.log( 'testLog', data );
         });
     });

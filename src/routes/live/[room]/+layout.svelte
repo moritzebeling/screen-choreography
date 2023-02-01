@@ -15,34 +15,34 @@
     import { userStore, roomStore, sceneStore } from "$lib/stores";
 
     onMount(()=>{
-        socket.emit("room:enter",{
+        socket.emit('room:enter',{
             roomId: $page.params.room,
             device: User.detectDevice()
         });
-        socket.on("user:update", data => {
+        socket.on('user:update', data => {
             let user = new User( data );
             console.log( 'user:update', user );
             userStore.set( user );
         });
-        socket.on("room:update", data => {
+        socket.on('room:update', data => {
             let room = new Room( data );
             console.log( 'room:update', room );
             roomStore.set( room );
         });
-        socket.on("scene:update", data => {
+        socket.on('scene:update', data => {
             let scene = new Scene( data );
             console.log( 'scene:update', scene );
             sceneStore.set( scene );
         });
-        socket.on("reload", () => {
+        socket.on('reload', () => {
             console.warn('Window will reload');
             setTimeout(() => location.reload(), random(50,500));
         });
-        socket.on("log", data => {
+        socket.on('log', data => {
             console.info( data );
         });
         return ()=>{
-            socket.emit("room:leave",{
+            socket.emit('room:leave',{
                 roomId: $page.params.room
             });
         };
