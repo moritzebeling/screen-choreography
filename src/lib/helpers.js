@@ -24,6 +24,9 @@ export function morph( value, target, threshold = 100, step = 0.1 ){
  * @returns {boolean}
  */
 export function isTouchDevice() {
+    if (typeof window === "undefined" || typeof navigator === "undefined") {
+        return null;
+    }
     return ( 'ontouchstart' in window ) ||
            ( navigator.maxTouchPoints > 0 ) ||
            ( navigator.msMaxTouchPoints > 0 );

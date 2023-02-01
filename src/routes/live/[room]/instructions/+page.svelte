@@ -6,7 +6,7 @@
     import { userStore } from "$lib/stores";
     import { instructions } from './text';
 
-    $: language = $userStore.lang;
+    $: language = $userStore.language;
     $: system = $userStore.system;
 
     function getText( language, system ){
@@ -18,7 +18,7 @@
         return instructions[language]['default'];
     }
 
-    $: instruction = getText( $userStore.lang, $userStore.system );
+    $: instruction = getText( $userStore.language, $userStore.system );
 
 </script>
 

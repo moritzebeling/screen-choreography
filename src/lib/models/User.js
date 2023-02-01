@@ -10,35 +10,24 @@ export class User {
     /**
      * @param {Object} options
      * @param {string} options.id
-     * @param {string} options.password
      * @param {string} options.agent
      * @param {string} options.system
      * @param {string} options.browser
-     * @param {string} options.lang
+     * @param {string} options.language
      * @param {boolean} options.touch
      */
     
     constructor( options = {} ){
         this.id = options.id || null;
-        this.password = options.password || null;
         this.agent = options.agent || null;
         this.system = options.system || null;
         this.browser = options.browser || null;
-        this.lang = options.lang || null;
-        this.touch = options.touch || false;
+        this.language = options.language || null;
+        this.touch = options.touch || null;
     }
 
-    static detectDevice(){
-        if( !window || !navigator ){
-            return false;
-        }
-        return {
-            agent: Device.detectAgent(),
-            system: Device.detectSystem(),
-            browser: Device.detectBrowser(),
-            lang: Device.detectLanguage(),
-            touch: Device.detectTouch()
-        };
+    detectTouch(){
+        this.touch = Device.detectTouch();
     }
 
 }
