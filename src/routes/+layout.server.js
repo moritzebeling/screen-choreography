@@ -8,7 +8,7 @@ export function load({ cookies }) {
     
     cookies.set('userId', userId, {
         path: '/',
-        maxAge: config.rememberUsers
+        maxAge: config.settings.rememberUsers
     });
 
     return {

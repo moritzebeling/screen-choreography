@@ -78,7 +78,7 @@ export class Room {
         if( this.users.length > 0){
             return false;
         }
-        if( this.updated.getTime() > (Date.now() - config.keepEmptyRooms) ){
+        if( this.updated.getTime() > (Date.now() - config.settings.keepEmptyRooms) ){
             return false;
         }
         return true;

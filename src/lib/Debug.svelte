@@ -1,4 +1,9 @@
 <script>
+
+    /*
+    @todo
+    - remove component
+    */
   
     import { duration, seconds, time } from "$lib/clock";
     import { currentScene } from "$lib/control";

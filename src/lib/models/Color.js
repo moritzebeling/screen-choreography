@@ -1,23 +1,28 @@
 export class Color {
 
     /**
-     * @param {number} r 
-     * @param {number} g 
-     * @param {number} b 
+     * @param {Object} options
+     * @param {number} options.r
+     * @param {number} options.g
+     * @param {number} options.b
      */
 
-    constructor( color ) {
-        this.set( color );
+    constructor( options = {} ) {
+        this.r = options.r || 0;
+        this.g = options.g || 0;
+        this.b = options.b || 0;
     }
 
     /**
-     * @param {Color} color
+     * @param {Object} options
+     * @param {number} options.r
+     * @param {number} options.g
+     * @param {number} options.b
      */
-
-    set( color ){
-        this.r = color.r;
-        this.g = color.g;
-        this.b = color.b;
+    update( options ){
+        this.r = options.r || 0;
+        this.g = options.g || 0;
+        this.b = options.b || 0;
     }
 
     toHtml( seperator = '<br />' ){

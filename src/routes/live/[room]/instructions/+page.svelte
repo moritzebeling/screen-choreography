@@ -1,14 +1,24 @@
 <script>
     
     import { page } from "$app/stores";
-  import { config } from "$lib/config";
+    import { config } from "$lib/config";
     import Menu from "$lib/Menu.svelte";
     import { userStore } from "$lib/stores";
     import { instructions } from './text';
 
-    let language = $userStore.lang || 'en';
-    let system = $userStore.system || 'default';
-    $: instruction = instructions[language][system];
+    $: language = $userStore.lang;
+    $: system = $userStore.system;
+
+    function getText( language, system ){
+        language = instructions.hasOwnProperty(language) ? language : 'en';
+        console.log( language, system );
+        if( instructions[language].hasOwnProperty(system) ){
+            return instructions[language][system];
+        }
+        return instructions[language]['default'];
+    }
+
+    $: instruction = getText( $userStore.lang, $userStore.system );
 
 </script>
 

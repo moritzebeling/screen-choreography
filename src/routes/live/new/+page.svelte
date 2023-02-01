@@ -6,7 +6,7 @@
     import { slug } from "$lib/helpers";
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
-  import { config } from "$lib/config";
+    import { config } from "$lib/config";
 
     /** @type {import('./$types').LayoutServerData} */
     export let data;

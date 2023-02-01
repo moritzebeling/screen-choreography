@@ -6,15 +6,15 @@
 
 <svelte:head>
 
-    <meta name="description" content="{config.description}" />
-    <meta name="keywords" content="{config.keywords.join(',')}" />
-    <meta name="author" content="{config.author}">
+    <meta name="description" content="{config.meta.description}" />
+    <meta name="keywords" content="{config.meta.keywords.join(',')}" />
+    <meta name="author" content="{config.meta.author}">
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{config.title}" />
     <meta property="og:site_name" content="{config.title}" />
     <meta property="og:url" content="{config.website}" />
-    <meta property="og:description" content="{config.description}" />
+    <meta property="og:description" content="{config.meta.description}" />
 
     <meta property="og:image" content="/preview.png" />
     <meta property="og:image:type" content="image/png" />

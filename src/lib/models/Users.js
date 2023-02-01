@@ -1,6 +1,11 @@
-import { User } from './User.js';
-
 export class Users {
+    
+    /*
+    only used for legacy performance mode
+    
+    @todo
+    - can this be removed?
+    */
 
     constructor(){
         this.reset();

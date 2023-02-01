@@ -38,7 +38,7 @@ export function isTouchDevice() {
 export function uniqueId(chunks = 6, length = 4, separator = '-') {
 	const budget = [
         'aeiou',
-        'bcdfghjklmnpqrstvwxyz'
+        'bcdfghjklmnpqrstvwxyz0123456789'
     ];
     return [...Array(chunks).keys()].map(()=>{
         let chunk = '';

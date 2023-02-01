@@ -15,11 +15,6 @@
 
     $: switchTarget( $seconds );
 
-    /*
-    @todo insert qr code
-    https://lmy.de/iu6N4
-    */
-
 </script>
 
 <svelte:window on:click={() => alternated = true } />
