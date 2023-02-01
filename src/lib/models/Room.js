@@ -71,6 +71,9 @@ export class Room {
         this.updated = new Date();
     }
 
+    /**
+     * @returns {boolean}
+     */
     isAbandoned(){
         if( this.users.length > 0){
             return false;

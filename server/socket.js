@@ -22,7 +22,7 @@ export function socketServer( server ){
     io = server or all clients
     socket = client
     */
-
+    
     io.of('/home').on('connection', (socket) => {
 
         console.log('io/home', 'connection');
@@ -30,13 +30,33 @@ export function socketServer( server ){
         io.of('/home').emit('rooms:update', rooms.activeList );
 
     });
-
+    
     io.of('/live').on('connection', (socket) => {
         
         console.log('io/live', 'connection');
         socket.emit('log', 'io/live Successfully connected');
 
-        socket.on("room:enter", ({ roomId, device }) => {
+        /*
+        todo
+        can the user object be created here?
+        */
+
+        socket.on('room:create', ({ roomId, password, title }) => {
+            if( rooms.allowedToCreate( roomId ) ){
+                let room = rooms.open({ id: roomId, password, title }, true);
+                socket.emit('room:created', room);
+                /*
+                todo
+                - save password to user object
+                - add user to room
+                */
+            } else {
+                let room = rooms.get( roomId );
+                socket.emit('room:exists', room );
+            }
+        });
+
+        socket.on('room:enter', ({ roomId, device }) => {
 
             // user
             let user = new User({
@@ -45,8 +65,8 @@ export function socketServer( server ){
             });
             socket.data.user = user;
             
-            // room
-            let room = rooms.open( roomId );
+            // room @todo
+            let room = rooms.open({ id: roomId });
             room.addUser( user.id );
             socket.data.roomId = room.id;
             socket.join( room.id );
@@ -59,7 +79,7 @@ export function socketServer( server ){
 
         });
 
-        socket.on("disconnect", () => {
+        socket.on('disconnect', () => {
             
             let room = rooms.get( socket.data.roomId );
             if( room ){
@@ -75,7 +95,7 @@ export function socketServer( server ){
         
         });
 
-        socket.on("room:leave", () => {
+        socket.on('room:leave', () => {
 
             let room = rooms.get( socket.data.roomId );
             if( room ){
@@ -91,7 +111,7 @@ export function socketServer( server ){
              
         });
         
-        socket.on("room:update", ({room}) => {
+        socket.on('room:update', ({room}) => {
 
             // check password
             room = rooms.update( room );
@@ -99,7 +119,7 @@ export function socketServer( server ){
             
         });
         
-        socket.on("scene:update", scene => {
+        socket.on('scene:update', scene => {
 
             rooms.get( socket.data.roomId );
             // check password
@@ -173,7 +193,7 @@ export function socketServer( server ){
     //         io.emit('usersUpdated', users.stats);
     //     });
 
-    //     socket.on("disconnect", async () => {
+    //     socket.on('disconnect', async () => {
     //         users.remove( socket.data.userId, 'all' );
     //         const sockets = await io.fetchSockets();
     //         for (const s of sockets) {
