@@ -1,6 +1,7 @@
 <script>
     
     import { page } from "$app/stores";
+    import { config } from "$lib/config";
     import Menu from "$lib/Menu.svelte";
     import { roomStore } from "$lib/stores";
     import QRCode from 'qrcode';
@@ -23,6 +24,10 @@
     }
 
 </script>
+
+<svelte:head>
+    <title>{config.title} (Invite to {$roomStore.title})</title>
+</svelte:head>
 
 <main class="layout">
 

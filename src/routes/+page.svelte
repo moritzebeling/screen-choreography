@@ -3,6 +3,7 @@
     import { socketHome as socket } from "$lib/sockets";
     import { onMount } from "svelte";
     import Menu from "$lib/Menu.svelte";
+    import { config } from "$lib/config";
 
     let rooms = [];
 
@@ -16,6 +17,10 @@
     });
     
 </script>
+
+<svelte:head>
+    <title>{config.title}</title>
+</svelte:head>
 
 <div class="layout">
 

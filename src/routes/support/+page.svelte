@@ -12,6 +12,10 @@
 
 </script>
 
+<svelte:head>
+    <title>{config.title} (Support)</title>
+</svelte:head>
+
 <main class="layout">
 
     <div class="text">

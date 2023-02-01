@@ -1,9 +1,10 @@
 <script>
 
     import { socketLive as socket } from "$lib/sockets";
-    import { settingsStore, sceneStore } from "$lib/stores";
+    import { settingsStore, sceneStore, roomStore } from "$lib/stores";
     import Select from "./Select.svelte";
     import AnimationSelect from "./AnimationSelect.svelte";
+    import { config } from "$lib/config";
 
     function updateScene(){
         console.log( $sceneStore );
@@ -14,6 +15,10 @@
     let showAnimationSelect = false;
 
 </script>
+
+<svelte:head>
+    <title>{config.title} (Control {$roomStore.title})</title>
+</svelte:head>
 
 <main class="layout">
 

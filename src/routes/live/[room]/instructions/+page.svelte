@@ -1,6 +1,7 @@
 <script>
     
     import { page } from "$app/stores";
+  import { config } from "$lib/config";
     import Menu from "$lib/Menu.svelte";
     import { userStore } from "$lib/stores";
     import { instructions } from './text';
@@ -10,6 +11,10 @@
     $: instruction = instructions[language][system];
 
 </script>
+
+<svelte:head>
+    <title>{config.title} (Instructions)</title>
+</svelte:head>
 
 <main class="layout">
 

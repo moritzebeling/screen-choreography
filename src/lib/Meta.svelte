@@ -6,7 +6,6 @@
 
 <svelte:head>
 
-    <title>{config.title}</title>
     <meta name="description" content="{config.description}" />
     <meta name="keywords" content="{config.keywords.join(',')}" />
     <meta name="author" content="{config.author}">

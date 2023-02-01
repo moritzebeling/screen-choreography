@@ -22,6 +22,10 @@
 
 </script>
 
+<svelte:head>
+    <title>{config.title} (Debug {$roomStore.title})</title>
+</svelte:head>
+
 <main class="layout">
 
     <div class="text">
