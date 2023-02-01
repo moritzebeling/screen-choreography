@@ -15,12 +15,16 @@ export class Rooms {
      * @returns {Room|false}
      */
     open( room, override = false ){
-        if( this.exists( room.id ) && override === false ){
-            room = this.rooms[ room.id ];
-            room.ping();
-        } else {
+
+        if( override === true || !this.exists( room.id ) ) {
             room = new Room( room );
+        } else {
+            room = this.rooms[ room.id ];
         }
+
+        this.rooms[ room.id ] = room;
+        room.ping();
+
         return room;
     }
 
@@ -100,8 +104,8 @@ export class Rooms {
         }
     }
 
-    get activeList(){
-        return Object.values( this.rooms ).filter( room => room.count > 0);
+    get list(){
+        return Object.values( this.rooms );
     }
 
 }

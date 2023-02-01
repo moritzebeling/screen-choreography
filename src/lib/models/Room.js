@@ -20,7 +20,8 @@ export class Room {
      * @param {Date} options.created
      * @param {Date} options.updated
      * @param {Object} options.dimensions
-     * @param {Object} options.users - { userId: isAdmin }
+     * @param {Array<string>} options.users
+     * @param {Array<string>} options.admins
      */
     
     constructor( options = {} ){
@@ -30,7 +31,8 @@ export class Room {
         this.created = options.created ? new Date(options.created) : new Date();
         this.updated = options.updated ? new Date(options.updated) : new Date();
         this.dimensions = options.dimensions || false;
-        this.users = options.users || {};
+        this.users = options.users || [];
+        this.admins = options.admins || [];
     }
 
     /**
@@ -45,8 +47,11 @@ export class Room {
      * @param {string} userId
      */
     addUser( userId, asAdmin = false ){
-        if( !this.users.hasOwnProperty(userId) ){
-            this.users[userId] = asAdmin === true;
+        if( !this.users.includes(userId) ){
+            this.users.push( userId );
+        }
+        if( asAdmin === true && !this.admins.includes(userId) ){
+            this.admins.push( userId );
         }
     }
     
@@ -55,10 +60,7 @@ export class Room {
      * @returns {boolean}
      */
     isAdmin( userId ){
-        if( this.users.hasOwnProperty(userId) ){
-            return this.users[userId] === true;
-        }
-        return false;
+        return this.admins.includes(userId);
     }
 
     /**
@@ -66,7 +68,7 @@ export class Room {
      * @returns {Object}
      */
     removeUser( userId ){
-        delete this.users[userId];
+        this.users = this.users.filter( uid => uid !== userId );
         return this.users;
     }
     
@@ -74,7 +76,7 @@ export class Room {
      * @returns {Object}
      */
     removeAllUsers(){
-        this.users = {};
+        this.users = [];
         return this.users;
     }
 
@@ -86,21 +88,13 @@ export class Room {
      * @returns {boolean}
      */
     isAbandoned(){
-        if( this.userIds.length > 0){
+        if( this.users.length > 0){
             return false;
         }
         if( this.updated.getTime() > (Date.now() - config.settings.keepEmptyRooms) ){
             return false;
         }
         return true;
-    }
-
-    get userIds(){
-        return Object.keys(this.users);
-    }
-
-    get count(){
-        return this.userIds.length;
     }
 
 }

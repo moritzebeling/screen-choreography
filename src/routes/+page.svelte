@@ -9,7 +9,7 @@
 
     onMount(()=>{
         socket.on('rooms:update', data => {
-            rooms = data;
+            rooms = data.filter( room => room.users.length > 0 );
         });
         socket.on('log', data => {
             console.info( data );
@@ -45,7 +45,7 @@
                 {#each rooms as room}
                     <a class="button" href="/live/{room.id}">
                         {room.title || room.id}
-                        ({Object.keys(room.users).length} users)
+                        ({room.users.length} users)
                     </a>
                 {/each}
             </Menu>

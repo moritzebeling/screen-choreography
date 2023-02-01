@@ -38,6 +38,10 @@
             socket.emit('room:leave',{
                 id: $page.params.room
             });
+            socket.off('room:update');
+            socket.off('scene:update');
+            socket.off('reload');
+            socket.close();
         };
     });
     

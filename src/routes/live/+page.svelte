@@ -42,6 +42,13 @@
             pending = false;
             exists = true;
         });
+        socket.on('log', data => {
+            console.info( data );
+        });
+        return () => {
+            socket.off('room:created');
+            socket.off('room:exists');
+        }
     });
 
     function reset(){

@@ -33,10 +33,10 @@
 
     <div class="bar">
         {#if $roomStore}
-            {#if $roomStore.count === 1}
+            {#if $roomStore.users.length === 1}
                 <p>Please join me</p>
             {:else}
-                <p>{$roomStore.count} people are waiting for you</p>
+                <p>{$roomStore.users.length} people are waiting for you</p>
             {/if}
         {/if}
         <p>

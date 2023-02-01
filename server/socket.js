@@ -26,7 +26,7 @@ export function socketServer( server ){
 
         console.log('io/home', 'connection');
         socket.emit('log', 'io/home Successfully connected');
-        io.of('/home').emit('rooms:update', rooms.activeList );
+        socket.emit('rooms:update', rooms.list );
 
     });
     
@@ -46,7 +46,7 @@ export function socketServer( server ){
                 console.log('io/live', 'room:created', room.id, socket.data.userId);
 
                 socket.emit('room:created', room);
-                io.of('/home').emit('rooms:update', rooms.activeList );
+                io.of('/home').emit('rooms:update', rooms.list );
 
             } else {
                 socket.emit('room:exists');
@@ -64,7 +64,7 @@ export function socketServer( server ){
             console.log('io/live', 'room:enter', room.id, socket.data.userId);
             
             io.of('/live').to( room.id ).emit('room:update', room );
-            io.of('/home').emit('rooms:update', rooms.activeList );
+            io.of('/home').emit('rooms:update', rooms.list );
 
         });
 
@@ -81,7 +81,7 @@ export function socketServer( server ){
             socket.data.roomId = null;
             
             rooms.purge();
-            io.of('/home').emit('rooms:update', rooms.activeList );
+            io.of('/home').emit('rooms:update', rooms.list );
         
         });
 
@@ -100,7 +100,7 @@ export function socketServer( server ){
             socket.data.roomId = null;
             
             rooms.purge();
-            io.of('/home').emit('rooms:update', rooms.activeList );
+            io.of('/home').emit('rooms:update', rooms.list );
              
         });
         
