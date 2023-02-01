@@ -30,7 +30,7 @@
 
     <main>
         <Menu>
-            <a class="button" href="/live/new">Open new room</a>
+            <a class="button" href="/live">Open new room</a>
         </Menu>
     </main>
 
