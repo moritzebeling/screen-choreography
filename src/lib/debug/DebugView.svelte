@@ -25,12 +25,12 @@
         <slot />
     </div>
         
-    <Menu>
-        <a class="button" href="{closeHref}">Close</a>
-        <a class="button" href="{config.issues}" target="_blank" rel="noopener nofollow noreferrer">Report bug or suggest feature</a>
-    </Menu>
-
 </main>
+    
+<Menu fixed={true}>
+    <a class="button" href="{closeHref}">Close</a>
+    <a class="button" href="{config.issues}" target="_blank" rel="noopener nofollow noreferrer">Report bug or suggest feature</a>
+</Menu>
 
 <style>
 

@@ -91,24 +91,26 @@
         
         {/if}
     </main>
-    <Menu>
-        {#if exists}
-            <button class="button" on:click|preventDefault={reset}>Enter other room name</button>
-            <a class="button" href="/live/{id}">Join room »{title}« anyway</a>
-        {:else}
-            {#if valid}
-                {#if pending}
-                    <button class="button" title="Please wait" on:click|preventDefault>Please wait...</button>
-                {:else}
-                    <button class="button" on:click|preventDefault={create}>Create</button>
-                {/if}
+    <div>
+        <Menu fixed={true}>
+            {#if exists}
+                <button class="button" on:click|preventDefault={reset}>Enter other room name</button>
+                <a class="button" href="/live/{id}">Join room »{title}« anyway</a>
             {:else}
-                <button disabled class="button" title="Please enter a room number and password" on:click={()=> alert('Please enter a room number and password')}>Create</button>
+                {#if valid}
+                    {#if pending}
+                        <button class="button" title="Please wait" on:click|preventDefault>Please wait...</button>
+                    {:else}
+                        <button class="button" on:click|preventDefault={create}>Create</button>
+                    {/if}
+                {:else}
+                    <button disabled class="button" title="Please enter a room number and password" on:click={()=> alert('Please enter a room number and password')}>Create</button>
+                {/if}
             {/if}
-        {/if}
-        <a class="button subtle" href="/">Cancel</a>
-        <a class="button subtle" href="/support">1€</a>
-    </Menu>
+            <a class="button subtle" href="/">Cancel</a>
+            <a class="button subtle" href="/support">1€</a>
+        </Menu>
+    </div>
 </form>
 
 <style>

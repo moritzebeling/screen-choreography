@@ -25,7 +25,7 @@
         </Menu>
     </div>
 
-    <Menu>
+    <Menu fixed={true}>
         <a class="button" href="{previousPage}">Close</a>
     </Menu>
     

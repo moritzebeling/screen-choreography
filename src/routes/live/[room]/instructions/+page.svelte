@@ -51,7 +51,7 @@
         </ol>
     </div>
 
-    <Menu>
+    <Menu fixed={true}>
         <a class="button" href="/live/{$page.params.room}">Close</a>
     </Menu>
     
