@@ -35,9 +35,7 @@
             console.info( data );
         });
         return ()=>{
-            socket.emit('room:leave',{
-                id: $page.params.room
-            });
+            socket.emit('room:leave');
             socket.off('room:update');
             socket.off('scene:update');
             socket.off('reload');

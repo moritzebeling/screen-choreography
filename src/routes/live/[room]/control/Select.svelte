@@ -1,6 +1,5 @@
 <script>
 
-    import Menu from '$lib/Menu.svelte';
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
@@ -19,12 +18,6 @@
             </li>
         {/each}
     </ul>
-    
-    <!-- <div>
-        <Menu>
-            <button class="button" on:click={()=> dispatch('close')}>Back</button>
-        </Menu>
-    </div> -->
 
 </div>
 

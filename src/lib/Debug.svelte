@@ -1,8 +1,7 @@
 <script>
 
     /*
-    @todo
-    - remove component
+    @legacy
     */
   
     import { duration, seconds, time } from "$lib/clock";

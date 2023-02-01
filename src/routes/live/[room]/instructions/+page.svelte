@@ -3,11 +3,12 @@
     import { page } from "$app/stores";
     import { config } from "$lib/config";
     import Menu from "$lib/Menu.svelte";
-    import { userStore } from "$lib/stores";
     import { instructions } from './text';
 
-    $: language = $userStore.language;
-    $: system = $userStore.system;
+    export let data;
+
+    let language = data.user.language;
+    let system = data.user.system;
 
     function getText( language, system ){
         language = instructions.hasOwnProperty(language) ? language : 'en';
@@ -18,7 +19,7 @@
         return instructions[language]['default'];
     }
 
-    $: instruction = getText( $userStore.language, $userStore.system );
+    $: instruction = getText( language, system );
 
 </script>
 

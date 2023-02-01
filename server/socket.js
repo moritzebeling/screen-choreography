@@ -77,6 +77,7 @@ export function socketServer( server ){
                     io.of('/live').to( room.id ).emit('room:update', room );
                 }
                 socket.leave( socket.data.roomId );
+                console.log('io/live', 'disconnect', socket.data.roomId, socket.data.userId );
             }
             socket.data.roomId = null;
             
@@ -96,6 +97,7 @@ export function socketServer( server ){
                     io.of('/live').to( room.id ).emit('room:update', room );
                 }
                 socket.leave( socket.data.roomId );
+                console.log('io/live', 'room:leave', socket.data.roomId, socket.data.userId );
             }
             socket.data.roomId = null;
             

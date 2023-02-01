@@ -1,10 +1,7 @@
 export class Users {
     
     /*
-    only used for legacy performance mode
-    
-    @todo
-    - can this be removed?
+    @legacy
     */
 
     constructor(){
