@@ -32,10 +32,10 @@ export function socketServer( server ){
     
     io.of('/live').on('connection', (socket) => {
         
-        console.log('io/live', 'connection');
-        socket.emit('log', 'io/live Successfully connected');
-
         socket.data.userId = readUserIdFromCookie( socket.handshake.headers.cookie );
+        
+        console.log('io/live', 'connection', socket.data.userId);
+        socket.emit('log', 'io/live Successfully connected');
 
         socket.on('room:create', ({ id, password, title }) => {
             if( rooms.allowedToCreate( id ) ){
@@ -76,10 +76,8 @@ export function socketServer( server ){
                     room.removeUser( socket.data.userId );
                     io.of('/live').to( room.id ).emit('room:update', room );
                 }
-                socket.leave( socket.data.roomId );
-                console.log('io/live', 'disconnect', socket.data.roomId, socket.data.userId );
             }
-            socket.data.roomId = null;
+            console.log('io/live', 'disconnect', socket.data.roomId, socket.data.userId );
             
             rooms.purge();
             io.of('/home').emit('rooms:update', rooms.list );
@@ -87,8 +85,6 @@ export function socketServer( server ){
         });
 
         socket.on('room:leave', () => {
-
-            /* duplicate of disconnect */
 
             if( socket.data.roomId && socket.data.userId ){
                 let room = rooms.get( socket.data.roomId );
