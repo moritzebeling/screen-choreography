@@ -39,6 +39,7 @@ export function socketServer( server ){
 
         console.log('io/live', 'connection', socket.data);
         socket.emit('log', 'io/live Successfully connected');
+        socket.emit('room:reenter');
 
         socket.on('room:create', ({ id, password, title }) => {
             if( rooms.allowedToCreate( id ) ){

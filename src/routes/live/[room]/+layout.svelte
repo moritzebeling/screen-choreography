@@ -17,6 +17,12 @@
         socket.emit('room:enter',{
             id: $page.params.room
         });
+        socket.on('room:reenter', () => {
+            console.log('room:reenter');
+            socket.emit('room:enter',{
+                id: $page.params.room
+            });
+        });
         socket.on('room:update', data => {
             let room = new Room( data );
             console.log( 'room:update', room );
