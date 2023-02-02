@@ -5,9 +5,9 @@ import { Rooms } from '../src/lib/models/Rooms.js';
 
 let rooms = new Rooms();
 
-function readUserIdFromCookie( cookies = '' ){
+function readUserIdFromCookie( cookies = '', key = 'userId' ){
     cookies = parseCookie( '' + cookies );
-    return cookies?.userId || false;
+    return cookies[key] || false;
 }
 
 export function socketServer( server ){
@@ -24,7 +24,7 @@ export function socketServer( server ){
     
     io.of('/home').on('connection', (socket) => {
 
-        console.log('io/home', 'connection');
+        console.log('io/home', 'connection', socket.data);
         socket.emit('log', 'io/home Successfully connected');
         socket.emit('rooms:update', rooms.list );
 
@@ -32,9 +32,12 @@ export function socketServer( server ){
     
     io.of('/live').on('connection', (socket) => {
         
-        socket.data.userId = readUserIdFromCookie( socket.handshake.headers.cookie );
-        
-        console.log('io/live', 'connection', socket.data.userId);
+        let userId = readUserIdFromCookie( socket.handshake.headers.cookie );
+        if( userId ){
+            socket.data.userId = userId;
+        }
+
+        console.log('io/live', 'connection', socket.data);
         socket.emit('log', 'io/live Successfully connected');
 
         socket.on('room:create', ({ id, password, title }) => {
@@ -43,7 +46,7 @@ export function socketServer( server ){
                 let room = rooms.open({ id, password, title }, true);
                 room.addUser( socket.data.userId, true );
                 
-                console.log('io/live', 'room:created', room.id, socket.data.userId);
+                console.log('io/live', 'room:created', room.id, socket.data);
 
                 socket.emit('room:created', room);
                 io.of('/home').emit('rooms:update', rooms.list );
@@ -61,7 +64,7 @@ export function socketServer( server ){
             socket.data.roomId = room.id;
             socket.join( room.id );
             
-            console.log('io/live', 'room:enter', room.id, socket.data.userId);
+            console.log('io/live', 'room:enter', socket.data);
             
             io.of('/live').to( room.id ).emit('room:update', room );
             io.of('/home').emit('rooms:update', rooms.list );
@@ -77,7 +80,7 @@ export function socketServer( server ){
                     io.of('/live').to( room.id ).emit('room:update', room );
                 }
             }
-            console.log('io/live', 'disconnect', socket.data.roomId, socket.data.userId );
+            console.log('io/live', 'disconnect', socket.data );
             
             rooms.purge();
             io.of('/home').emit('rooms:update', rooms.list );
@@ -93,7 +96,7 @@ export function socketServer( server ){
                     io.of('/live').to( room.id ).emit('room:update', room );
                 }
                 socket.leave( socket.data.roomId );
-                console.log('io/live', 'room:leave', socket.data.roomId, socket.data.userId );
+                console.log('io/live', 'room:leave', socket.data );
             }
             socket.data.roomId = null;
             

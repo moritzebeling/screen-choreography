@@ -1,7 +1,7 @@
+import { dev } from '$app/environment';
 import { config } from '$lib/config';
 import { uniqueId } from '$lib/helpers.js';
 import { Device } from '$lib/models/Device';
-import { User } from '$lib/models/User';
 
 /** @type {import('./$types').LayoutServerLoad} */
 export function load({ cookies, request }) {
@@ -18,7 +18,8 @@ export function load({ cookies, request }) {
     
     cookies.set('userId', user.id, {
         path: '/',
-        maxAge: config.settings.rememberUsers
+        maxAge: config.settings.rememberUsers,
+        secure: !dev
     });
 
     return { user };
