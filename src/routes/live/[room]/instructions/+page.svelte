@@ -82,6 +82,8 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
+        text-align: center;
+        text-align-last: center;
     }
     select:focus {
         outline: none;

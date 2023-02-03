@@ -1,6 +1,6 @@
 <script>
 
-    import RenderComposition from "./render/RenderComposition.svelte";
+    // import RenderComposition from "./RenderComposition.svelte";
     import { sceneStore } from "$lib/stores";
 
 </script>
@@ -10,9 +10,9 @@
     {$sceneStore.background.toCss()}
     ">
 
-    {#if $sceneStore.animation.styles}
+    <!-- {#if $sceneStore.animation.styles}
         <RenderComposition composition={$sceneStore.animation} />
-    {/if}
+    {/if} -->
 
 </main>
 

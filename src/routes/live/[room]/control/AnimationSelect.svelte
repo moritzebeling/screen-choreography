@@ -1,7 +1,7 @@
 <script>
 
     import Menu from '$lib/Menu.svelte';
-    import RenderComposition from '../render/RenderComposition.svelte';
+    import RenderComposition from '../_render/RenderComposition.svelte';
     import { Composition } from '$lib/models/Composition';
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();

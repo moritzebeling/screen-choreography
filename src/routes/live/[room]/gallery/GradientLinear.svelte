@@ -21,10 +21,10 @@
 
     main {
         position: fixed;
-        top: -50vh;
+        top: 0;
         left: -100vw;
         width: 200vw;
-        height: 200vh;
+        height: var(--100vh);
         display: flex;
     }
     main.animating {
@@ -38,8 +38,8 @@
         flex: 1;
         background: linear-gradient(
             90deg,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 1) 100%
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 1) 100%
         );
     }
 

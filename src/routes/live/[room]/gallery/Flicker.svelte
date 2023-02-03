@@ -18,10 +18,10 @@
 
     main {
         position: fixed;
-        top: -50vh;
-        left: -50vw;
-        height: 200vh;
-        width: 200vw;
+        top: 0;
+        left: 0;
+        height: var(--100vh);
+        width: 100vw;
         opacity: 0;
         background-color: white;
         transition: opacity 1s ease-in-out;

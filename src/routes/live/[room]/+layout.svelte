@@ -1,6 +1,6 @@
 <script>
 
-    import Renderer from "./Renderer.svelte";
+    import Renderer from "./_render/Renderer.svelte";
     
     import { onMount } from "svelte";
     import { page } from "$app/stores";
@@ -42,10 +42,6 @@
         });
         return ()=>{
             socket.emit('room:leave');
-            // socket.off('room:update');
-            // socket.off('scene:update');
-            // socket.off('reload');
-            // socket.close();
         };
     });
     

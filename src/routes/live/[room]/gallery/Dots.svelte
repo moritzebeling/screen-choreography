@@ -2,23 +2,30 @@
 
     import { seconds } from "$lib/clock";
 
+    /*
+    options
+    - number of dots
+    - speed of time interval
+    */
+
 </script>
 
-<div class="fingerprint">
+<main>
     <div class:small={$seconds % 2 > 0}></div>
     <div class:small={$seconds % 3 > 0}></div>
     <div class:small={$seconds % 5 > 0}></div>
     <div class:small={$seconds % 7 > 0}></div>
-</div>
+</main>
 
 <style>
 
-    .fingerprint {
+    main {
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
+        width: 100vw;
         height: var(--100vh);
+
         display: flex;
         justify-content: center;
         align-items: center;
@@ -27,22 +34,23 @@
         flex-wrap: wrap;
         z-index: -1;
     }
-    .fingerprint div {
+    main div {
         width: 15vh;
         height: 15vh;
         border-radius: 50%;
         background: currentColor;
+        transition: transform 200ms ease-in-out;
     }
     @media (orientation: portrait) {
-        .fingerprint {
+        main {
             flex-direction: column;
         }
-        .fingerprint div {
+        main div {
             width: 15vw;
             height: 15vw;
         }
     }
-    .fingerprint div.small {
+    main div.small {
         transform: scale(0.5);
     }
 
