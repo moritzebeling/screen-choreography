@@ -2,24 +2,24 @@
 
 cd ~/screens
 
-echo "Start deploy script"
+echo "🚧 Start deploy script"
 echo pwd
 
-echo "Stop server"
+echo "🛑 Stop server"
 
 pm2 delete all
 
-echo "Pull repository"
+echo "⬇️ Pull repository"
 
 git pull
 
-echo "Build project"
+echo "🔨 Build project"
 
 npm install
 npm run build
 
-echo "Start server"
+echo "🚀 Start server"
 
 pm2 start server/server.js
 
-echo "End deploy script"
+echo "✅ End deploy script"
