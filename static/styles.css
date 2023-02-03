@@ -17,13 +17,18 @@
 
 :root {
     --100vh: 100vh;
+    --background: #000;
+    --color: #fff;
+    --speed: 2000ms;
 }
 
 body {
-    background-color: black;
-    color: white;
+    background-color: var(--background);
+    color: var(--color);
     font-family: 'Raster', monospace;
     line-height: 1.2;
+    height: var(--100vh);
+    transition: background-color var(--speed) ease;
 }
 
 pre {
@@ -36,8 +41,8 @@ pre {
     display: block;
     padding: 0.5em 1em;
     border-radius: 2em;
-    background-color: white;
-    color: black;
+    background-color: var(--color);
+    color: var(--background);
     transition: background-color 200ms ease;
 }
 .button[disabled],
@@ -47,7 +52,7 @@ pre {
 .button:not([disabled]):hover,
 .button:not([disabled]).active {
     background-color: #00f;
-    color: black;
+    color: var(--background);
 }
 
 a {

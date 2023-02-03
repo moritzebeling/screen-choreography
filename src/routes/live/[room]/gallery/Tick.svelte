@@ -1,21 +1,27 @@
 <script>
     
-    import { seconds } from "$lib/clock";
+    export let animating = true;
 
-    /*
-    options
-    - time between states
-    - transition speed (% of time between states)
-    - color
-    - border radius
-    - width
-    - height
-    */
+    /**
+     * percent of the screen width/height that the dot should be
+     * @type {number}
+     */
+    export let width = 50;
+    export let height = 50;
+
+    /**
+     * percent of radius
+     * @type {number}
+     */
+    export let borderRadius = 100;
 
 </script>
 
-<main>
-    <div class="dot" class:altered={$seconds % 2}></div>
+<main class:animating style="
+    --width: {width / 2};
+    --height: {height / 2};
+">
+    <div class="dot" style="border-radius: {borderRadius}%;"></div>
 </main>
 
 <style>
@@ -27,30 +33,38 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: var(--100vh);
         width: 50vw;
     }
+    main.animating {
+        animation: switch var(--speed);
+        animation-iteration-count: infinite;
+        animation-timing-function: ease;
+    }
+
     .dot {
-        background-color: white;
-        width: 30vw;
-        height: 30vw;
-        border-radius: 50%;
-        transition: transform 500ms ease-in-out;
+        background-color: var(--color);
+        width: calc( 1vw * var(--width) );
+        height: calc( 1vw * var(--height) );
     }
-    .altered {
-        transform: translateX(50vw);
-    }
+
     @media (orientation: portrait) {
         main {
             width: 100vw;
             height: 50vh;
         }
         .dot {
-            width: 30vh;
-            height: 30vh;
+            width: calc( 1vh * var(--width) );
+            height: calc( 1vh * var(--height) );
         }
-        .altered {
-            transform: translateY(50vh);
+    }
+
+    @keyframes switch {
+        10%, 90% {
+            transform: translateX(0);
+        }
+        40%, 60% {
+            transform: translateX(50vw);
         }
     }
 

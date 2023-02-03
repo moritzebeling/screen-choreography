@@ -4,14 +4,14 @@
 
     import Tick from "./Tick.svelte";
     import Flicker from "./Flicker.svelte";
-    import GradientLinear from "./GradientLinear.svelte";
+    import Linear from "./Linear.svelte";
     import GradientConic from "./GradientConic.svelte";
     import Dots from "./Dots.svelte";
 
     let animations = {
         "Tick": Tick,
         "Flicker": Flicker,
-        "GradientLinear": GradientLinear,
+        "Linear": Linear,
         "GradientConic": GradientConic,
         "Dots": Dots,
     };

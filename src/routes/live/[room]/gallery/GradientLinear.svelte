@@ -1,6 +1,4 @@
 <script>
-    
-    import { seconds } from "$lib/clock";
 
     /*
     options
@@ -8,7 +6,7 @@
     - color
     */
 
-    let animating = true; // start when time synced
+    export let animating = true;
 
 </script>
 

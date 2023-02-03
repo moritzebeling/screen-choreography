@@ -1,32 +1,23 @@
 <script>
-
-    // import RenderComposition from "./RenderComposition.svelte";
+    
     import { sceneStore } from "$lib/stores";
+    import { onDestroy } from "svelte";
+    import { setGlobalStyleVariables } from "./global";
+
+    function update( scene ){
+        let bg = scene.background;
+        setGlobalStyleVariables({
+            '--background': `rgb(${bg.r}, ${bg.g}, ${bg.b})`,
+            '--speed': `${scene.backgroundSpeed}ms`,
+        });
+    }
+    $: update( $sceneStore );
+
+    onDestroy(()=>{
+        setGlobalStyleVariables({
+            '--background': `#000000`,
+            '--speed': `2000ms`,
+        });
+    });
 
 </script>
-
-<main style="
-    transition-duration:{$sceneStore.backgroundSpeed}ms;
-    {$sceneStore.background.toCss()}
-    ">
-
-    <!-- {#if $sceneStore.animation.styles}
-        <RenderComposition composition={$sceneStore.animation} />
-    {/if} -->
-
-</main>
-
-<style>
-
-    main {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: var(--100vh);
-        transition-property: background-color;
-        transition-timing-function: ease-in-out;
-        z-index: -1;
-    }
-
-</style>

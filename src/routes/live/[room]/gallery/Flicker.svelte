@@ -1,18 +1,15 @@
 <script>
     
-    import { seconds } from "$lib/clock";
-
     /*
     options
-    - time between states
-    - transition speed (% of time between states)
     - option to go out of sync, random speed, and come back in sync??
-    - color
     */
+
+    export let animating = true;
 
 </script>
 
-<main class:altered={$seconds % 2}></main>
+<main class:animating></main>
 
 <style>
 
@@ -22,12 +19,22 @@
         left: 0;
         height: var(--100vh);
         width: 100vw;
+        background-color: var(--color);
         opacity: 0;
-        background-color: white;
-        transition: opacity 1s ease-in-out;
     }
-    .altered {
-        opacity: 1;
+    main.animating {
+        animation: flicker var(--speed);
+        animation-iteration-count: infinite;
+        animation-timing-function: ease;
+    }
+
+    @keyframes flicker {
+        0%, 100% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
     }
 
 </style>

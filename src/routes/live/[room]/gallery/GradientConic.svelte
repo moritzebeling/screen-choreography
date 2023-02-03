@@ -4,17 +4,35 @@
 
     /*
     options
-    - speed
-    - color
+    - colors
     - size
     */
 
     let animating = true; // start when time synced
 
+    /*
+    rgba(255,255,255,0),
+    rgba(255,255,255,1)
+    */
+
+    export let colors = [
+        "#f00",
+        "#ff0",
+        "#0f0",
+        "#0ff",
+        "#00f",
+        "#f0f",
+        "#f00"
+    ];
+
 </script>
 
 <main class:animating>
-    <div></div>
+    <div style="
+        background: conic-gradient(
+            {colors.join(",")}
+        );
+    "></div>
 </main>
 
 <style>
@@ -31,24 +49,9 @@
     }
     
     main div {
-        width: 100vh;
-        height: 100vh;
+        width: var(--100vh);
+        height: var(--100vh);
         border-radius: 50%;
-
-        /* background: conic-gradient(
-            rgba(0,0,0,0),
-            rgba(0,0,0,1)
-        ); */
-    
-        background: conic-gradient(
-            #f00,
-            #ff0,
-            #0f0,
-            #0ff,
-            #00f,
-            #f0f,
-            #f00
-        );
     }
 
     @media (orientation: portrait) {
@@ -59,7 +62,7 @@
     }
 
     main.animating div {
-        animation: rotate 2s linear;
+        animation: rotate var(--speed) linear;
         animation-iteration-count: infinite;
         animation-fill-mode: both;
         animation-direction: normal;

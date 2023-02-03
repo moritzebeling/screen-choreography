@@ -102,7 +102,7 @@
     }
 
     article {
-        height: 100vh;
+        height: var(--100vh);
         display: flex;
         justify-content: center;
         align-items: center;
