@@ -16,6 +16,11 @@
 
     .container {
         overflow: hidden;
+        position: fixed;
+        top: -50vh;
+        height: 200vh;
+        width: 200vw;
+        left: -50vw;
     }
     div {
         height: 100%;
