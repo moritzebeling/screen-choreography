@@ -233,3 +233,5 @@ npm run build
 
 pm2 start server/server.js
 ```
+
+Or use script `./deploy.sh`
