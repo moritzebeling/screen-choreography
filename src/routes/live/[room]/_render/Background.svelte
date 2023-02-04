@@ -8,7 +8,7 @@
         let bg = scene.background;
         setGlobalStyleVariables({
             '--background': `rgb(${bg.r}, ${bg.g}, ${bg.b})`,
-            '--speed': `${scene.backgroundSpeed}ms`,
+            '--speed': `${scene.speed}ms`,
         });
     }
     $: update( $sceneStore );

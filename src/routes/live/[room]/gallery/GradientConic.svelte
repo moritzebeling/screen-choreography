@@ -1,6 +1,4 @@
 <script>
-    
-    import { seconds } from "$lib/clock";
 
     /*
     options
@@ -49,15 +47,15 @@
     }
     
     main div {
-        width: var(--100vh);
-        height: var(--100vh);
-        border-radius: 50%;
+        width: 200vw;
+        height: 200vw;
+        flex: 0 0 auto;
     }
 
     @media (orientation: portrait) {
         main div {
-            width: 100vw;
-            height: 100vw;
+            width: 200vh;
+            height: 200vh;
         }
     }
 

@@ -37,9 +37,10 @@
         width: 50vw;
     }
     main.animating {
-        animation: switch var(--speed);
+        animation: switchX var(--speed);
         animation-iteration-count: infinite;
-        animation-timing-function: ease;
+        animation-timing-function: ease-in-out;
+        animation-direction: alternate;
     }
 
     .dot {
@@ -53,18 +54,30 @@
             width: 100vw;
             height: 50vh;
         }
+        main.animating {
+            animation-name: switchY;
+        }
         .dot {
             width: calc( 1vh * var(--width) );
             height: calc( 1vh * var(--height) );
         }
     }
 
-    @keyframes switch {
-        10%, 90% {
+    @keyframes switchX {
+        from {
             transform: translateX(0);
         }
-        40%, 60% {
+        to {
             transform: translateX(50vw);
+        }
+    }
+
+    @keyframes switchY {
+        from {
+            transform: translateY(0);
+        }
+        to {
+            transform: translateY( calc( var(--100vh) / 2 ) );
         }
     }
 

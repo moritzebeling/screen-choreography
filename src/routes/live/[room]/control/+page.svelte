@@ -41,8 +41,8 @@
 
     <div class="bar">
         <p>Speed</p>
-        <input type="range" min="100" max="10000" bind:value={$sceneStore.backgroundSpeed} on:change="{updateScene}">
-        <p>{$sceneStore.backgroundSpeed} ms</p>
+        <input type="range" min="100" max="10000" bind:value={$sceneStore.speed} on:change="{updateScene}">
+        <p>{$sceneStore.speed} ms</p>
     </div>
 
 </main>

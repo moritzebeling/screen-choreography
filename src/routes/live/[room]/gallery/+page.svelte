@@ -7,6 +7,8 @@
     import Linear from "./Linear.svelte";
     import GradientConic from "./GradientConic.svelte";
     import Dots from "./Dots.svelte";
+    import Raster from "./Raster.svelte";
+    import Unfold from "./Unfold.svelte";
 
     let animations = {
         "Tick": Tick,
@@ -14,6 +16,8 @@
         "Linear": Linear,
         "GradientConic": GradientConic,
         "Dots": Dots,
+        "Raster": Raster,
+        "Unfold": Unfold,
     };
 
     let animation = Tick;
