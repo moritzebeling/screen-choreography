@@ -1,11 +1,11 @@
 <script>
     
+    let animating = true;
+
     /*
     options
     - option to go out of sync, random speed, and come back in sync??
     */
-
-    export let animating = true;
 
 </script>
 

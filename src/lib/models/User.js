@@ -2,11 +2,6 @@ import { Device } from './Device.js';
 
 export class User {
 
-    /*
-    @todo
-    - remove password
-    */
-
     /**
      * @param {Object} options
      * @param {string} options.id

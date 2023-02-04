@@ -1,12 +1,6 @@
 <script>
 
-    /*
-    options
-    - speed
-    - color
-    */
-
-    export let animating = true;
+    let animating = true;
 
 </script>
 

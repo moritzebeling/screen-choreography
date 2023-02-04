@@ -1,19 +1,20 @@
 <script>
 
+    let animating = true;
+
+    /**
+     * @param {Object} options
+     * @param {Array<String>} options.colors array of css colors
+     */
+    export let options = {
+        colors: [
+            'var(--color)',
+            'var(--background)',
+        ]
+    };  
+
     /*
-    options
-    - colors
-    - size
-    */
-
-    let animating = true; // start when time synced
-
-    /*
-    rgba(255,255,255,0),
-    rgba(255,255,255,1)
-    */
-
-    export let colors = [
+    rainbow
         "#f00",
         "#ff0",
         "#0f0",
@@ -21,14 +22,14 @@
         "#00f",
         "#f0f",
         "#f00"
-    ];
+    */
 
 </script>
 
 <main class:animating>
     <div style="
         background: conic-gradient(
-            {colors.join(",")}
+            {options.colors.join(",")}
         );
     "></div>
 </main>

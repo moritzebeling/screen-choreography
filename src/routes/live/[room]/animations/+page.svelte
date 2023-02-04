@@ -2,25 +2,25 @@
     
     import Menu from "$lib/Menu.svelte";
 
-    import Tick from "./Tick.svelte";
+    import Pendelum from "./Pendelum.svelte";
     import Flicker from "./Flicker.svelte";
     import Linear from "./Linear.svelte";
     import GradientConic from "./GradientConic.svelte";
-    import Dots from "./Dots.svelte";
+    import DebugDots from "./DebugDots.svelte";
     import Raster from "./Raster.svelte";
     import Unfold from "./Unfold.svelte";
 
     let animations = {
-        "Tick": Tick,
+        "Pendelum": Pendelum,
         "Flicker": Flicker,
         "Linear": Linear,
-        "GradientConic": GradientConic,
-        "Dots": Dots,
+        "Conic": GradientConic,
+        "Debug Dots": DebugDots,
         "Raster": Raster,
-        "Unfold": Unfold,
+        "Unfold": Unfold
     };
 
-    let animation = Tick;
+    let animation = animations[0];
 
 </script>
 

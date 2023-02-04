@@ -1,27 +1,26 @@
 <script>
     
-    export let animating = true;
+    let animating = true;
 
     /**
-     * percent of the screen width/height that the dot should be
-     * @type {number}
+     * @param {Object} options
+     * @param {number} options.width percent of the screen width that the dot should be
+     * @param {number} options.height percent of the screen height that the dot should be
+     * @param {number} options.radius
      */
-    export let width = 50;
-    export let height = 50;
-
-    /**
-     * percent of radius
-     * @type {number}
-     */
-    export let borderRadius = 100;
+    export let options = {
+        x: 0.5,
+        y: 0.5,
+        radius: 100
+    };
 
 </script>
 
 <main class:animating style="
-    --width: {width / 2};
-    --height: {height / 2};
+    --width: {options.x * 50};
+    --height: {options.y * 50};
 ">
-    <div class="dot" style="border-radius: {borderRadius}%;"></div>
+    <div class="dot" style="border-radius: {options.radius}%;"></div>
 </main>
 
 <style>

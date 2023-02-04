@@ -2,12 +2,6 @@
 
     import { seconds } from "$lib/clock";
 
-    /*
-    options
-    - number of dots
-    - speed of time interval
-    */
-
 </script>
 
 <main>

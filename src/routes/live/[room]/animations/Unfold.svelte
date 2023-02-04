@@ -1,15 +1,22 @@
 <script>
 
-    export let animating = true;
+    let animating = true;
 
-    export let x = false;
-    export let y = true;
+    /**
+     * @param {Object} options
+     * @param {number} options.x animation start x between 0 and 1
+     * @param {number} options.y animation start y between 0 and 1
+     */
+    export let options = {
+        x: 0,
+        y: 0
+    };
 
 </script>
 
 <main class:animating style="
-    --x: {x ? 0 : 1};
-    --y: {y ? 0 : 1};
+    --x: {options.x};
+    --y: {options.y};
 ">
     <div></div>
     <div></div>

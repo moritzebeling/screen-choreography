@@ -2,17 +2,24 @@
     
     import { seconds } from "$lib/clock";
 
-    export let columns = 4;
-    export let rows = 1;
+    /**
+     * @param {Object} options
+     * @param {number} options.columns
+     * @param {number} options.rows
+     */
+    export let options = {
+        columns: 4,
+        rows: 1
+    };
 
-    $: cells = columns * rows;
+    $: cells = options.columns * options.rows;
     $: active = $seconds % cells;
 
 </script>
 
 <main style="
-    grid-template-columns: repeat({columns}, 1fr);
-    grid-template-rows: repeat({rows}, 1fr);
+    grid-template-columns: repeat({options.columns}, 1fr);
+    grid-template-rows: repeat({options.rows}, 1fr);
 ">
     {#each Array(cells) as c, i}
         <div class:active={active === i}></div>
