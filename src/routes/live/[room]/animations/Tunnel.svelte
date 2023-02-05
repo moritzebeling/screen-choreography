@@ -1,6 +1,12 @@
 <script>
 
-    let animating = true;
+    import { onMount } from "svelte";
+    import { syncAnim } from "$lib/helpers";
+
+    let animating = false;
+    onMount(async ()=>{
+        animating = await syncAnim( 2000 );
+    });
 
 </script>
 
@@ -18,6 +24,13 @@
         width: 100vw;
         height: 100vw;
         top: calc( 50vh - 50vw );
+    }
+    main {
+        transition: opacity 1s ease;
+        opacity: 0;
+    }
+    main.animating {
+        opacity: 1;
     }
     @media (orientation: portrait) {
         main div {

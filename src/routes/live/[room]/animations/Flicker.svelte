@@ -1,6 +1,12 @@
 <script>
     
-    let animating = true;
+    import { onMount } from "svelte";
+    import { syncAnim } from "$lib/helpers";
+
+    let animating = false;
+    onMount(async ()=>{
+        animating = await syncAnim( 2000 );
+    });
 
     /*
     options

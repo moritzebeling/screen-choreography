@@ -1,6 +1,12 @@
 <script>
 
-    let animating = true;
+    import { onMount } from "svelte";
+    import { syncAnim } from "$lib/helpers";
+
+    let animating = false;
+    onMount(async ()=>{
+        animating = await syncAnim( 2000 );
+    });
 
     /**
      * @param {Object} options
@@ -27,6 +33,13 @@
 
 <style>
 
+    main {
+        transition: opacity 1s ease;
+        opacity: 0;
+    }
+    main.animating {
+        opacity: 1;
+    }
     main div {
         position: fixed;
         left: 0;

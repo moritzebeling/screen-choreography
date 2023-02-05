@@ -1,6 +1,12 @@
 <script>
     
-    let animating = true;
+    import { onMount } from "svelte";
+    import { syncAnim } from "$lib/helpers";
+
+    let animating = false;
+    onMount(async ()=>{
+        animating = await syncAnim( 2000 );
+    });
 
 </script>
 
@@ -14,6 +20,11 @@
         left: 0;
         width: 100vw;
         height: var(--100vh);
+        transition: opacity 1s ease;
+        opacity: 0;
+    }
+    main.animating {
+        opacity: 1;
         animation: colors var(--speed) ease-in-out infinite;
     }
 

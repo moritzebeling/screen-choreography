@@ -1,6 +1,12 @@
 <script>
-    
-    let animating = true;
+  
+    import { onMount } from "svelte";
+    import { syncAnim } from "$lib/helpers";
+
+    let animating = false;
+    onMount(async ()=>{
+        animating = await syncAnim( 2000, 2 );
+    });
 
     /**
      * @param {Object} options
@@ -31,12 +37,14 @@
         left: 0;
         height: var(--100vh);
         width: 50vw;
-        
         display: flex;
         justify-content: center;
         align-items: center;
+        opacity: 0;
+        transition: opacity 1s ease;
     }
     main.animating {
+        opacity: 1;
         animation: switchX var(--speed);
         animation-iteration-count: infinite;
         animation-timing-function: ease-in-out;
