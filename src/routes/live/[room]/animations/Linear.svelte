@@ -19,6 +19,7 @@
         background-color: var(--color);
         animation: slideX var(--speed) linear;
         animation-iteration-count: infinite;
+        animation-fill-mode: both;
     }
 
     @media (orientation: portrait) {

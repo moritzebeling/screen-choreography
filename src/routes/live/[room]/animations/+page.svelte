@@ -9,6 +9,8 @@
     import DebugDots from "./DebugDots.svelte";
     import Raster from "./Raster.svelte";
     import Unfold from "./Unfold.svelte";
+    import Tunnel from "./Tunnel.svelte";
+    import Vertigo from "./Vertigo.svelte";
 
     let animations = {
         "Pendelum": Pendelum,
@@ -17,7 +19,9 @@
         "Conic": GradientConic,
         "Debug Dots": DebugDots,
         "Raster": Raster,
-        "Unfold": Unfold
+        "Unfold": Unfold,
+        "Tunnel": Tunnel,
+        "Vertigo": Vertigo,
     };
 
     let animation = animations[0];

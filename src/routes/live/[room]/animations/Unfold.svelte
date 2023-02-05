@@ -24,11 +24,6 @@
 
 <style>
 
-    p {
-        position: fixed;
-        z-index: 100;
-        color: red;
-    }
     div {
         position: fixed;
         top: 0;
@@ -40,6 +35,7 @@
         background-color: var(--color);
         animation: unfold var(--speed) ease-in;
         animation-iteration-count: infinite;
+        animation-fill-mode: both;
         z-index: 1;
     }
     .animating div + div {

@@ -21,7 +21,7 @@
     grid-template-columns: repeat({options.columns}, 1fr);
     grid-template-rows: repeat({options.rows}, 1fr);
 ">
-    {#each Array(cells) as c, i}
+    {#each Array(cells) as _, i}
         <div class:active={active === i}></div>
     {/each}
 </main>

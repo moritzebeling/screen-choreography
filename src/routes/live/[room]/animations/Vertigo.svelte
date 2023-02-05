@@ -1,0 +1,66 @@
+<script>
+
+    let animating = true;
+
+    /**
+     * @param {Object} options
+     * @param {number} options.radius
+     */
+     export let options = {
+        radius: 0
+    };
+
+</script>
+
+<main class:animating style="--radius: {options.radius}%;">
+    <div style="--delay: 0ms;"></div>
+    <div style="--delay: calc( var(--speed) * 0.1 ) ;"></div>
+    <div style="--delay: calc( var(--speed) * 0.2 ) ;"></div>
+    <div style="--delay: calc( var(--speed) * 0.3 ) ;"></div>
+    <div style="--delay: calc( var(--speed) * 0.4 ) ;"></div>
+    <div style="--delay: calc( var(--speed) * 0.5 ) ;"></div>
+    <div style="--delay: calc( var(--speed) * 0.6 ) ;"></div>
+    <div style="--delay: calc( var(--speed) * 0.7 ) ;"></div>
+    <div style="--delay: calc( var(--speed) * 0.8 ) ;"></div>
+    <div style="--delay: calc( var(--speed) * 0.9 ) ;"></div>
+</main>
+
+<style>
+
+    main div {
+        position: fixed;
+        left: 0;
+        width: 100vw;
+        height: 100vw;
+        top: calc( 50vh - 50vw );
+    }
+    main.animating div {
+        background-color: var(--color);
+        animation: unfold var(--speed) ease-in;
+        animation-iteration-count: infinite;
+        animation-fill-mode: both;
+        animation-delay: var(--delay);
+        border-radius: var(--radius);
+    }
+
+    @keyframes unfold {
+        0% {
+            transform: scale(2);
+            opacity: 0;
+        }
+        20% {
+            opacity: 0;
+        }
+        70% {
+            opacity: 0.2;
+        }
+        95% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0);
+        }
+    }
+
+</style>

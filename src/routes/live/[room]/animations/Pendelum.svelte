@@ -29,11 +29,12 @@
         position: fixed;
         top: 0;
         left: 0;
+        height: var(--100vh);
+        width: 50vw;
+        
         display: flex;
         justify-content: center;
         align-items: center;
-        height: var(--100vh);
-        width: 50vw;
     }
     main.animating {
         animation: switchX var(--speed);

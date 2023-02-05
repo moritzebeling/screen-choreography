@@ -26,6 +26,7 @@
         animation: flicker var(--speed);
         animation-iteration-count: infinite;
         animation-timing-function: ease;
+        animation-fill-mode: both;
     }
 
     @keyframes flicker {

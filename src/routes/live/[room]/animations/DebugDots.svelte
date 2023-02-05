@@ -24,7 +24,6 @@
         justify-content: center;
         align-items: center;
         gap: 2rem;
-        mix-blend-mode: difference;
         flex-wrap: wrap;
         z-index: -1;
     }
