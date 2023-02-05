@@ -11,6 +11,7 @@
     import Unfold from "./Unfold.svelte";
     import Tunnel from "./Tunnel.svelte";
     import Vertigo from "./Vertigo.svelte";
+    import Colors from "./Colors.svelte";
 
     let animations = {
         "Pendelum": Pendelum,
@@ -22,9 +23,19 @@
         "Unfold": Unfold,
         "Tunnel": Tunnel,
         "Vertigo": Vertigo,
+        "Colors": Colors,
     };
 
     let animation = animations[0];
+
+    // let options = {
+    //     colors: [],
+    //     radius: 1, // 0 - 1
+    //     x: 0, // 0 - 1
+    //     y: 0, // 0 - 1
+    //     columns: 2, // 1 - 8
+    //     rows: 2, // 1 - 8
+    // };
 
 </script>
 

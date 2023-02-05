@@ -8,8 +8,8 @@
      * @param {number} options.rows
      */
     export let options = {
-        columns: 4,
-        rows: 1
+        columns: 2,
+        rows: 2
     };
 
     $: cells = options.columns * options.rows;
@@ -38,7 +38,7 @@
     }
 
     div {
-        transition: background-color 300ms ease;
+        transition: background-color calc( var(--speed) / 2 ) ease;
     }
     div.active {
         background-color: var(--color);

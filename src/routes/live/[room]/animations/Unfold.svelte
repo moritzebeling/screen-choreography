@@ -33,6 +33,7 @@
     }
     .animating div {
         background-color: var(--color);
+        transition: background-color var(--speed) ease-in-out;
         animation: unfold var(--speed) ease-in;
         animation-iteration-count: infinite;
         animation-fill-mode: both;

@@ -18,7 +18,6 @@
         width: 100vw;
         height: 100vw;
         top: calc( 50vh - 50vw );
-        --speed: 5s;
     }
     @media (orientation: portrait) {
         main div {
@@ -30,7 +29,8 @@
     }
     main.animating div {
         background-color: var(--color);
-        animation: unfold var(--speed) ease-in;
+        transition: background-color var(--speed) ease-in-out;
+        animation: tunnel var(--speed) ease-in;
         animation-iteration-count: infinite;
         animation-fill-mode: both;
         z-index: 1;
@@ -41,27 +41,25 @@
         animation-delay: calc( var(--speed) / 2 );
     }
 
-    @keyframes unfold {
-        0% {
+    @keyframes tunnel {
+        0%, 100% {
             transform: scale(2);
             z-index: 1;
-            opacity: 0;
         }
-        5%,
-        98% {
+        1%, 49% {
             opacity: 1;
-        }
-        49% {
-            transform: scale(2);
-            z-index: 1;
+            z-index: 2;
         }
         50% {
-            z-index: 2;
-        }
-        100% {
-            z-index: 2;
-            opacity: 0;
             transform: scale(0);
+            opacity: 0;
+            z-index: 1;
+        }
+        51% {
+            transform: scale(2);
+        }
+        80% {
+            opacity: 1;
         }
     }
 

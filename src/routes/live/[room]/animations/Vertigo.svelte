@@ -4,15 +4,15 @@
 
     /**
      * @param {Object} options
-     * @param {number} options.radius
+     * @param {number} options.radius - Border radius in percent
      */
      export let options = {
-        radius: 0
+        radius: 1
     };
 
 </script>
 
-<main class:animating style="--radius: {options.radius}%;">
+<main class:animating style="--radius: {options.radius*100}%;">
     <div style="--delay: 0ms;"></div>
     <div style="--delay: calc( var(--speed) * 0.1 ) ;"></div>
     <div style="--delay: calc( var(--speed) * 0.2 ) ;"></div>
@@ -36,6 +36,7 @@
     }
     main.animating div {
         background-color: var(--color);
+        transition: background-color var(--speed) ease-in-out;
         animation: unfold var(--speed) ease-in;
         animation-iteration-count: infinite;
         animation-fill-mode: both;

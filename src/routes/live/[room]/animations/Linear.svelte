@@ -17,6 +17,7 @@
     }
     main.animating {
         background-color: var(--color);
+        transition: background-color var(--speed) ease-in-out;
         animation: slideX var(--speed) linear;
         animation-iteration-count: infinite;
         animation-fill-mode: both;

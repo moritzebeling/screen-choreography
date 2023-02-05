@@ -11,7 +11,7 @@
     export let options = {
         x: 0.5,
         y: 0.5,
-        radius: 100
+        radius: 1
     };
 
 </script>
@@ -20,7 +20,7 @@
     --width: {options.x * 50};
     --height: {options.y * 50};
 ">
-    <div class="dot" style="border-radius: {options.radius}%;"></div>
+    <div class="dot" style="border-radius: {options.radius*100}%;"></div>
 </main>
 
 <style>
@@ -45,6 +45,7 @@
 
     .dot {
         background-color: var(--color);
+        transition: background-color var(--speed) ease-in-out;
         width: calc( 1vw * var(--width) );
         height: calc( 1vw * var(--height) );
     }

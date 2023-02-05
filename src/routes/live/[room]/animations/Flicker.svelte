@@ -19,6 +19,7 @@
         left: 0;
         height: var(--100vh);
         width: 100vw;
+        transition: background-color var(--speed) ease-in-out;
         background-color: var(--color);
         opacity: 0;
     }
