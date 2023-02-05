@@ -62,6 +62,20 @@ export class Room {
     isAdmin( userId ){
         return this.admins.includes(userId);
     }
+    
+    /**
+     * @param {string} userId
+     * @returns {boolean}
+     */
+    allowedToTakeover( userId ){
+        if( this.users.length === 0 || this.admins.length === 0 ){
+            return true;
+        }
+        if( !this.password ){
+            return true;
+        }
+        return this.isAdmin( userId );
+    }
 
     /**
      * @param {string} userId
@@ -112,6 +126,14 @@ export class Room {
             users: this.users,
             admins: this.admins
         }, null, 4);
+    }
+
+    url( sub = '', host = '' ){
+        let url = `${host}/live/${this.id}`;
+        if( sub ){
+            url += '/' + sub;
+        }
+        return url;
     }
 
 }

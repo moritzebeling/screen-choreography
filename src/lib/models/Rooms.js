@@ -86,6 +86,7 @@ export class Rooms {
     
     /**
      * @param {string} roomId
+     * @param {string} userId
      * @returns {boolean}
      */
     isAdmin( roomId, userId ){
@@ -94,6 +95,19 @@ export class Rooms {
             return false;
         }
         return room.isAdmin( userId );
+    }
+    
+    /**
+     * @param {string} roomId
+     * @param {string} userId
+     * @returns {boolean}
+     */
+    allowedToTakeover( roomId, userId ){
+        let room = this.get( roomId );
+        if( !room ){
+            return false;
+        }
+        return room.allowedToTakeover( userId );
     }
 
     purge(){

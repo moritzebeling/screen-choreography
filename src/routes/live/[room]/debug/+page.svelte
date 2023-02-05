@@ -17,7 +17,7 @@
 <DebugView closeHref="/live/{$page.params.room}">
 
     <pre>User {JSON.stringify($userStore, null, 4)}</pre>
-    <pre>Room {$roomStore.json( !$roomStore.isAdmin( data.user.id ) )}</pre>
+    <pre>Room {$roomStore.json( !$roomStore.allowedToTakeover( data.user.id ) )}</pre>
     <pre>Scene {JSON.stringify($sceneStore, null, 4)}</pre>
         
 </DebugView>

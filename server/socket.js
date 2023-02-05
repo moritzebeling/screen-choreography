@@ -1,6 +1,7 @@
 import { Server } from 'socket.io';
 import { parse as parseCookie } from "cookie";
 
+import { Room } from '../src/lib/models/Room.js';
 import { Rooms } from '../src/lib/models/Rooms.js';
 
 let rooms = new Rooms();
@@ -106,14 +107,40 @@ export function socketServer( server ){
              
         });
         
-        socket.on('room:update', ({room}) => {
+        socket.on('room:update', data => {
 
-            if( !rooms.isAdmin( socket.data.roomId, socket.data.userId ) ){
+            let room = rooms.get( socket.data.roomId );
+
+            if( !room || !room.allowedToTakeover( socket.data.userId ) ){
+                console.log('io/live', 'room:update not allowed', socket.data.userId );
                 return;
             }
 
-            rooms.update( room );
-            console.log('io/live', 'room:update', socket.data.roomId );
+            room = new Room({
+                ...room,
+                ...data
+            });
+            room.addUser( socket.data.userId, true );
+
+            rooms.update(room);
+            console.log('io/live', 'room:update', room );
+
+            io.of('/live').to( socket.data.roomId ).emit('room:update', room);
+            
+        });
+        
+        socket.on('room:login', password => {
+
+            let room = rooms.get( socket.data.roomId );
+
+            if( !room || room.password === null || room.password !== password ){
+                return;
+            }
+
+            room.addUser( socket.data.userId, true );
+            rooms.update(room);
+
+            console.log('io/live', 'room:login', socket.data.userId );
 
             io.of('/live').to( socket.data.roomId ).emit('room:update', room);
             

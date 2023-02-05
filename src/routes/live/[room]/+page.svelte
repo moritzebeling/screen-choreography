@@ -19,7 +19,7 @@
     <a class="button" href="{$page.url.href}/instructions">Instructions</a>
     <a class="button" href="{$page.url.href}/invite">Invite</a>
     <a class="button" href="{$page.url.href}/debug">Debug</a>
-    {#if $roomStore.admins.length < 1 || $roomStore.isAdmin( data.user.id )}
+    {#if $roomStore.allowedToTakeover( data.user.id )}
         <a class="button" href="{$page.url.href}/control">Control</a>
     {/if}
 </Menu>
