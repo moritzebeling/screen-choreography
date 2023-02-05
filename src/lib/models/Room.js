@@ -97,4 +97,21 @@ export class Room {
         return true;
     }
 
+    json( obfuscate = true ){
+        let password = this.password;
+        if( password && obfuscate === true ){
+            password = new Array(password.length + 1).join('•');
+        }
+        return JSON.stringify({
+            id: this.id,
+            title: this.title,
+            password,
+            created: this.created,
+            updated: this.updated,
+            dimensions: this.dimensions,
+            users: this.users,
+            admins: this.admins
+        }, null, 4);
+    }
+
 }

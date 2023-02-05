@@ -3,8 +3,11 @@
     import { page } from "$app/stores";
     import { config } from "$lib/config";
     import { roomStore } from "$lib/stores";
-
+    
     import Menu from "$lib/Menu.svelte";
+
+    /** @type {import('./$types').LayoutServerData} */
+    export let data;
 
 </script>
 
@@ -16,5 +19,7 @@
     <a class="button" href="{$page.url.href}/instructions">Instructions</a>
     <a class="button" href="{$page.url.href}/invite">Invite</a>
     <a class="button" href="{$page.url.href}/debug">Debug</a>
-    <a class="button" href="{$page.url.href}/control">Control</a>
+    {#if $roomStore.admins.length < 1 || $roomStore.isAdmin( data.user.id )}
+        <a class="button" href="{$page.url.href}/control">Control</a>
+    {/if}
 </Menu>
