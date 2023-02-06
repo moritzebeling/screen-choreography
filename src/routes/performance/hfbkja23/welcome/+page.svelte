@@ -1,0 +1,83 @@
+<script>
+
+    import { page } from "$app/stores";
+    import { config } from "$lib/config";
+    import QRCode from 'qrcode';
+    import { setGlobalStyleVariables } from "$lib/helpers.js";
+    import { onMount } from "svelte";
+    import { socket } from "../socket.js";
+    import { goto } from "$app/navigation";
+
+    let url = String( $page.url );
+
+    function printQrCode( figure ){
+        let canvas = figure.querySelector('canvas');
+        let size = Math.min(
+            figure.clientWidth,
+            figure.clientHeight, 
+        );
+        let options = {
+            width: size,
+            height: size,
+        };
+        QRCode.toCanvas(canvas, url, options, function (error) {
+            if (error) console.error(error);
+        })
+    }
+
+    onMount(()=>{
+        setGlobalStyleVariables({
+            '--background': 'white',
+        });
+        socket.emit('room:enter');
+        socket.on('room:enter', data =>{
+            console.log('room:enter', data);
+        });
+        socket.on('room:updated', data => {
+            console.log('room:updated', data);
+            /*
+            todo
+            - when next user is resitered, forward to home page
+            */
+            goto('/performance/hfbkja23');
+        });
+    });
+
+</script>
+
+<svelte:head>
+    <title>Invite to {config.title}</title>
+</svelte:head>
+
+<main class="layout">
+    <figure use:printQrCode title={url}>
+        <canvas width="100" height="100"></canvas>
+    </figure>
+</main>
+
+<style>
+    
+    main {
+        background-color: white;
+    }
+
+    figure {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    canvas {
+        display: block;
+        width: auto !important;
+        height: var(--100vh) !important;
+    }
+    @media (orientation: portrait){
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+    }
+
+</style>
