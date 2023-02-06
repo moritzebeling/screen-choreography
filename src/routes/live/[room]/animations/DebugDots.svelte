@@ -32,7 +32,7 @@
         height: 15vh;
         border-radius: 50%;
         background: var(--color);
-        transition: transform calc( var(--speed) / 4 ) ease-in-out;
+        transition: transform calc( var(--speed) / 6 ) ease-in-out;
         transition-property: transform background-color;
     }
     @media (orientation: portrait) {

@@ -40,7 +40,7 @@
             {/if}
         {/if}
         <p>
-            <a href="{$page.url.origin}/live/{$page.params.room}">{$page.url.origin}<wbr />/live/{$page.params.room}</a>
+            <a href="{$roomStore.url()}">{$page.url.origin}<wbr />/live/{$page.params.room}</a>
         </p>
     </div>
 
@@ -50,7 +50,7 @@
 
     <div>
         <Menu fixed={true}>
-            <a class="button" href="/live/{$page.params.room}">Close</a>
+            <a class="button" href="{$roomStore.url()}">Close</a>
         </Menu>
     </div>
 
