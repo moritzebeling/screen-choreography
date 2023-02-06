@@ -35,7 +35,6 @@
 
     main {
         text-align: center;
-        mix-blend-mode: difference;
     }
     .text {
         justify-content: center;

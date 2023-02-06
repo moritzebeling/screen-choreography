@@ -5,9 +5,8 @@
     import { setGlobalStyleVariables } from "./global";
 
     function update( scene ){
-        let bg = scene.background;
         setGlobalStyleVariables({
-            '--background': `rgb(${bg.r}, ${bg.g}, ${bg.b})`,
+            '--background': scene.background,
             '--speed': `${scene.speed}ms`,
         });
     }
@@ -15,7 +14,7 @@
 
     onDestroy(()=>{
         setGlobalStyleVariables({
-            '--background': `#000000`,
+            '--background': `black`,
             '--speed': `2000ms`,
         });
     });

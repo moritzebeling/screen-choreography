@@ -1,4 +1,4 @@
-import { Color } from './Color.js';
+import { Color } from './_Color.js';
 
 export class ControlSettings {
 

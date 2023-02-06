@@ -38,7 +38,7 @@
     }
 
     div {
-        transition: background-color calc( var(--speed) / 2 ) ease;
+        transition: background-color calc( var(--speed) / 4 ) ease;
     }
     div.active {
         background-color: var(--color);

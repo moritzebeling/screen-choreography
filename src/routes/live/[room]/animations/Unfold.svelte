@@ -53,7 +53,7 @@
         z-index: 1;
     }
     .animating div + div {
-        background-color: var(--background);
+        background: var(--background);
         animation-delay: calc( var(--speed) / 2 );
     }
 

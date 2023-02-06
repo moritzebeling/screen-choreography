@@ -23,12 +23,12 @@
 }
 
 body {
-    background-color: var(--background);
+    background: var(--background);
     color: var(--color);
     font-family: 'Raster', monospace;
     line-height: 1.2;
     height: var(--100vh);
-    transition: background-color var(--speed) ease;
+    transition: background var(--speed) ease;
 }
 
 pre {
@@ -36,14 +36,26 @@ pre {
     /* font-family: monospace; */
 }
 
-.button {
+.buttons {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    height: auto;
+}
+button {
     cursor: pointer;
     display: block;
+    background: inherit;
+}
+.button {
     padding: 0.5em 1em;
     border-radius: 2em;
     background-color: var(--color);
     color: var(--background);
     transition: background-color 200ms ease;
+}
+.button.red {
+    background-color: #f00;
 }
 .button[disabled],
 .button.subtle {
@@ -64,7 +76,16 @@ a {
 
 
 
-
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-align: center;
+    text-align-last: center;
+}
+select:focus {
+    outline: none;
+}
 
 .layout {
     height: var(--100vh);
@@ -86,4 +107,23 @@ nav {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+}
+
+
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+.col-1 {
+    grid-column-end: span 1;
+}
+.col-2 {
+    grid-column-end: span 2;
+}
+.col-3 {
+    grid-column-end: span 3;
+}
+.col-4 {
+    grid-column-end: span 4;
 }

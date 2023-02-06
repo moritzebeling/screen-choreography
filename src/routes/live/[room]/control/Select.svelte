@@ -39,9 +39,5 @@
         padding: 1rem;
         cursor: pointer;
     }
-    
-    li > * {
-        mix-blend-mode: difference;
-    }
 
 </style>

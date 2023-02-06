@@ -34,9 +34,6 @@
 
 <style>
 
-    main {
-        mix-blend-mode: difference;
-    }
     .text {
         flex: 1;
     }

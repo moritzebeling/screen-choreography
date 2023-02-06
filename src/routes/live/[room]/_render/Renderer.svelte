@@ -1,6 +1,8 @@
 <script>
 
     import { sceneStore } from "$lib/stores";
+    import { onDestroy } from "svelte";
+    import { setGlobalStyleVariables } from "./global";
     import Background from "./Background.svelte";
 
     /*
@@ -11,6 +13,22 @@
     - text
     - image
     */
+
+    sceneStore.subscribe( scene => {
+        setGlobalStyleVariables({
+            '--background': scene.background,
+            '--color': scene.color,
+            '--speed': `${scene.speed}ms`,
+        });
+    });
+    
+    onDestroy(()=>{
+        setGlobalStyleVariables({
+            '--background': `black`,
+            '--color': 'white',
+            '--speed': `2000ms`,
+        });
+    });
 
 </script>
 

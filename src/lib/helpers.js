@@ -69,6 +69,15 @@ export function uniqueId(chunks = 6, length = 4, separator = '-') {
     }).join(separator);
 }
 
+export function randomColor() {
+    const budget = '0123456789abcdef';
+    let color = '';
+    while( color.length < 3 ){
+        color += budget.charAt(Math.floor(Math.random() * budget.length));
+    }
+    return '#' + color;
+}
+
 /**
  * @param {string} string 
  * @returns {string}

@@ -25,7 +25,6 @@
         padding: 1rem;
         display: flex;
         justify-content: center;
-        mix-blend-mode: difference;
     }
     .fixed {
         position: fixed;

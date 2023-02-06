@@ -59,9 +59,6 @@
 
 <style>
 
-    main {
-        mix-blend-mode: difference;
-    }
     .text {
         padding: 1rem;
         flex: 1;
@@ -77,16 +74,6 @@
     .buttons {
         display: flex;
         gap: 0.3em;
-    }
-    select {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        text-align: center;
-        text-align-last: center;
-    }
-    select:focus {
-        outline: none;
     }
 
 </style>
