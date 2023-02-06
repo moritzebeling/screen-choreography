@@ -2,17 +2,32 @@
 
     import { socket } from "../../socket.js";
     import { settingsStore, sceneStore, roomStore } from "$lib/stores";
-    import Select from "./Select.svelte";
-    import AnimationSelect from "./AnimationSelect.svelte";
     import { config } from "$lib/config";
+    import { animations } from "../animations/animations.js";
+    import Metronome from "./Metronome.svelte";
+    import Text from "./Text.svelte";
+    import ColorSelect from "./ColorSelect.svelte";
 
-    function updateScene(){
-        console.log( $sceneStore );
-        socket.emit( "scene:update", $sceneStore );
+    let animation = '';
+    let autoSend = false;
+    let unsentChanges = false;
+    let showColorSelect = false;
+    let colorSelectMode = 'background';
+
+    function selectColor(){
+        if( autoSend ){
+            updateScene( $sceneStore );
+        } else {
+            showColorSelect = false;
+            unsentChanges = true;
+        }
     }
-
-    let showBackgroundColorSelect = true;
-    let showAnimationSelect = false;
+    
+    function updateScene(){
+        console.log('io/live', 'scene:update', $sceneStore);
+        socket.emit("scene:update", $sceneStore );
+        unsentChanges = false;
+    }
 
 </script>
 
@@ -20,85 +35,57 @@
     <title>{config.title} (Control {$roomStore.title})</title>
 </svelte:head>
 
-<main class="layout">
+<main class="grid">
 
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- <div class="screens">
-        <div class="background" style="{$sceneStore.background.toCss()}" on:click={()=>showBackgroundColorSelect=true}>
-            <p>Background</p>
+    <div class="menu col-2 buttons">
+        <a href={$roomStore.url()} class="button">{$roomStore.title}</a>
+        <a href={$roomStore.url('control/settings')} class="button">Settings</a>
+    </div>
+
+    <div class="visual col-2">
+        <div class="buttons">
+            <button class="button" on:click={()=>{ showColorSelect = true; colorSelectMode = 'background' }}>Background</button>
+            <button class="button" on:click={()=>{ showColorSelect = true; colorSelectMode = 'color' }}>Color</button>
+            <select class="button" bind:value={animation}>
+                <option value="">Animation</option>
+                {#each Object.keys(animations) as anim}
+                    <option value={animations[anim]}>{anim}</option>
+                {/each}
+            </select>
         </div>
-        <div class="animation" style="{$sceneStore.background.toCss()}" on:click={()=>showAnimationSelect=true}>
-            <p>Animation</p>
-        </div>
-    </div> -->
+    </div>
+    
+    <div class="col-2 metronome">
+        <Metronome />
+    </div>
 
-    {#if showBackgroundColorSelect}
-        <Select options={$settingsStore.colors}
-            on:select={(e)=>{$sceneStore.background = e.detail; updateScene()}}
-            on:close={()=> showBackgroundColorSelect = false }
-            />
-    {/if}
+    <div class="col-2">
+        <Text />
+    </div>
 
-    <div class="bar">
-        <p>Speed</p>
-        <input type="range" min="100" max="10000" bind:value={$sceneStore.speed} on:change="{updateScene}">
-        <p>{$sceneStore.speed} ms</p>
+    <div class="col-2 buttons">
+        <button class="button" class:red={autoSend} on:click={()=> autoSend = !autoSend}>Auto</button>
+        <button class="button" class:red={unsentChanges} class:subtle={autoSend} on:click={updateScene}>Send</button>
     </div>
 
 </main>
 
-<!-- {#if showAnimationSelect}
-    <AnimationSelect
-        on:select={(e)=>{$sceneStore.animation = e.detail; updateScene()}}
-        on:close={()=> showAnimationSelect = false }
-        />
-{/if} -->
+{#if showColorSelect}
+    <ColorSelect {colorSelectMode} on:close={()=> showColorSelect = false} on:select={selectColor} />
+{/if}
 
 <style>
 
-    .layout {
-        background: black;
+    .grid {
+        height: var(--100vh);
+        grid-template-rows: auto 1fr 1fr auto;
     }
 
-    .screens {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        flex: 1;
+    .visual {
+        grid-row-end: span 4;
     }
-    .screens > div {
-        padding: 1rem;
-        cursor: pointer;
-    }
-
-    .bar {
-        display: flex;
-    }
-    .bar input {
-        flex: 1;
-        display: block;
-    }
-    input[type="range"]{
-        -webkit-appearance: none;
-        appearance: none;
-        background: transparent;
-        cursor: pointer;
-    }
-    input[type="range"]::-webkit-slider-runnable-track {
-        background: #333;
-        height: 2px;
-    }
-    input[type="range"]::-moz-range-track {
-        background: #053a5f;
-        height: 0.5rem;
-    }
-    input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        margin-top: -0.8em;
-        background-color: #fff;
-        height: 1.6em;
-        width: 1.6em;
-        border-radius: 1.6em;
+    .visual .buttons {
+        justify-content: flex-end;
     }
 
 </style>
