@@ -1,8 +1,8 @@
 <script>
     
-    import { createEventDispatcher } from 'svelte';
     import { randomColor } from "$lib/helpers";
     import { sceneStore } from "$lib/stores";
+    import { createEventDispatcher } from 'svelte';
     
 	const dispatch = createEventDispatcher();
 

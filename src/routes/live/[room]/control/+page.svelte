@@ -1,7 +1,7 @@
 <script>
 
     import { socket } from "../../socket.js";
-    import { settingsStore, sceneStore, roomStore } from "$lib/stores";
+    import { sceneStore, roomStore } from "$lib/stores";
     import { config } from "$lib/config";
     import { animations } from "../animations/animations.js";
     import Metronome from "./Metronome.svelte";
@@ -13,20 +13,16 @@
     let unsentChanges = false;
     let showColorSelect = false;
     let colorSelectMode = 'background';
-
-    function selectColor(){
-        if( autoSend ){
-            updateScene( $sceneStore );
+    
+    function update( send = true){
+        if( autoSend || send === true ){
+            console.log('io/live', 'scene:update', $sceneStore);
+            socket.emit("scene:update", $sceneStore );
+            unsentChanges = false;
         } else {
             showColorSelect = false;
             unsentChanges = true;
         }
-    }
-    
-    function updateScene(){
-        console.log('io/live', 'scene:update', $sceneStore);
-        socket.emit("scene:update", $sceneStore );
-        unsentChanges = false;
     }
 
 </script>
@@ -56,7 +52,7 @@
     </div>
     
     <div class="col-2 metronome">
-        <Metronome />
+        <Metronome on:update={update} />
     </div>
 
     <div class="col-2">
@@ -65,13 +61,13 @@
 
     <div class="col-2 buttons">
         <button class="button" class:red={autoSend} on:click={()=> autoSend = !autoSend}>Auto</button>
-        <button class="button" class:red={unsentChanges} class:subtle={autoSend} on:click={updateScene}>Send</button>
+        <button class="button" class:red={unsentChanges} class:subtle={autoSend} on:click={()=>update(true)}>Send</button>
     </div>
 
 </main>
 
 {#if showColorSelect}
-    <ColorSelect {colorSelectMode} on:close={()=> showColorSelect = false} on:select={selectColor} />
+    <ColorSelect {colorSelectMode} on:close={()=> showColorSelect = false} on:select={update} />
 {/if}
 
 <style>
