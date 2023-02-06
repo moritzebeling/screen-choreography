@@ -39,6 +39,7 @@
 
             <select class="button" bind:value={system}>
                 <option value="ios">iOS</option>
+                <option value="android">Android</option>
                 <option value="mac">Mac</option>
                 <option value="default">Other</option>
             </select>

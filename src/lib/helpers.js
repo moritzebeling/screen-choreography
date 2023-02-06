@@ -53,12 +53,12 @@ export function isTouchDevice() {
  * @param {string} separator
  * @returns {string}
  */
-export function uniqueId(chunks = 6, length = 4, separator = '-') {
+export function uniqueId(chunks = 2, length = 4, separator = '-') {
 	const budget = [
         'aeiou',
-        'bcdfghjklmnpqrstvwxyz0123456789'
+        'bcdfghjklmnpqrstvwxyz'
     ];
-    return [...Array(chunks).keys()].map(()=>{
+    return Date.now() + '-' + [...Array(chunks).keys()].map(()=>{
         let chunk = '';
         let a = Math.round( Math.random() );
         for ( var i = 0; i < length; i++ ) {
@@ -91,4 +91,16 @@ export function slug( string = '' ){
         .replace(/ß/g, 'ss')
         .replace(/[^a-z0-9]+/g,'-')
         .replace(/-+/g,'-');
+}
+
+/**
+ * @param {Object} styles
+ */
+export function setGlobalStyleVariables( styles = {} ){
+    if (typeof document === "undefined" ){
+        return;
+    }
+    Object.keys( styles ).forEach((key) => {
+        document.body.style.setProperty( key, styles[key] );
+    });
 }

@@ -6,13 +6,19 @@ export const instructions = {
         ],
         ios: [
             "Energiesparmodus deaktivieren",
-            "Sytemeinstellungen > Anzeige & Helligkeit",
+            "Sytemeinstellungen → Anzeige & Helligkeit",
             "Helligkeit auf die maximale Stufe stellen",
             "Automatische Sperre auf »nie«",
         ],
+        android: [
+            "Energiesparmodus deaktivieren",
+            "Einstellungen → Display",
+            "Helligkeit auf die maximale Stufe stellen",
+            "Display automatisch ausschalten auf »nie«"
+        ],
         mac: [
             "Display-Helligkeit auf maximale Stufe stellen",
-            "Systemeinstellungen > Energie sparen",
+            "Systemeinstellungen → Energie sparen",
             "Monitor ausschalten auf »nie«"
         ]
     },
@@ -23,13 +29,19 @@ export const instructions = {
         ],
         ios: [
             "Disable Low Power mode",
-            "Go to Settings > Display & Brightness",
+            "Go to Settings → Display & Brightness",
             "Set screen brightness to maximum",
             "Set Auto-Lock to »never«"
         ],
+        android: [
+            "Disable Energy Saver mode",
+            "Go to Settings → Display",
+            "Set screen brightness to maximum",
+            "Set screen timeout to »never«"
+        ],
         mac: [
             "Set screen brightness to maximum",
-            "Go to System Preferences > Energy Saver",
+            "Go to System Preferences → Energy Saver",
             "Set Display Sleep to »never«"
         ]
     }

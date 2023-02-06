@@ -2,7 +2,7 @@
     
     import { sceneStore } from "$lib/stores";
     import { onDestroy } from "svelte";
-    import { setGlobalStyleVariables } from "./global";
+    import { setGlobalStyleVariables } from "$lib/helpers.js";
 
     function update( scene ){
         setGlobalStyleVariables({
