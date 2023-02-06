@@ -3,15 +3,14 @@
     import Menu from "$lib/Menu.svelte";
     import Fingerprint from './Fingerprint.svelte';
 
-    import { duration, seconds, time } from "$lib/clock";
+    import { seconds, time } from "$lib/clock";
     import { config } from '$lib/config';
 
     export let closeHref = '/';
  
     $: date = {
         time: $time,
-        seconds: $seconds,
-        timeOnSite: $duration,
+        seconds: $seconds
     };
 
 </script>

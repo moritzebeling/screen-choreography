@@ -2,27 +2,29 @@ import { writable } from 'svelte/store';
 
 export const time = writable(new Date());
 export const seconds = writable(0);
-export const duration = writable(0);
 
-function timestamp( input ){
+function roundedTimestamp( input ){
     input = input || Date.now();
     return Math.floor( input / 1000 );
 }
 
-let start = timestamp();
+let start = roundedTimestamp();
 let last = start;
 
 export function tick(){
-    let now = timestamp();
+    let now = roundedTimestamp();
     if( now !== last ){
 
-        let d = new Date( timestamp() * 1000 );
+        let d = new Date( now * 1000 );
         
         time.set( d );
-        seconds.set( d.getSeconds() );
-        duration.set( now - start );
+        seconds.set( now );
         
         last = now;
     }
     requestAnimationFrame(tick);
+}
+
+export function getSecondsInYear( year = 2023 ){
+    return Date.now() - new Date( year ).getTime();
 }

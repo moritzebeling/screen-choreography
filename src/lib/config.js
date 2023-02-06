@@ -9,7 +9,7 @@ export const config = {
 
     settings: {
         keepEmptyRooms: 1000 * 60 * 60, // 1 hour
-        rememberUsers: 60 * 60 * 24, // 1 day
+        rememberUsers: 60 * 60 * 4, // 4 hours
     },
 
     meta: {
@@ -24,7 +24,9 @@ export const config = {
             'art',
             'design',
             'multiplayer',
-            'moritz ebeling'
+            'moritz ebeling',
+            'network',
+            'exercise'
         ]
     },
 

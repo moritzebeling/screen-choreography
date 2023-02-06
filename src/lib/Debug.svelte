@@ -4,7 +4,7 @@
     @legacy
     */
   
-    import { duration, seconds, time } from "$lib/clock";
+    import { seconds, time } from "$lib/clock";
     import { currentScene } from "$lib/control";
     import { user, users } from "$lib/realtime";
     import Text from "$lib/Text.svelte";
@@ -30,7 +30,6 @@
     <Text position="top right">
 <pre>Date: {$time}
 Seconds: {$seconds}
-Time on site: {$duration}
 
 User: {$user.id}
 Order: {$user.num}
