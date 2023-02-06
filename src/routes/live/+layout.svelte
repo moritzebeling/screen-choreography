@@ -9,10 +9,7 @@
 
     onMount(()=>{
 
-        let user = new User({
-            ...data.user,
-            id: data.userId
-        });
+        let user = new User(data.user);
         user.detectTouch();
         userStore.set( user );
         

@@ -22,7 +22,8 @@ export class Room {
      * @param {Object} options.dimensions
      * @param {Array<string>} options.users
      * @param {Array<string>} options.admins
-     */
+     * @param {Object} options.scene
+    */
     
     constructor( options = {} ){
         this.id = options.id || null;
@@ -33,6 +34,7 @@ export class Room {
         this.dimensions = options.dimensions || false;
         this.users = options.users || [];
         this.admins = options.admins || [];
+        this.scene = options.scene || {};
     }
 
     /**
@@ -96,6 +98,18 @@ export class Room {
 
     ping(){
         this.updated = new Date();
+    }
+
+    setScene( scene ){
+        this.scene = scene;
+    }
+
+    getUserPosition( userId, sort = false ){
+        let users = this.users;
+        if( sort === true ){
+            users = users.sort();
+        }
+        return users.findIndex( uid => uid === userId );
     }
 
     /**

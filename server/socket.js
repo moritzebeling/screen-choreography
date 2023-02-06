@@ -5,6 +5,7 @@ import { Room } from '../src/lib/models/Room.js';
 import { Rooms } from '../src/lib/models/Rooms.js';
 
 let rooms = new Rooms();
+let performanceRoom = new Room({ id: 'hfbkja23' });
 
 function readUserIdFromCookie( cookies = '', key = 'userId' ){
     cookies = parseCookie( '' + cookies );
@@ -192,6 +193,38 @@ export function socketServer( server ){
 
 
 
+    io.of('/performance/hfbkja23').on('connection', (socket) => {
+
+        let userId = readUserIdFromCookie( socket.handshake.headers.cookie, 'hfbkja23' );
+        if( userId ){
+            socket.data.userId = userId;
+        }
+
+        console.log('/performance/hfbkja23', 'connection', socket.data);
+        socket.emit('status', 'okay');
+
+        socket.on('room:enter', () => {
+
+            performanceRoom.addUser( socket.data.userId );
+            performanceRoom.ping();
+            socket.join( performanceRoom.id );
+            
+            console.log('/performance/hfbkja23', 'room:enter', performanceRoom.id, socket.data);
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:updated', performanceRoom );
+
+        });
+        
+        socket.on('scene:update', scene => {
+
+            performanceRoom.setScene( scene );
+            performanceRoom.ping();
+            
+            console.log('/performance/hfbkja23', 'scene:update', performanceRoom.id, socket.data);
+            io.of('/performance/hfbkja23').to( roomId ).emit('room:updated', room );
+
+        });
+
+    });
 
 
 

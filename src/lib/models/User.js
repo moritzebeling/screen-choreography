@@ -10,6 +10,7 @@ export class User {
      * @param {string} options.browser
      * @param {string} options.language
      * @param {boolean} options.touch
+     * @param {number} options.position
      */
     
     constructor( options = {} ){
@@ -19,10 +20,15 @@ export class User {
         this.browser = options.browser || null;
         this.language = options.language || null;
         this.touch = options.touch || null;
+        this.position = options.position || null;
     }
 
     detectTouch(){
         this.touch = Device.detectTouch();
+    }
+
+    setPosition( pos ){
+        this.position = pos === -1 ? null : pos;
     }
 
 }

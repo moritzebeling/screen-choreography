@@ -7,6 +7,10 @@
     import { onMount } from "svelte";
     import { socket } from "../socket.js";
     import { goto } from "$app/navigation";
+    import { roomStore, userStore } from "$lib/stores.js";
+    import { Room } from "$lib/models/Room.js";
+
+    export let data;
 
     let url = String( $page.url );
 
@@ -30,16 +34,20 @@
             '--background': 'white',
         });
         socket.emit('room:enter');
-        socket.on('room:enter', data =>{
-            console.log('room:enter', data);
-        });
-        socket.on('room:updated', data => {
-            console.log('room:updated', data);
-            /*
-            todo
-            - when next user is resitered, forward to home page
-            */
-            goto('/performance/hfbkja23');
+        socket.on('room:updated', room => {
+
+            room = new Room( room );
+            roomStore.set( room );
+
+            $userStore.setPosition( room.getUserPosition( $userStore.id, true ) );
+
+            if( room.users.length > ($userStore.position+1) ){
+                console.log('room:updated', 'next user has entered');
+                goto('/performance/hfbkja23');
+            } else {
+                console.log( 'room:updated', $roomStore, $userStore );
+            }
+
         });
     });
 
