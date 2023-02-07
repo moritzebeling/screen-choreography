@@ -7,16 +7,26 @@
     export let totalUsers = 1;
 
     let showColor = false;
-    let scene = $performanceStore;
+    let scene = {...$performanceStore};
+    let waitForColorToFadeOut = Promise.resolve(true);
 
     function flicker(){
         showColor = true;
         if( scene.fadeOut < 1 ){
             return;
         }
-        setTimeout(()=>{
-            showColor = false;
-        }, scene.speed + 100 );
+        return new Promise((resolve) => {
+            let duration = Math.max(
+                scene.interval - scene.speed,
+                scene.speed
+            );
+            setTimeout(() => {
+                showColor = false;
+                setTimeout(() => {
+                    resolve(true);
+                }, scene.fadeOut + 10);
+            }, duration );
+        });
     }
 
     function updateStyles( styles = {} ){
@@ -29,7 +39,6 @@
         constructor(){
             this.running = false;
             this.current = 0;
-            this.speed = 1000;
             this.interval;
             this.onTick = () => {};
             this.onComplete = () => {};
@@ -38,7 +47,7 @@
             await syncAnim( 1000 );
             this.running = true;
             this.current = 0;
-            setTimeout(this.tick, this.speed );
+            this.interval = setTimeout(this.tick, scene.interval );
         }
         tick(){
             if( rotation.current === userPosition ){
@@ -49,7 +58,7 @@
             }
             rotation.current = (rotation.current + 1) % totalUsers;
             if( rotation.running ){
-                setTimeout(rotation.tick, rotation.speed );
+                rotation.interval = setTimeout(rotation.tick, scene.interval );
             }
         }
         stop(){
@@ -59,27 +68,43 @@
     }
     const rotation = new Rotation();
 
+    async function updateInSync(callback){
+        await syncAnim( 1000 );
+        callback();
+    }
+
     performanceStore.subscribe( incoming => {
         if( typeof document === 'undefined' ){
             return;
         }
-        console.log( scene.rotate, incoming.rotate );
+
         scene.background = incoming.background;
         updateStyles({
-            '--background': incoming.background
+            '--background': incoming.background,
+            '--speed': incoming.speed + 'ms',
         });
+
         if( scene.rotate && incoming.rotate ){
             console.log( 'rotation remains on' );
             /*
             rotation remains on
             styles should be updated dependingly, but in sync and after fadeout
             */
-            scene.color = incoming.color;
+            rotation.onTick = () => {
+                waitForColorToFadeOut = flicker();
+            };
             rotation.onComplete = () => {
-                updateStyles({
-                    '--color': scene.color
+                updateInSync(() => {
+                    scene.speed = incoming.speed;
+                    scene.fadeOut = incoming.fadeOut;
+                });
+                waitForColorToFadeOut.then(() => {
+                    scene.color = incoming.color;
                 });
             };
+            updateInSync(() => {
+                scene.interval = incoming.interval;
+            });
         } else if( scene.rotate && !incoming.rotate ){
             console.log( 'rotation stop after complete' );
             /*
@@ -89,6 +114,12 @@
             scene.rotate = false;
             rotation.onComplete = () => {
                 rotation.stop();
+                waitForColorToFadeOut.then(() => {
+                    scene.interval = incoming.interval;
+                    scene.color = incoming.color;
+                    scene.speed = incoming.speed;
+                    scene.fadeOut = incoming.fadeOut;
+                });
             };
         } else if( !scene.rotate && incoming.rotate ){
             console.log( 'rotation start' );
@@ -97,13 +128,13 @@
             styles should be updated beforehand
             */
             scene.rotate = true;
+            scene.interval = incoming.interval;
             scene.color = incoming.color;
-            updateStyles({
-                '--color': scene.color
-            });
+            scene.speed = incoming.speed;
+            scene.fadeOut = incoming.fadeOut;
             rotation.start();
             rotation.onTick = () => {
-                flicker();
+                waitForColorToFadeOut = flicker();
             };
         } else if( !scene.rotate && !incoming.rotate ){
             /*
@@ -111,31 +142,30 @@
             styles should be updated immediately but in sync
             */
             rotation.stop();
-            scene.color = incoming.color;
-            scene.speed = incoming.speed;
-            scene.fadeOut = incoming.fadeOut;
-            updateStyles({
-                '--color': scene.color,
-                '--speed': scene.speed + 'ms',
-                '--fadeOut': scene.fadeOut + 'ms',
+            waitForColorToFadeOut.then(() => {
+                scene.interval = incoming.interval;
+                scene.color = incoming.color;
+                scene.speed = incoming.speed;
+                scene.fadeOut = incoming.fadeOut;
+                if( scene.color !== false ){
+                    waitForColorToFadeOut = flicker();
+                } else {
+                    showColor = false;
+                }
             });
-            if( scene.color !== false ){
-                flicker();
-            } else {
-                showColor = false;
-            }
         }
     });
 
 </script>
 
 <p>
-    {totalUsers} / 
-    {userPosition} / 
-    {rotation.current}
+    {userPosition}
 </p>
 
-<div class:visible={showColor}></div>
+<div style="
+    --color:{scene.color};
+    --fadeOut:{scene.fadeOut}ms;
+" class:visible={showColor}></div>
 
 <style>
 
