@@ -1,47 +1,65 @@
 <script>
 
     import { performanceStore } from "$lib/stores";
-    import { syncAnim } from "$lib/helpers.js";
     import { onMount } from "svelte";
 
     export let userPosition = 0;
     export let totalUsers = 1;
 
     let scene = {...$performanceStore};
-    let state = 0;
     let active = false;
+    let info = '';
 
     class Rotation {
         constructor(){
             this.running = false;
+            this.zeroOffset = 0;
+            this.state = 0;
+            this.stopSoon = false;
         }
         evaluate(){
-            active = state === userPosition;
+            info = this.state;
+            active = this.state === userPosition;
+            if( this.state === 0 ){
+                scene.color = $performanceStore.color;
+                scene.fadeIn = $performanceStore.fadeIn;
+                scene.fadeOut = $performanceStore.fadeOut;
+                if( this.stopSoon ){
+                    this.running = false;
+                    active = false;
+                }
+            }
         }
-        sync( precision = 1000 ) {
+        sync( precision = 1000, returnOffset = false ) {
             let now = Date.now();
             let startAt = Math.ceil( now / precision ) * precision;
+            if( returnOffset ){
+                return Math.floor( startAt / precision ) % totalUsers;
+            }
+            let id = (Math.floor( startAt / precision ) - this.zeroOffset) % totalUsers;
             let timeout = startAt - now;
-            let id = Math.floor( startAt / precision ) % totalUsers;
             return new Promise((resolve) => {
                 setTimeout(() => resolve( id ), timeout);
             });
         }
-        async tick (){
+        async tick( _state ){
 
-            state = await this.sync( scene.interval );
+            this.state = _state || await this.sync( scene.interval );
             this.evaluate();
-
+            
             if( this.running ){
                 this.tick();
             }
         }
-        start(){
+        async start(){
+            this.stopSoon = false;
             this.running = true;
+            this.state = this.sync( scene.interval, true );
+            this.zeroOffset = this.state;
             this.tick();
         }
         stop(){
-            this.running = false;
+            this.stopSoon = true;
         }
     }
     const rotation = new Rotation();
@@ -54,18 +72,21 @@
 
     performanceStore.subscribe( async incoming => {
         if( typeof document === 'undefined' ){ return; }
-        if( !scene.rotate && incoming.rotate ){
+        if( scene.rotate && incoming.rotate ){
+
+        } else if( !scene.rotate && incoming.rotate ){
             scene = incoming;
             rotation.start();
         } else if( scene.rotate && !incoming.rotate ){
             rotation.stop();
+        } else if( !scene.rotate && !incoming.rotate ){
+            scene = incoming;
         }
-        scene = incoming;
     });
 
 </script>
 
-<p>{state}</p>
+<p>{info}</p>
 
 <div class:active style="
     --color: {scene.color};
