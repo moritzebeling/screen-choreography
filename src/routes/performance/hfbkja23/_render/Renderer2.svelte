@@ -9,22 +9,29 @@
 
     let scene = {...$performanceStore};
     let state = 0;
+    let active = false;
 
     class Rotation {
         constructor(){
             this.running = false;
         }
+        evaluate(){
+            active = state === userPosition;
+        }
         sync( precision = 1000 ) {
             let now = Date.now();
             let startAt = Math.ceil( now / precision ) * precision;
             let timeout = startAt - now;
-            let id = Math.floor( startAt / precision );
+            let id = Math.floor( startAt / precision ) % totalUsers;
             return new Promise((resolve) => {
                 setTimeout(() => resolve( id ), timeout);
             });
         }
         async tick (){
+
             state = await this.sync( scene.interval );
+            this.evaluate();
+
             if( this.running ){
                 this.tick();
             }
@@ -40,7 +47,6 @@
     const rotation = new Rotation();
 
     onMount( async ()=>{
-        rotation.start();
         return () => {
             rotation.stop();
         }
@@ -48,18 +54,24 @@
 
     performanceStore.subscribe( async incoming => {
         if( typeof document === 'undefined' ){ return; }
-        await syncAnim();
+        if( !scene.rotate && incoming.rotate ){
+            scene = incoming;
+            rotation.start();
+        } else if( scene.rotate && !incoming.rotate ){
+            rotation.stop();
+        }
         scene = incoming;
     });
 
 </script>
 
-<div class:active={ state % totalUsers === userPosition }
-    style="
-        --color: {scene.color};
-        --fadeIn: {scene.fadeIn}ms;
-        --fadeOut: {scene.fadeOut}ms;
-    "
+<p>{state}</p>
+
+<div class:active style="
+    --color: {scene.color};
+    --fadeIn: {scene.fadeIn}ms;
+    --fadeOut: {scene.fadeOut}ms;
+"
 ></div>
 
 <style>
@@ -77,6 +89,16 @@
     div.active {
         background-color: var(--color);
         transition-duration: var(--speedIn);
+    }
+
+    p {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        padding: 1rem;
+        color: white;
+        mix-blend-mode: difference;
     }
 
 </style>

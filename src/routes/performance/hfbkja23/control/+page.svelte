@@ -74,12 +74,12 @@
     
     <label class="col-1">
         <p>Fade in: {scene.fadeIn}ms</p>
-        <input type="range" min="0" max="10000" step="200" bind:value={scene.fadeIn} />
+        <input type="range" min="0" max="10000" step="100" bind:value={scene.fadeIn} />
     </label>
     
     <label class="col-1">
         <p>Fade out: {scene.fadeOut}ms</p>
-        <input type="range" min="0" max="10000" step="200" bind:value={scene.fadeOut} />
+        <input type="range" min="0" max="10000" step="100" bind:value={scene.fadeOut} />
     </label>
     
     <label class="col-2">
@@ -92,7 +92,7 @@
 
     <label class="col-2">
         <p>Interval: {scene.interval}ms</p>
-        <input type="range" min="0" max="10000" step="100" bind:value={scene.interval} />
+        <input type="range" min="100" max="10000" step="100" bind:value={scene.interval} />
     </label>
 
     <label class="col-2" class:alert={autoSend}>

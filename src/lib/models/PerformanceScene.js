@@ -17,11 +17,11 @@ export class PerformanceScene {
         this.speed = options.speed || 1000;
         
         this.color = options.color || false;
-        this.fadeIn = options.fadeIn || 2000;
-        this.fadeOut = options.fadeOut || 2000;
+        this.fadeIn = options.fadeIn || 200;
+        this.fadeOut = options.fadeOut || 500;
 
         this.rotate = options.rotate || false;
-        this.interval = options.interval || 2000;
+        this.interval = options.interval || 1000;
 
     }
 

@@ -12,7 +12,7 @@
             users++;
             setTimeout(() => {
                 add();
-            }, 100 + (Math.random() * 1000));
+            }, 57 );
         }
     }
 
