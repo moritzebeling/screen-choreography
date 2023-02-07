@@ -3,7 +3,6 @@
     import { sceneStore } from "$lib/stores";
     import { onDestroy } from "svelte";
     import { setGlobalStyleVariables } from "$lib/helpers.js";
-    import Background from "./Background.svelte";
 
     /*
     renderers
@@ -31,5 +30,3 @@
     });
 
 </script>
-
-<Background color={$sceneStore.background} />

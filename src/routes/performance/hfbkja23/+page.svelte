@@ -1,25 +1,29 @@
 <script>
 
-    /*
-    scene options
-    - background color
-        - all the same or offset by user num
-    - stay on or fade out
-        - fade out speed
-    - rotate or synchronize
-        - rotation speed
-    */
-
     import { socket } from "./socket.js";
     import { onMount } from "svelte";
-
-    let scene;
+    import { userStore, roomStore, performanceStore } from "$lib/stores";
+    import Renderer from "./_render/Renderer.svelte";
 
     onMount(()=>{
         socket.on('scene:updated',data => {
-            scene = data;
-            console.log('scene:updated',data);
+            performanceStore.set( data );
+            console.log('scene:updated',$performanceStore);
         });
     });
 
 </script>
+
+<pre>Scene {JSON.stringify($performanceStore, true, 2)}</pre>
+<pre>Room {JSON.stringify($roomStore, true, 2)}</pre>
+<pre>User {JSON.stringify($userStore, true, 2)}</pre>
+
+<Renderer userPosition={$userStore.position} totalUsers={$roomStore.users.length} />
+
+<style>
+    pre {
+        margin: 1rem;
+        color: white;
+        mix-blend-mode: difference;
+    }
+</style>

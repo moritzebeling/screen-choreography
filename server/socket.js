@@ -3,9 +3,10 @@ import { parse as parseCookie } from "cookie";
 
 import { Room } from '../src/lib/models/Room.js';
 import { Rooms } from '../src/lib/models/Rooms.js';
+import { PerformanceScene } from '../src/lib/models/PerformanceScene.js';
 
 let rooms = new Rooms();
-let performanceRoom = new Room({ id: 'hfbkja23' });
+let performanceRoom = new Room({ id: 'hfbkja23', scene: new PerformanceScene() });
 
 function readUserIdFromCookie( cookies = '', key = 'userId' ){
     cookies = parseCookie( '' + cookies );
@@ -203,6 +204,15 @@ export function socketServer( server ){
         console.log('/performance/hfbkja23', 'connection', socket.data);
         socket.emit('status', 'okay');
 
+        socket.on('room:reset', () => {
+
+            performanceRoom = new Room({ id: 'hfbkja23', scene: new PerformanceScene() });
+            
+            console.log('/performance/hfbkja23', 'room:reset', performanceRoom.id, socket.data);
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:reset', performanceRoom );
+
+        });
+
         socket.on('room:enter', () => {
 
             performanceRoom.addUser( socket.data.userId );
@@ -219,8 +229,8 @@ export function socketServer( server ){
             performanceRoom.setScene( scene );
             performanceRoom.ping();
             
-            console.log('/performance/hfbkja23', 'scene:update', performanceRoom.id, socket.data);
-            io.of('/performance/hfbkja23').to( roomId ).emit('room:updated', room );
+            console.log('/performance/hfbkja23', 'scene:update', performanceRoom.id, scene);
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('scene:updated', scene );
 
         });
 

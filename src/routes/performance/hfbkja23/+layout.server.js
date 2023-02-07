@@ -9,7 +9,7 @@ export function load({ cookies }) {
     
     cookies.set(cookieName, userId, {
         path: '/',
-        maxAge: 60,
+        maxAge: 60 * 30,
         secure: !dev
     });
 

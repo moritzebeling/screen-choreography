@@ -7,8 +7,9 @@
     import { onMount } from "svelte";
     import { socket } from "../socket.js";
     import { goto } from "$app/navigation";
-    import { roomStore, userStore } from "$lib/stores.js";
+    import { roomStore, userStore, performanceStore } from "$lib/stores.js";
     import { Room } from "$lib/models/Room.js";
+    import { dev } from "$app/environment";
 
     export let data;
 
@@ -33,21 +34,17 @@
         setGlobalStyleVariables({
             '--background': 'white',
         });
-        socket.emit('room:enter');
         socket.on('room:updated', room => {
-
-            room = new Room( room );
-            roomStore.set( room );
-
-            $userStore.setPosition( room.getUserPosition( $userStore.id, true ) );
-
-            if( room.users.length > ($userStore.position+1) ){
-                console.log('room:updated', 'next user has entered');
-                goto('/performance/hfbkja23');
-            } else {
-                console.log( 'room:updated', $roomStore, $userStore );
-            }
-
+            setTimeout(() => {
+                if( room.users.length > ( $userStore.position + 1 ) ){
+                    console.log('room:updated', 'next user has entered');
+                    goto('/performance/hfbkja23');
+                } else if( dev ){
+                    setTimeout(()=>{
+                        goto('/performance/hfbkja23');
+                    }, 3000);
+                }
+            }, 10);
         });
     });
 
