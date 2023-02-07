@@ -12,15 +12,9 @@
 
     import { socket } from "../socket.js";
     import { performanceStore } from "$lib/stores";
+    import { PerformanceScene } from "$lib/models/PerformanceScene.js";
 
-    let scene = {
-        background: 'white',
-        color: false,
-        speed: 1000,
-        fadeOut: 2000, // 0 = stay on
-        rotate: false,
-        interval: 2000,
-    };
+    let scene = new PerformanceScene();
 
     let autoSend = false;
     let pendingChanges = false;
@@ -60,6 +54,11 @@
         </select>
     </label>
 
+    <label class="col-2">
+        <p>Background speed: {scene.speed}ms</p>
+        <input type="range" min="0" max="10000" step="200" bind:value={scene.speed} />
+    </label>
+
     <label class="col-2 color" style="background-color: {scene.color || '#222'};">
         <p>Flicker color</p>
         <select bind:value={scene.color}>
@@ -73,12 +72,12 @@
         </select>
     </label>
     
-    <label class="col-2">
-        <p>Background speed: {scene.speed}ms</p>
-        <input type="range" min="0" max="10000" step="200" bind:value={scene.speed} />
+    <label class="col-1">
+        <p>Fade in: {scene.fadeIn}ms</p>
+        <input type="range" min="0" max="10000" step="200" bind:value={scene.fadeIn} />
     </label>
     
-    <label class="col-2">
+    <label class="col-1">
         <p>Fade out: {scene.fadeOut}ms</p>
         <input type="range" min="0" max="10000" step="200" bind:value={scene.fadeOut} />
     </label>
