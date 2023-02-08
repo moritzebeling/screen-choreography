@@ -8,7 +8,7 @@
 
     let scene = {...$performanceStore};
     let active = false;
-    let info = '';
+    let info = 0;
 
     class Rotation {
         constructor(){
@@ -17,10 +17,48 @@
             this.state = 0;
             this.stopSoon = false;
         }
-        onStop(){
-            this.running = false;
-            active = false;
-            scene = $performanceStore;
+        timeId( precision = 1000 ){
+            let now = Date.now();
+            return Math.ceil( now / precision );
+        }
+        sync( precision = 1000 ){
+            let now = Date.now();
+            let id = Math.ceil( now / precision );
+            let timeout = (id * precision) - now;
+            return new Promise((resolve) => {
+                setTimeout(() => resolve( id ), timeout);
+            });
+        }
+        async start(){
+            this.stopSoon = false;
+            this.running = true;
+            
+            let timestamp = this.timeId( scene.interval );
+            this.state = timestamp % totalUsers;
+            this.zeroOffset = this.state;
+
+            this.log('start');
+
+            this.tick();
+        }
+        async tick(){
+
+            let timestamp = await this.sync( scene.interval );
+            this.state = (timestamp-this.zeroOffset) % totalUsers;
+
+            this.log('tick');
+            this.evaluate();
+
+            if( this.running ){
+                this.tick();
+            }
+        }
+        evaluate(){
+            info = this.state;
+            active = this.state === userPosition;
+            if( this.state === 0 ){
+                this.completed();
+            }
         }
         completed(){
             if( this.stopSoon ){
@@ -31,43 +69,25 @@
                 scene.fadeOut = $performanceStore.fadeOut;
             }
         }
-        evaluate(){
-            active = this.state === userPosition;
-            info = this.state;
-            if( this.state === 0 ){
-                this.completed();
-            }
-        }
-        sync( precision = 1000, returnOffset = false ) {
-            let now = Date.now();
-            let startAt = Math.ceil( now / precision ) * precision;
-            if( returnOffset ){
-                return Math.floor( startAt / precision ) % totalUsers;
-            }
-            let id = (Math.floor( startAt / precision ) - this.zeroOffset) % totalUsers;
-            let timeout = startAt - now;
-            return new Promise((resolve) => {
-                setTimeout(() => resolve( id ), timeout);
-            });
-        }
-        async tick( _state ){
-
-            this.state = _state || await this.sync( scene.interval );
-            this.evaluate();
-            
-            if( this.running ){
-                this.tick();
-            }
-        }
-        async start(){
-            this.stopSoon = false;
-            this.running = true;
-            this.state = this.sync( scene.interval, true );
-            this.zeroOffset = this.state;
-            this.tick();
-        }
         stop(){
             this.stopSoon = true;
+        }
+        onStop(){
+            this.running = false;
+            active = false;
+            scene = $performanceStore;
+        }
+        log( name = 'tick', args ){
+            if( userPosition > 0 ){ return; }
+            console.log( name, {
+                state: this.state,
+                i: this.i,
+                ...args
+            });
+        }
+        error( ...args ){
+            if( userPosition > 0 ){ return; }
+            console.error( ...args );
         }
     }
     const rotation = new Rotation();

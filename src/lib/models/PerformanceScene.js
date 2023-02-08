@@ -13,10 +13,10 @@ export class PerformanceScene {
     
     constructor( options = {} ){
 
-        this.background = options.background || 'white';
+        this.background = options.background || 'black';
         this.speed = options.speed || 1000;
         
-        this.color = options.color || false;
+        this.color = options.color || 'white';
         this.fadeIn = options.fadeIn || 200;
         this.fadeOut = options.fadeOut || 500;
 
