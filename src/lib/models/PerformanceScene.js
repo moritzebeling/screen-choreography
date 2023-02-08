@@ -25,4 +25,35 @@ export class PerformanceScene {
 
     }
 
+    apply( options ){
+        if( options.hasOwnProperty('background') ){
+            this.background = options.background;
+            if( typeof document !== 'undefined' ){
+                document.body.style.setProperty( '--background', this.background );
+            }
+        }
+        if( options.hasOwnProperty('speed') ){
+            this.speed = options.speed;
+            if( typeof document !== 'undefined' ){
+                document.body.style.setProperty( '--speed', this.speed + 'ms' );
+            }
+        }
+        if( options.hasOwnProperty('color') ){
+            this.color = options.color;
+        }
+        if( options.hasOwnProperty('rotate') ){
+            this.rotate = options.rotate;
+        }
+        if( options.hasOwnProperty('interval') ){
+            this.interval = options.interval;
+        }
+        if( options.hasOwnProperty('fadeIn') ){
+            this.fadeIn = Math.min( this.interval, options.fadeIn );
+        }
+        if( options.hasOwnProperty('fadeOut') ){
+            this.fadeOut = options.fadeOut;
+        }
+        return this;
+    }
+
 }

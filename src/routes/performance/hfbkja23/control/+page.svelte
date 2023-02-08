@@ -34,6 +34,8 @@
 
 <div class="grid">
 
+    
+
     <ColorSelect bind:value={scene.background} />
 
     <button class="col-3 row-2" class:alert={pendingChanges} on:click={send}>
@@ -41,10 +43,6 @@
     </button>
     
     <ColorSelect bind:value={scene.color} />
-    
-</div>
-
-<div class="grid">
 
     <label class="col-3">
         <div>

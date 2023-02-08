@@ -1,25 +1,22 @@
 <script>
 
     import { performanceStore } from "$lib/stores";
+    import { PerformanceScene } from "$lib/models/PerformanceScene.js";
     import { onMount } from "svelte";
 
     export let userPosition = 0;
     export let totalUsers = 1;
 
-    let scene = {...$performanceStore};
+    let scene = new PerformanceScene({...$performanceStore});
     let active = false;
     let info = 0;
 
-    function rainbow(color){
-        if( color !== 'rainbow' ){ return color; }
+    function rainbow( color ) {
+        if( color !== 'rainbow' ){
+            return color;
+        }
         let deg = (userPosition / totalUsers) * 360;
         return `hsl(${deg}, 100%, 50%)`;
-    }
-
-    function updateStyles( styles = {} ){
-        Object.keys( styles ).forEach((key) => {
-            document.body.style.setProperty( key, styles[key] );
-        });
     }
 
     class Rotation {
@@ -62,7 +59,7 @@
 
             this.evaluate();
 
-            if( scene.interval !== this.speed ){
+            if( this.speed !== scene.interval ){
                 this.speed = scene.interval;
                 let newTimestamp = this.timeId( scene.interval );
                 let newOffset = totalUsers - ( newTimestamp % totalUsers );
@@ -75,7 +72,11 @@
         }
         evaluate(){
             info = this.state;
-            active = this.state === userPosition;
+            let _active = this.state === userPosition;
+            if( scene.fadeOut >= 5000 && active ){
+                _active = true;
+            }
+            active = _active;
             if( this.state === 0 ){
                 this.completed();
             }
@@ -84,12 +85,11 @@
             if( this.stopSoon ){
                 this.onStop();
             } else {
-                scene.color = $performanceStore.color;
-                scene.fadeIn = $performanceStore.fadeIn;
-                scene.fadeOut = $performanceStore.fadeOut;
-                updateStyles({
-                    '--speed': $performanceStore.speed + 'ms',
-                    '--background': rainbow($performanceStore.background),
+                console.log('completed', scene, $performanceStore );
+                scene = scene.apply({
+                    color: rainbow( $performanceStore.color ),
+                    fadeIn: $performanceStore.fadeIn,
+                    fadeOut: $performanceStore.fadeOut
                 });
             }
         }
@@ -99,10 +99,10 @@
         onStop(){
             this.running = false;
             active = false;
-            scene = $performanceStore;
-            updateStyles({
-                '--speed': $performanceStore.speed + 'ms',
-                '--background': rainbow($performanceStore.background),
+            scene = scene.apply({
+                ...$performanceStore,
+                background: rainbow( $performanceStore.background ),
+                color: rainbow( $performanceStore.color ),
             });
         }
         log( name = 'tick', args ){
@@ -130,21 +130,23 @@
     performanceStore.subscribe( async incoming => {
         if( typeof document === 'undefined' ){ return; }
         if( scene.rotate && incoming.rotate ){
-            scene.interval = incoming.interval;
+            scene.apply({
+                interval: incoming.interval,
+            });
         } else if( !scene.rotate && incoming.rotate ){
-            scene = incoming;
-            updateStyles({
-                '--speed': incoming.speed + 'ms',
-                '--background': rainbow(incoming.background),
+            scene = scene.apply({
+                ...incoming,
+                background: rainbow( incoming.background ),
+                color: rainbow( incoming.color ),
             });
             rotation.start( scene.interval );
         } else if( scene.rotate && !incoming.rotate ){
             rotation.stop();
         } else if( !scene.rotate && !incoming.rotate ){
-            scene = incoming;
-            updateStyles({
-                '--speed': incoming.speed + 'ms',
-                '--background': rainbow(incoming.background),
+            scene = scene.apply({
+                ...incoming,
+                background: rainbow( incoming.background ),
+                color: rainbow( incoming.color ),
             });
         }
     });
@@ -152,7 +154,7 @@
 </script>
 
 <div class:active style="
-    --color: {rainbow(scene.color)};
+    --color: {scene.color};
     --fadeIn: {scene.fadeIn}ms;
     --fadeOut: {scene.fadeOut}ms;
 "
@@ -166,7 +168,7 @@
         width: 100%;
         top: 0;
         height: var(--100vh);
-        transition: background-color 0ms linear;
+        transition: background-color 0 linear;
         transition-duration: var(--fadeOut);
     }
 
