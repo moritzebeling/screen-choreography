@@ -212,6 +212,11 @@ export function socketServer( server ){
             io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:reset', performanceRoom );
 
         });
+        
+        socket.on('room:welcome', guestId => {
+            console.log('/performance/hfbkja23', 'room:welcome', guestId );
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:welcome', guestId );
+        });
 
         socket.on('room:enter', () => {
 

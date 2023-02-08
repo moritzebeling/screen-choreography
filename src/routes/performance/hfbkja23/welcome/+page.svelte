@@ -34,13 +34,11 @@
         setGlobalStyleVariables({
             '--background': 'white',
         });
-        socket.on('room:updated', room => {
-            setTimeout(() => {
-                if( room.users.length > ( $userStore.position + 1 ) ){
-                    console.log('room:updated', 'next user has entered');
-                    // goto('/performance/hfbkja23');
-                }
-            }, 10);
+        socket.emit('room:welcome', data.userId );
+        socket.on('room:welcome', userId => {
+            if( userId != data.userId ){
+                goto('/performance/hfbkja23');
+            }
         });
         socket.on('redirect', () => {
             goto('/performance/hfbkja23');
