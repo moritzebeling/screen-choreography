@@ -17,17 +17,25 @@
             this.state = 0;
             this.stopSoon = false;
         }
-        evaluate(){
-            info = this.state;
-            active = this.state === userPosition;
-            if( this.state === 0 ){
+        onStop(){
+            this.running = false;
+            active = false;
+            scene = $performanceStore;
+        }
+        completed(){
+            if( this.stopSoon ){
+                this.onStop();
+            } else {
                 scene.color = $performanceStore.color;
                 scene.fadeIn = $performanceStore.fadeIn;
                 scene.fadeOut = $performanceStore.fadeOut;
-                if( this.stopSoon ){
-                    this.running = false;
-                    active = false;
-                }
+            }
+        }
+        evaluate(){
+            active = this.state === userPosition;
+            info = this.state;
+            if( this.state === 0 ){
+                this.completed();
             }
         }
         sync( precision = 1000, returnOffset = false ) {
@@ -73,7 +81,7 @@
     performanceStore.subscribe( async incoming => {
         if( typeof document === 'undefined' ){ return; }
         if( scene.rotate && incoming.rotate ){
-
+            scene.interval = incoming.interval;
         } else if( !scene.rotate && incoming.rotate ){
             scene = incoming;
             rotation.start();
