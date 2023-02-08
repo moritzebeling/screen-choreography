@@ -1,32 +1,19 @@
 <script>
 
     import { performanceStore } from "$lib/stores";
-    import { syncAnim } from "$lib/helpers.js";
+    import { onMount } from "svelte";
 
     export let userPosition = 0;
     export let totalUsers = 1;
 
-    let showColor = false;
     let scene = {...$performanceStore};
-    let waitForColorToFadeOut = Promise.resolve(true);
+    let active = false;
+    let info = 0;
 
-    function flicker(){
-        showColor = true;
-        if( scene.fadeOut < 1 ){
-            return;
-        }
-        return new Promise((resolve) => {
-            let duration = Math.max(
-                scene.interval - scene.speed,
-                scene.speed
-            );
-            setTimeout(() => {
-                showColor = false;
-                setTimeout(() => {
-                    resolve(true);
-                }, scene.fadeOut + 10);
-            }, duration );
-        });
+    function rainbow(color){
+        if( color !== 'rainbow' ){ return color; }
+        let deg = (userPosition / totalUsers) * 360;
+        return `hsl(${deg}, 100%, 50%)`;
     }
 
     function updateStyles( styles = {} ){
@@ -38,134 +25,138 @@
     class Rotation {
         constructor(){
             this.running = false;
-            this.current = 0;
-            this.interval;
-            this.onTick = () => {};
-            this.onComplete = () => {};
+            this.zeroOffset = 0;
+            this.state = 0;
+            this.stopSoon = false;
+            this.speed = 1000;
         }
-        async start(){
-            await syncAnim( 1000 );
+        timeId( precision = 1000 ){
+            let now = Date.now();
+            return Math.ceil( now / precision );
+        }
+        sync( precision = 1000 ){
+            let now = Date.now();
+            let id = Math.ceil( now / precision );
+            let timeout = (id * precision) - now;
+            return new Promise((resolve) => {
+                setTimeout(() => resolve( id ), timeout);
+            });
+        }
+        async start( speed ){
+            this.speed = speed;
+            this.stopSoon = false;
             this.running = true;
-            this.current = 0;
-            this.interval = setTimeout(this.tick, scene.interval );
+            
+            let timestamp = this.timeId( this.speed );
+            this.state = timestamp % totalUsers;
+            this.zeroOffset = totalUsers - this.state;
+
+            this.log('start');
+
+            this.tick();
         }
-        tick(){
-            if( rotation.current === userPosition ){
-                rotation.onTick();
+        async tick(){
+
+            let timestamp = await this.sync( this.speed );
+            this.state = (timestamp + this.zeroOffset) % totalUsers;
+
+            this.evaluate();
+
+            if( scene.interval !== this.speed ){
+                this.speed = scene.interval;
+                let newTimestamp = this.timeId( scene.interval );
+                let newOffset = totalUsers - ( newTimestamp % totalUsers );
+                this.zeroOffset = newOffset + this.state;
             }
-            if( rotation.current === totalUsers - 1 ){
-                rotation.onComplete();
+
+            if( this.running ){
+                this.tick();
             }
-            rotation.current = (rotation.current + 1) % totalUsers;
-            if( rotation.running ){
-                rotation.interval = setTimeout(rotation.tick, scene.interval );
+        }
+        evaluate(){
+            info = this.state;
+            active = this.state === userPosition;
+            if( this.state === 0 ){
+                this.completed();
+            }
+        }
+        completed(){
+            if( this.stopSoon ){
+                this.onStop();
+            } else {
+                scene.color = $performanceStore.color;
+                scene.fadeIn = $performanceStore.fadeIn;
+                scene.fadeOut = $performanceStore.fadeOut;
+                updateStyles({
+                    '--speed': $performanceStore.speed + 'ms',
+                    '--background': rainbow($performanceStore.background),
+                });
             }
         }
         stop(){
+            this.stopSoon = true;
+        }
+        onStop(){
             this.running = false;
-            clearInterval( this.interval );
+            active = false;
+            scene = $performanceStore;
+            updateStyles({
+                '--speed': $performanceStore.speed + 'ms',
+                '--background': rainbow($performanceStore.background),
+            });
+        }
+        log( name = 'tick', args ){
+            if( userPosition > 0 ){ return; }
+            console.log( name, {
+                state: this.state,
+                zeroOffset: this.zeroOffset,
+                speed: this.speed,
+                ...args
+            });
+        }
+        error( ...args ){
+            if( userPosition > 0 ){ return; }
+            console.error( ...args );
         }
     }
     const rotation = new Rotation();
 
-    async function updateInSync(callback){
-        await syncAnim( 1000 );
-        callback();
-    }
-
-    performanceStore.subscribe( incoming => {
-        if( typeof document === 'undefined' ){
-            return;
-        }
-
-        scene.background = incoming.background;
-        updateStyles({
-            '--background': incoming.background,
-            '--speed': incoming.speed + 'ms',
-        });
-
-        if( scene.rotate && incoming.rotate ){
-            console.log( 'rotation remains on' );
-            /*
-            rotation remains on
-            styles should be updated dependingly, but in sync and after fadeout
-            */
-            rotation.onTick = () => {
-                waitForColorToFadeOut = flicker();
-            };
-            rotation.onComplete = () => {
-                updateInSync(() => {
-                    scene.speed = incoming.speed;
-                    scene.fadeOut = incoming.fadeOut;
-                });
-                waitForColorToFadeOut.then(() => {
-                    scene.color = incoming.color;
-                });
-            };
-            updateInSync(() => {
-                scene.interval = incoming.interval;
-            });
-        } else if( scene.rotate && !incoming.rotate ){
-            console.log( 'rotation stop after complete' );
-            /*
-            rotation should be stopped after circle is complete
-            styles should be updated afterwards
-            */
-            scene.rotate = false;
-            rotation.onComplete = () => {
-                rotation.stop();
-                waitForColorToFadeOut.then(() => {
-                    scene.interval = incoming.interval;
-                    scene.color = incoming.color;
-                    scene.speed = incoming.speed;
-                    scene.fadeOut = incoming.fadeOut;
-                });
-            };
-        } else if( !scene.rotate && incoming.rotate ){
-            console.log( 'rotation start' );
-            /*
-            rotation should be started in sync
-            styles should be updated beforehand
-            */
-            scene.rotate = true;
-            scene.interval = incoming.interval;
-            scene.color = incoming.color;
-            scene.speed = incoming.speed;
-            scene.fadeOut = incoming.fadeOut;
-            rotation.start();
-            rotation.onTick = () => {
-                waitForColorToFadeOut = flicker();
-            };
-        } else if( !scene.rotate && !incoming.rotate ){
-            /*
-            rotation is off
-            styles should be updated immediately but in sync
-            */
+    onMount( async ()=>{
+        return () => {
             rotation.stop();
-            waitForColorToFadeOut.then(() => {
-                scene.interval = incoming.interval;
-                scene.color = incoming.color;
-                scene.speed = incoming.speed;
-                scene.fadeOut = incoming.fadeOut;
-                if( scene.color !== false ){
-                    waitForColorToFadeOut = flicker();
-                } else {
-                    showColor = false;
-                }
+        }
+    });
+
+    performanceStore.subscribe( async incoming => {
+        if( typeof document === 'undefined' ){ return; }
+        if( scene.rotate && incoming.rotate ){
+            scene.interval = incoming.interval;
+        } else if( !scene.rotate && incoming.rotate ){
+            scene = incoming;
+            updateStyles({
+                '--speed': incoming.speed + 'ms',
+                '--background': rainbow(incoming.background),
+            });
+            rotation.start( scene.interval );
+        } else if( scene.rotate && !incoming.rotate ){
+            rotation.stop();
+        } else if( !scene.rotate && !incoming.rotate ){
+            scene = incoming;
+            updateStyles({
+                '--speed': incoming.speed + 'ms',
+                '--background': rainbow(incoming.background),
             });
         }
     });
 
 </script>
 
-<p>
-    {userPosition}
-</p>
-
-<div style="
-    --color:{scene.color};
-    --fadeOut:{scene.fadeOut}ms;
-" class:visible={showColor}></div>
+<div class:active style="
+    --color: {rainbow(scene.color)};
+    --fadeIn: {scene.fadeIn}ms;
+    --fadeOut: {scene.fadeOut}ms;
+"
+></div>
 
 <style>
 
@@ -175,22 +166,23 @@
         width: 100%;
         top: 0;
         height: var(--100vh);
-        background-color: var(--color);
-        transition: all var(--fadeOut) linear;
-        opacity: 0;
+        transition: background-color 0ms linear;
+        transition-duration: var(--fadeOut);
     }
 
-    div.visible {
-        opacity: 1;
-        transition-duration: var(--speed);
+    div.active {
+        background-color: var(--color);
+        transition-duration: var(--fadeIn);
     }
 
     p {
-        margin: 1rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        padding: 1rem;
         color: white;
         mix-blend-mode: difference;
-        position: relative;
-        z-index: 10;
     }
 
 </style>

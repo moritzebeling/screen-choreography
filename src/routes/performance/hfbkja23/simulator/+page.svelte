@@ -1,6 +1,6 @@
 <script>
     
-    import Renderer from "../_render/Renderer2.svelte";
+    import Renderer from "../_render/Renderer.svelte";
     import { socket } from "../socket.js";
     import { onMount } from "svelte";
     import { performanceStore } from "$lib/stores";
