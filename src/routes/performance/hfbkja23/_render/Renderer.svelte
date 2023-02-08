@@ -90,7 +90,7 @@
                     color: rainbow( $performanceStore.color ),
                     fadeIn: $performanceStore.fadeIn,
                     fadeOut: $performanceStore.fadeOut
-                });
+                }, true);
             }
         }
         stop(){
@@ -103,7 +103,7 @@
                 ...$performanceStore,
                 background: rainbow( $performanceStore.background ),
                 color: rainbow( $performanceStore.color ),
-            });
+            }, true);
         }
         log( name = 'tick', args ){
             if( userPosition > 0 ){ return; }
@@ -132,13 +132,13 @@
         if( scene.rotate && incoming.rotate ){
             scene.apply({
                 interval: incoming.interval,
-            });
+            }, true);
         } else if( !scene.rotate && incoming.rotate ){
             scene = scene.apply({
                 ...incoming,
                 background: rainbow( incoming.background ),
                 color: rainbow( incoming.color ),
-            });
+            }, true);
             rotation.start( scene.interval );
         } else if( scene.rotate && !incoming.rotate ){
             rotation.stop();
@@ -147,7 +147,7 @@
                 ...incoming,
                 background: rainbow( incoming.background ),
                 color: rainbow( incoming.color ),
-            });
+            }, true);
         }
     });
 

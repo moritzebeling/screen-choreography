@@ -2,6 +2,7 @@ export class PerformanceScene {
 
     /**
      * @param {Object} options
+     * @param {string} options.title
      * @param {string} options.background
      * @param {string} options.color
      * @param {number} options.speed
@@ -12,6 +13,8 @@ export class PerformanceScene {
      */
     
     constructor( options = {} ){
+
+        this.title = options.title || 'New Scene';
 
         this.background = options.background || 'black';
         this.speed = options.speed || 1000;
@@ -25,16 +28,16 @@ export class PerformanceScene {
 
     }
 
-    apply( options ){
+    apply( options, setStyles = false ){
         if( options.hasOwnProperty('background') ){
             this.background = options.background;
-            if( typeof document !== 'undefined' ){
+            if( setStyles && typeof document !== 'undefined' ){
                 document.body.style.setProperty( '--background', this.background );
             }
         }
         if( options.hasOwnProperty('speed') ){
             this.speed = options.speed;
-            if( typeof document !== 'undefined' ){
+            if( setStyles && typeof document !== 'undefined' ){
                 document.body.style.setProperty( '--speed', this.speed + 'ms' );
             }
         }

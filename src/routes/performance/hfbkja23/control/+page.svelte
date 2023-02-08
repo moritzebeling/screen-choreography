@@ -5,6 +5,7 @@
     import { performanceStore } from "$lib/stores";
     import { PerformanceScene } from "$lib/models/PerformanceScene.js";
     import ColorSelect from "./ColorSelect.svelte";
+    import { presets } from './presets.js';
 
     let scene = new PerformanceScene();
 
@@ -30,11 +31,18 @@
         socket.emit('room:reset');
     }
 
+    console.log( presets );
+
 </script>
 
 <div class="grid">
-
-    
+    {#each presets as preset}
+        <button class="col-1 preset" on:click={()=> scene = scene.apply(preset) }>
+            {preset.title}
+        </button>
+    {/each}
+</div>
+<div class="grid">
 
     <ColorSelect bind:value={scene.background} />
 
@@ -113,8 +121,8 @@
     }
     button {
         background-color: #222;
+        padding: 1rem;
     }
-
     label {
         background-color: #222;
         border-radius: 1rem;
