@@ -1,6 +1,6 @@
 <script>
     
-    import Renderer2 from "../_render/Renderer2.svelte";
+    import Renderer from "../_render/Renderer2.svelte";
     import { socket } from "../socket.js";
     import { onMount } from "svelte";
     import { performanceStore } from "$lib/stores";
@@ -29,7 +29,7 @@
 <div class="grid">
     {#each Array(users) as _, i}
         <div class="user">
-            <Renderer2 userPosition={i} totalUsers={users} />
+            <Renderer userPosition={i} totalUsers={users} />
         </div>
     {/each}
 </div>

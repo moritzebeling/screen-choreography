@@ -15,8 +15,11 @@
             this.running = false;
             this.zeroOffset = 0;
             this.state = 0;
+            this.i = 0;
+            this.interval;
+            this.lastState = false;
             this.stopSoon = false;
-            this.speed = 1000;
+            this.speed = scene.interval;
         }
         timeId( precision = 1000 ){
             let now = Date.now();
@@ -30,40 +33,26 @@
                 setTimeout(() => resolve( id ), timeout);
             });
         }
-        async start( speed ){
-            this.speed = speed;
+        async start(){
             this.stopSoon = false;
             this.running = true;
             
-            let timestamp = this.timeId( this.speed );
-            this.state = timestamp % totalUsers;
-            this.zeroOffset = totalUsers - this.state;
-
-            this.log('start');
-
-            this.tick();
+            await this.sync( this.speed * 2 );
+            this.interval = setInterval(()=>{
+                this.state = this.timeId( this.speed ) % totalUsers;
+                if( this.state !== this.lastState ){
+                    this.i++;
+                    this.lastState = this.state;
+                }
+                active = this.state === userPosition;
+                info = this.i % totalUsers;
+            }, 50);
         }
-        async tick(){
-
-            let timestamp = await this.sync( this.speed );
-            this.state = (timestamp + this.zeroOffset) % totalUsers;
-
-            this.evaluate();
-
-            if( scene.interval !== this.speed ){
-                this.speed = scene.interval;
-                let newTimestamp = this.timeId( scene.interval );
-                let newOffset = totalUsers - ( newTimestamp % totalUsers );
-                this.zeroOffset = newOffset + this.state;
-            }
-
-            if( this.running ){
-                this.tick();
-            }
+        async updateSpeed( speed ){
+            await this.sync( this.speed );
+            this.speed = speed;
         }
         evaluate(){
-            info = this.state;
-            active = this.state === userPosition;
             if( this.state === 0 ){
                 this.completed();
             }
@@ -89,8 +78,7 @@
             if( userPosition > 0 ){ return; }
             console.log( name, {
                 state: this.state,
-                zeroOffset: this.zeroOffset,
-                speed: this.speed,
+                i: this.i,
                 ...args
             });
         }
@@ -109,11 +97,12 @@
 
     performanceStore.subscribe( async incoming => {
         if( typeof document === 'undefined' ){ return; }
+        rotation.updateSpeed( incoming.interval );
         if( scene.rotate && incoming.rotate ){
             scene.interval = incoming.interval;
         } else if( !scene.rotate && incoming.rotate ){
             scene = incoming;
-            rotation.start( scene.interval );
+            rotation.start();
         } else if( scene.rotate && !incoming.rotate ){
             rotation.stop();
         } else if( !scene.rotate && !incoming.rotate ){
@@ -123,7 +112,7 @@
 
 </script>
 
-<!-- <p>{info}</p> -->
+<p>{info}</p>
 
 <div class:active style="
     --color: {scene.color};
