@@ -13,6 +13,7 @@
     import { socket } from "../socket.js";
     import { performanceStore } from "$lib/stores";
     import { PerformanceScene } from "$lib/models/PerformanceScene.js";
+    import ColorSelect from "./ColorSelect.svelte";
 
     let scene = new PerformanceScene();
 
@@ -41,91 +42,91 @@
 
 </script>
 
-<form class="grid">
+<div class="grid">
 
-    <label class="col-2 color" style="background-color: {scene.background || '#222'};">
-        <p>Background color</p>
-        <select bind:value={scene.background}>
-            <option value="black">Black</option>
-            <option value="white">White</option>
-            <option value="#f00">Red</option>
-            <option value="#0f0">Green</option>
-            <option value="#00f">Blue</option>
-        </select>
-    </label>
+    <ColorSelect bind:value={scene.background} />
 
-    <label class="col-2">
-        <p>Background speed: {scene.speed}ms</p>
-        <input type="range" min="0" max="10000" step="200" bind:value={scene.speed} />
-    </label>
-
-    <label class="col-2 color" style="background-color: {scene.color || '#222'};">
-        <p>Flicker color</p>
-        <select bind:value={scene.color}>
-            <option value={false}>—</option>
-            <option value="black">Black</option>
-            <option value="white">White</option>
-            <option value="#f00">Red</option>
-            <option value="#0f0">Green</option>
-            <option value="#00f">Blue</option>
-            <option value="rainbow">Rainbow!</option>
-        </select>
-    </label>
+    <button class="col-3 row-2" class:alert={pendingChanges} on:click={send}>
+        Push
+    </button>
     
-    <label class="col-1">
-        <p>Fade in: {scene.fadeIn}ms</p>
-        <input type="range" min="0" max="10000" step="100" bind:value={scene.fadeIn} />
-    </label>
+    <ColorSelect bind:value={scene.color} />
     
-    <label class="col-1">
-        <p>Fade out: {scene.fadeOut}ms</p>
-        <input type="range" min="0" max="10000" step="100" bind:value={scene.fadeOut} />
+</div>
+
+<div class="grid">
+
+    <label class="col-3">
+        <div>
+            <p>Background speed</p>
+            <p>{scene.speed}ms</p>
+        </div>
+        <input type="range" min="0" max="5000" bind:value={scene.speed} />
     </label>
+
+    <label class="col-3">
+        <div>
+            <p>Fade In</p>
+            <p>{scene.fadeIn}ms</p>
+        </div>
+        <input type="range" min="0" max="5000" bind:value={scene.fadeIn} />
+    </label>
+
+    <label class="col-3">
+        <div>
+            <p>Fade Out</p>
+            <p>{scene.fadeOut}ms</p>
+        </div>
+        <input type="range" min="0" max="5000" bind:value={scene.fadeOut} />
+    </label>
+
+    <button class="col-3" class:alert={autoSend} on:click={()=> autoSend = !autoSend }>
+        Auto push
+    </button>
     
-    <label class="col-2">
-        <p>Rotate</p>
-        <select bind:value={scene.rotate}>
-            <option value={false}>Still</option>
-            <option value={true}>Rotate</option>
-        </select>
+    <button class="col-1" on:click={()=> scene.interval = Math.max(30,Math.round(scene.interval * 0.8)) }>
+        -20%
+    </button>
+    
+    <label class="col-7">
+        <div>
+            <p>Interval speed</p>
+            <p>{scene.interval}ms</p>
+        </div>
+        <input type="range" min="100" max="5000" bind:value={scene.interval} />
     </label>
 
-    <label class="col-2">
-        <p>Interval: {scene.interval}ms</p>
-        <input type="range" min="100" max="10000" step="100" bind:value={scene.interval} />
-    </label>
+    <button class="col-1" on:click={()=> scene.interval = Math.round(scene.interval * 1.2) }>
+        +20%
+    </button>
 
-    <label class="col-2" class:alert={autoSend}>
-        <p>Send mode</p>
-        <select bind:value={autoSend}>
-            <option value={false}>Manual</option>
-            <option value={true}>Auto</option>
-        </select>
-    </label>
-   
-    {#if !autoSend}
-        <label class="col-2" class:alert={pendingChanges}>
-            <button on:click={send}>Send</button>
-        </label>
-    {/if}
-        
-    <label class="col-2">
-        <button on:click={resetRoom}>Reset Room</button>
-    </label>
+    <button class="col-3" class:alert={scene.rotate} on:click={()=> scene.rotate = !scene.rotate }>
+        Rotate
+    </button>
 
-</form>
+</div>
 
 <style>
 
-    .grid, pre {
-        padding: 1rem;
-        gap: 0.5rem;
+    .grid {
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1rem;
+        margin: 1rem;
+        padding: 0;
+    }
+    label {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    label > div {
+        display: flex;
+        justify-content: space-between;
+    }
+    button {
+        background-color: #222;
     }
 
-    .color p, .color select {
-        color: white;
-        mix-blend-mode: difference;
-    }
     label {
         background-color: #222;
         border-radius: 1rem;
@@ -134,17 +135,9 @@
     label p {
         margin-bottom: 1rem;
     }
-    select {
-        text-align: inherit;
-        text-align-last: inherit;
-        background-color: transparent;
-    }
-    input {
-        display: block;
-        width: 100%;
-    }
     .alert {
-        background-color: #f00;
+        background-color: white;
+        color: black;
     }
 
 </style>

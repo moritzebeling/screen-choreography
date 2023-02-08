@@ -135,7 +135,7 @@
 
     div.active {
         background-color: var(--color);
-        transition-duration: var(--speedIn);
+        transition-duration: var(--fadeIn);
     }
 
     p {

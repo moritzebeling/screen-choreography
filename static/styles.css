@@ -131,3 +131,9 @@ nav {
 .col-4 {
     grid-column-end: span 4;
 }
+.col-7 {
+    grid-column-end: span 7;
+}
+.row-2 {
+    grid-row-end: span 2;
+}

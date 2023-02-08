@@ -10,6 +10,12 @@
     let active = false;
     let info = 0;
 
+    function updateStyles( styles = {} ){
+        Object.keys( styles ).forEach((key) => {
+            document.body.style.setProperty( key, styles[key] );
+        });
+    }
+
     class Rotation {
         constructor(){
             this.running = false;
@@ -75,6 +81,10 @@
                 scene.color = $performanceStore.color;
                 scene.fadeIn = $performanceStore.fadeIn;
                 scene.fadeOut = $performanceStore.fadeOut;
+                updateStyles({
+                    '--speed': $performanceStore.speed + 'ms',
+                    '--background': $performanceStore.background,
+                });
             }
         }
         stop(){
@@ -84,6 +94,10 @@
             this.running = false;
             active = false;
             scene = $performanceStore;
+            updateStyles({
+                '--speed': $performanceStore.speed + 'ms',
+                '--background': $performanceStore.background,
+            });
         }
         log( name = 'tick', args ){
             if( userPosition > 0 ){ return; }
@@ -113,17 +127,23 @@
             scene.interval = incoming.interval;
         } else if( !scene.rotate && incoming.rotate ){
             scene = incoming;
+            updateStyles({
+                '--speed': incoming.speed + 'ms',
+                '--background': incoming.background,
+            });
             rotation.start( scene.interval );
         } else if( scene.rotate && !incoming.rotate ){
             rotation.stop();
         } else if( !scene.rotate && !incoming.rotate ){
             scene = incoming;
+            updateStyles({
+                '--speed': incoming.speed + 'ms',
+                '--background': incoming.background,
+            });
         }
     });
 
 </script>
-
-<!-- <p>{info}</p> -->
 
 <div class:active style="
     --color: {scene.color};
@@ -146,7 +166,7 @@
 
     div.active {
         background-color: var(--color);
-        transition-duration: var(--speedIn);
+        transition-duration: var(--fadeIn);
     }
 
     p {
