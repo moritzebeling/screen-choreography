@@ -31,17 +31,27 @@
         socket.emit('room:reset');
     }
 
+    function redirect(){
+        socket.emit('redirect');
+    }
+
     console.log( presets );
 
 </script>
 
 <div class="grid">
+
+    <button class="col-2" on:click={redirect}>
+        Redirect
+    </button>
+
     {#each presets as preset}
-        <button class="col-1 preset" on:click={()=> scene = scene.apply(preset) }>
+        <button class="col-2 preset" on:click={()=> scene = scene.apply(preset) }>
             {preset.title}
         </button>
     {/each}
 </div>
+
 <div class="grid">
 
     <ColorSelect bind:value={scene.background} />

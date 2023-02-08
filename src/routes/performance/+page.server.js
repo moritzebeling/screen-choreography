@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
  
-/** @type {import('./$types').LayoutServerLoad} */
+/** @type {import('./$types').PageServerLoad} */
 export function load() {
     throw redirect(301, '/');
 }

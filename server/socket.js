@@ -233,6 +233,10 @@ export function socketServer( server ){
             io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('scene:updated', scene );
 
         });
+        
+        socket.on('redirect', () => {
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('redirect');
+        });
 
     });
 

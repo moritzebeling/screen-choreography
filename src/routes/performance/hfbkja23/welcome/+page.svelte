@@ -38,14 +38,16 @@
             setTimeout(() => {
                 if( room.users.length > ( $userStore.position + 1 ) ){
                     console.log('room:updated', 'next user has entered');
-                    goto('/performance/hfbkja23');
-                } else if( dev ){
-                    setTimeout(()=>{
-                        goto('/performance/hfbkja23');
-                    }, 3000);
+                    // goto('/performance/hfbkja23');
                 }
             }, 10);
         });
+        socket.on('redirect', () => {
+            goto('/performance/hfbkja23');
+        });
+        return () => {
+            socket.off('redirect');
+        };
     });
 
 </script>
