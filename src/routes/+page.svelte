@@ -31,14 +31,29 @@
     <header>
         <h1>Screens Choreography</h1>
     </header>
-
+    
     <main>
+        <p>
+            Thursday, 9th 21:30
+            <br />
+            Saturday, 11th 16:00
+            <br />
+            Feb 2023
+        </p>
+        <p>
+            Klasse Digitale Grafik
+            <br />
+            HFBK Hamburg
+        </p>
+    </main>
+
+    <!-- <main>
         <Menu>
             <a class="button" href="/live">Open new room</a>
         </Menu>
-    </main>
+    </main> -->
 
-    {#if rooms.length > 0}
+    <!-- {#if rooms.length > 0}
         <footer>
             <p>Or join one of the following rooms:</p>
             <Menu>
@@ -50,7 +65,7 @@
                 {/each}
             </Menu>
         </footer>
-    {/if}
+    {/if} -->
 
 </div>
 
@@ -61,14 +76,24 @@
         justify-content: space-between;
     }
 
+    header {
+        text-align: center;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+
     header, nav {
         margin: 1rem;
     }
     main {
-        flex: 1;
+        /* flex: 1;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: center; */
+    }
+    p {
+        margin: 1rem 0;
     }
 
 </style>
