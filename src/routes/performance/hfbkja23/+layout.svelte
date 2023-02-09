@@ -11,8 +11,6 @@
 
     onMount(()=>{
 
-        socket.emit('room:enter');
-
         let user = new User({
             ...data.user,
             id: data.userId
@@ -21,18 +19,12 @@
         userStore.set( user );
         console.log( $userStore );
 
-        socket.on('room:updated', room => {
+        socket.on('room:update', room => {
+            console.log('room:update', room);
             room = new Room( room );
             roomStore.set( room );
             $userStore.position = room.getUserPosition( $userStore.id, true );
-            console.log('room:updated', $roomStore, $userStore.position );
-        });
-        
-        socket.on('room:reset', room => {
-            let timeout = 100 + (($userStore.position || 0) * 100);
-            setTimeout(()=>{
-                socket.emit('room:enter');
-            }, timeout);
+            console.log('room:update', $roomStore, $userStore.position );
         });
         
     });

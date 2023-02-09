@@ -2,10 +2,11 @@
 
     import throttle from 'just-throttle';
     import { socket } from "../socket.js";
-    import { performanceStore } from "$lib/stores";
+    import { performanceStore, roomStore, userStore } from "$lib/stores";
     import { PerformanceScene } from "$lib/models/PerformanceScene.js";
     import ColorSelect from "./ColorSelect.svelte";
     import { presets } from './presets.js';
+    import { onMount } from 'svelte';
 
     let scene = new PerformanceScene();
 
@@ -35,16 +36,32 @@
         socket.emit('redirect');
     }
 
-    console.log( presets );
+    onMount(()=>{
+        socket.emit('room:leave');
+        socket.emit('room:join');
+    });
 
 </script>
+
+<svelte:head>
+    <title>Performance Control</title>
+</svelte:head>
 
 <div class="grid">
 
     <button class="col-2" on:click={redirect}>
         Redirect
     </button>
+    <button class="col-2" on:click={resetRoom}>
+        Reset room
+    </button>
+    <div class="col-8 info">
+        {$roomStore.users.length} users online
+    </div>
 
+</div>
+
+<div class="grid">
     {#each presets as preset}
         <button class="col-2 preset" on:click={()=> scene = scene.apply(preset) }>
             {preset.title}
@@ -133,7 +150,7 @@
         background-color: #222;
         padding: 1rem;
     }
-    label {
+    label, .info {
         background-color: #222;
         border-radius: 1rem;
         padding: 1rem;

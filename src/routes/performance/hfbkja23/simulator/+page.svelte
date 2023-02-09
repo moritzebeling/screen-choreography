@@ -17,10 +17,12 @@
     }
 
     onMount(()=>{
+        socket.emit('room:leave');
+        socket.emit('room:join');
         add();
-        socket.on('scene:updated',data => {
+        socket.on('scene:update',data => {
             performanceStore.set( data );
-            console.log('scene:updated',$performanceStore);
+            console.log('scene:update',$performanceStore);
         });
     });
 
@@ -29,6 +31,7 @@
 <div class="grid">
     {#each Array(users) as _, i}
         <div class="user">
+            <pre>{i} / {users}</pre>
             <Renderer userPosition={i} totalUsers={users} />
         </div>
     {/each}
@@ -43,6 +46,16 @@
     .user {
         overflow: hidden;
         position: relative;
+    }
+
+    pre {
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        left: 0;
+        color: white;
+        mix-blend-mode: difference;
+        padding: 1rem;
     }
     
 </style>

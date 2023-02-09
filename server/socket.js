@@ -210,12 +210,31 @@ export function socketServer( server ){
             
             console.log('/performance/hfbkja23', 'room:reset', performanceRoom.id, socket.data);
             io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:reset', performanceRoom );
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:update', performanceRoom );
+
+        });
+        
+        socket.on('room:join', () => {
+            socket.join( performanceRoom.id );
+            socket.emit('room:update', performanceRoom );
+        });
+
+        socket.on('room:leave', () => {
+
+            performanceRoom.removeUser( socket.data.userId );
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:update', performanceRoom );
 
         });
         
         socket.on('room:welcome', guestId => {
+
+            performanceRoom.addUser( socket.data.userId );
+            performanceRoom.ping();
+            socket.join( performanceRoom.id );
+
             console.log('/performance/hfbkja23', 'room:welcome', guestId );
             io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:welcome', guestId );
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:update', performanceRoom );
         });
 
         socket.on('room:enter', () => {
@@ -225,7 +244,7 @@ export function socketServer( server ){
             socket.join( performanceRoom.id );
             
             console.log('/performance/hfbkja23', 'room:enter', performanceRoom.id, socket.data);
-            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:updated', performanceRoom );
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('room:update', performanceRoom );
 
         });
         
@@ -235,7 +254,7 @@ export function socketServer( server ){
             performanceRoom.ping();
             
             console.log('/performance/hfbkja23', 'scene:update', performanceRoom.id, scene);
-            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('scene:updated', scene );
+            io.of('/performance/hfbkja23').to( performanceRoom.id ).emit('scene:update', scene );
 
         });
         
