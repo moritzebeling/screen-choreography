@@ -7,9 +7,6 @@
     import { onMount } from "svelte";
     import { socket } from "../socket.js";
     import { goto } from "$app/navigation";
-    import { roomStore, userStore, performanceStore } from "$lib/stores.js";
-    import { Room } from "$lib/models/Room.js";
-    import { dev } from "$app/environment";
 
     export let data;
 
@@ -45,6 +42,7 @@
         });
         return () => {
             socket.off('redirect');
+            socket.off('welcome');
         };
     });
 

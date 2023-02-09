@@ -4,12 +4,14 @@ export const presets = [
         background: 'white',
         color: 'white',
         speed: 1000,
+        rotate: false,
     },
     {
         title: 'Black',
         background: 'black',
         color: 'black',
         speed: 1000,
+        rotate: false,
     },
     {
         title: 'White ticks',

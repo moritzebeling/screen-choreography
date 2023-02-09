@@ -16,7 +16,7 @@ export class PerformanceScene {
 
         this.title = options.title || 'New Scene';
 
-        this.background = options.background || 'black';
+        this.background = options.background || 'white';
         this.speed = options.speed || 1000;
         
         this.color = options.color || 'white';

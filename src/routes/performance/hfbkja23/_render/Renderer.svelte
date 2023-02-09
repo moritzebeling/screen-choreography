@@ -85,7 +85,6 @@
             if( this.stopSoon ){
                 this.onStop();
             } else {
-                console.log('completed', scene, $performanceStore );
                 scene = scene.apply({
                     color: rainbow( $performanceStore.color ),
                     fadeIn: $performanceStore.fadeIn,
