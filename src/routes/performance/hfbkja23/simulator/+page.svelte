@@ -31,7 +31,7 @@
 <div class="grid">
     {#each Array(users) as _, i}
         <div class="user">
-            <pre>{i} / {users}</pre>
+            <pre>{i}</pre>
             <Renderer userPosition={i} totalUsers={users} />
         </div>
     {/each}

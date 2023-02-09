@@ -25,7 +25,7 @@
 <pre>Room {JSON.stringify($roomStore, true, 2)}</pre>
 <pre>User {JSON.stringify($userStore, true, 2)}</pre> -->
 
-<pre>{$userStore.position} / {$roomStore.users.length}</pre>
+<pre>{$userStore.position}</pre>
 
 <Renderer userPosition={$userStore.position} totalUsers={$roomStore.users.length} />
 

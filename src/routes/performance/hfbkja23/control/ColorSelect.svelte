@@ -16,21 +16,28 @@
 
 </script>
 
-{#each colors as color}
-    <button
-        class="col-1 color"
-        class:rainbow={color === 'rainbow'}
-        class:active={color === value}
-        style="--color:{color === 'black' ? '#222' : color};"
-        on:click={()=> value = color}
-        >
-    </button>
-{/each}
+<div class="grid">
+    {#each colors as color}
+        <button
+            class="col-1 color"
+            class:rainbow={color === 'rainbow'}
+            class:active={color === value}
+            style="--color:{color === 'black' ? '#222' : color};"
+            on:click={()=> value = color}
+            >
+        </button>
+    {/each}
+</div>
 
 <style>
 
+    .grid {
+        grid-template-columns: repeat(9, 1fr);
+        gap: 1rem;
+        margin: 4rem 0;
+    }
     button {
-        height: 4rem;
+        padding-top: 100%;
         background: var(--color);
         transition: transform 100ms linear;
         border-radius: 4rem;
