@@ -164,7 +164,7 @@
         clearInterval( rainbowInterval );
         if( incoming.rotate && incoming.color === 'rainbow' ){
             rainbowInterval = setInterval(() => {
-                degOffset += 2;
+                degOffset += 3;
                 scene = scene.apply({
                     color: rainbow( incoming.color )
                 }, true);

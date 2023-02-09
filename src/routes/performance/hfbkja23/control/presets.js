@@ -31,14 +31,49 @@ export const presets = {
         fadeIn: 0,
         fadeOut: 0,
     },
+    'speed': {
+        title: 'Speed',
+        interval: 100,
+    },
+    'blue': {
+        title: 'Blue ticks',
+        color: '#00f',
+    },
+    'green': {
+        title: 'Green ticks',
+        color: '#0f0',
+    },
+    'red': {
+        title: 'Red ticks',
+        color: '#f00',
+    },
     'glow': {
         title: 'Glow',
         fadeIn: 0,
-        fadeOut: 2500,
+        fadeOut: 2000,
     },
     'rainbow': {
         title: 'Rainbow',
         color: 'rainbow',
+    },
+    '3000': {
+        title: '3000',
+        fadeOut: 3000,
+    },
+    '4000': {
+        title: '4000',
+        fadeOut: 4000,
+    },
+    'circle': {
+        title: 'Rainbowc circle',
+        color: 'rainbow',
         fadeOut: 5000,
+    },
+    'flicker': {
+        title: 'Rainbowc circle',
+        rotate: false,
+        flicker: true,
+        fadeOut: 0,
+        color: 'white'
     },
 };
