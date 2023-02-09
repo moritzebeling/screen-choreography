@@ -11,11 +11,22 @@
     let active = false;
     let info = 0;
 
+    let degOffset = 0;
+    let rainbowInterval;
+
+    function getRaindbowDeg(){
+        let deg = (userPosition / totalUsers) * 360;
+        deg = (deg - degOffset) % 360;
+        if( deg < 0 ){
+            deg = deg + 360;
+        }
+        return deg;
+    }
     function rainbow( color ) {
         if( color !== 'rainbow' ){
             return color;
         }
-        let deg = (userPosition / totalUsers) * 360;
+        let deg = getRaindbowDeg();
         return `hsl(${deg}, 100%, 50%)`;
     }
 
@@ -147,6 +158,15 @@
                 background: rainbow( incoming.background ),
                 color: rainbow( incoming.color ),
             }, true);
+        }
+        clearInterval( rainbowInterval );
+        if( incoming.rotate && incoming.color === 'rainbow' ){
+            rainbowInterval = setInterval(() => {
+                degOffset += 2;
+                scene = scene.apply({
+                    color: rainbow( incoming.color )
+                }, true);
+            }, 200);
         }
     });
 
