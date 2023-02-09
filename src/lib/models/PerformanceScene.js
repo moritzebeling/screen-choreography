@@ -9,6 +9,7 @@ export class PerformanceScene {
      * @param {number} options.fadeIn
      * @param {number} options.fadeOut
      * @param {boolean} options.rotate
+     * @param {boolean} options.flicker
      * @param {number} options.interval
      */
     
@@ -24,6 +25,7 @@ export class PerformanceScene {
         this.fadeOut = options.fadeOut || 100;
 
         this.rotate = options.rotate || false;
+        this.flicker = options.flicker || false;
         this.interval = options.interval || 1000;
 
     }
@@ -46,6 +48,9 @@ export class PerformanceScene {
         }
         if( options.hasOwnProperty('rotate') ){
             this.rotate = options.rotate;
+        }
+        if( options.hasOwnProperty('flicker') ){
+            this.flicker = options.flicker;
         }
         if( options.hasOwnProperty('interval') ){
             this.interval = options.interval;

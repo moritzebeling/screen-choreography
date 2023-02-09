@@ -112,7 +112,7 @@
             <input type="range" min="0" step="10" max="5000" bind:value={scene.fadeOut} />
         </label>
 
-        <label class="col-6">
+        <label class="col-5">
             <div>
                 <p>Interval speed</p>
                 <p>{scene.interval}ms</p>
@@ -130,6 +130,10 @@
         
         <button class="button col-1" class:alert={scene.rotate} on:click={()=> scene.rotate = !scene.rotate }>
             Rotate
+        </button>
+        
+        <button class="button col-1" class:alert={scene.flicker} on:click={()=> scene.flicker = !scene.flicker }>
+            Flicker
         </button>
 
     </div>

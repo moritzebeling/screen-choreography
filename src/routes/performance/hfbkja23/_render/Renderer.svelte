@@ -3,6 +3,7 @@
     import { performanceStore } from "$lib/stores";
     import { PerformanceScene } from "$lib/models/PerformanceScene.js";
     import { onMount } from "svelte";
+    import Pulse from "./Pulse.svelte";
 
     export let userPosition = 0;
     export let totalUsers = 1;
@@ -10,6 +11,7 @@
     let scene = new PerformanceScene({...$performanceStore});
     let active = false;
     let info = 0;
+    let flicker = true;
 
     let degOffset = 0;
     let rainbowInterval;
@@ -168,9 +170,16 @@
                 }, true);
             }, 200);
         }
+        flicker = incoming.flicker;
     });
 
 </script>
+
+{#if flicker}
+    <aside style="--color:{scene.color};">
+        <Pulse />
+    </aside>
+{/if}
 
 <div class:active style="
     --color: {scene.color};
