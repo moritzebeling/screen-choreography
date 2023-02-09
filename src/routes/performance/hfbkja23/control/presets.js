@@ -14,6 +14,15 @@ export const presets = [
         rotate: false,
     },
     {
+        title: 'White buildup',
+        color: 'white',
+        background: 'black',
+        rotate: true,
+        interval: 1000,
+        fadeIn: 0,
+        fadeOut: 5000,
+    },
+    {
         title: 'White ticks',
         color: 'white',
         background: 'black',

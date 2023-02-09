@@ -63,7 +63,7 @@
 
 <div class="grid">
     {#each presets as preset}
-        <button class="col-2 preset" on:click={()=> scene = scene.apply(preset) }>
+        <button class="col-2 preset" on:click={()=>{ scene = scene.apply(preset); send() }}>
             {preset.title}
         </button>
     {/each}
