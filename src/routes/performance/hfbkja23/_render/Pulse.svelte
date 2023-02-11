@@ -29,7 +29,7 @@
 
         setTimeout(()=>{
             morphing = true;
-        }, 5000);
+        }, 7000);
     });
 
     function switchTarget( s ){

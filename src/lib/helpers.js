@@ -25,10 +25,10 @@ export function morph( value, target, threshold = 100, step = 0.1 ){
  * @param {number} factor 
  * @returns {Promise}
  */
-export function syncAnim( interval = 2000, factor = 1 ) {
+export function syncAnim( interval = 2000, factor = 1, add = 0 ) {
     factor = interval * factor;
     let now = Date.now();
-    let startAt = Math.ceil( now / factor ) * factor;
+    let startAt = ( Math.ceil( now / factor ) * factor ) + add;
     let timeout = startAt - now;
     return new Promise((resolve) => {
         setTimeout(() => resolve(true), timeout);

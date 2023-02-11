@@ -4,6 +4,7 @@
     import { PerformanceScene } from "$lib/models/PerformanceScene.js";
     import { onMount } from "svelte";
     import Pulse from "./Pulse.svelte";
+    import { syncAnim } from "$lib/helpers";
 
     export let userPosition = 0;
     export let totalUsers = 1;
@@ -86,7 +87,7 @@
         evaluate(){
             info = this.state;
             let _active = this.state === userPosition;
-            if( scene.fadeOut >= 5000 && active ){
+            if( scene.fadeOut >= 10000 && active ){
                 _active = true;
             }
             active = _active;
@@ -142,6 +143,7 @@
     performanceStore.subscribe( async incoming => {
         if( typeof document === 'undefined' ){ return; }
         if( scene.rotate && incoming.rotate ){
+            await syncAnim(100,1,100);
             scene.apply({
                 interval: incoming.interval,
             }, true);
@@ -151,6 +153,7 @@
                 background: rainbow( incoming.background ),
                 color: rainbow( incoming.color ),
             }, true);
+            await syncAnim(100,1,100);
             rotation.start( scene.interval );
         } else if( scene.rotate && !incoming.rotate ){
             rotation.stop();

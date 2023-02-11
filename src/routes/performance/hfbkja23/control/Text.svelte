@@ -53,8 +53,8 @@
     <p>
         With logic, a changing input variable can be transformed into behavior.
         <button on:click={()=>select('rainbow')}>Rainbow</button>
-        <button on:click={()=>select('3000')}>3000</button>
-        <button on:click={()=>select('4000')}>4000</button>
+        <button on:click={()=>select('glow2')}>Glow 2</button>
+        <button on:click={()=>select('glow3')}>Glow 3</button>
         <button on:click={()=>select('circle')}>Circle</button>
     </p>
 </article>
@@ -72,8 +72,6 @@
 </article>
 
 <style>
-
-    
 
     article {
         color: white;

@@ -20,7 +20,7 @@ export const presets = {
         rotate: true,
         interval: 1000,
         fadeIn: 0,
-        fadeOut: 5000,
+        fadeOut: 10000,
     },
     'ticks': {
         title: 'White ticks',
@@ -50,24 +50,24 @@ export const presets = {
     'glow': {
         title: 'Glow',
         fadeIn: 0,
-        fadeOut: 2000,
+        fadeOut: 3000,
     },
     'rainbow': {
         title: 'Rainbow',
         color: 'rainbow',
     },
-    '3000': {
-        title: '3000',
-        fadeOut: 3000,
+    'glow2': {
+        title: '5000',
+        fadeOut: 5000,
     },
-    '4000': {
-        title: '4000',
-        fadeOut: 4000,
+    'glow3': {
+        title: '7000',
+        fadeOut: 7000,
     },
     'circle': {
         title: 'Rainbowc circle',
         color: 'rainbow',
-        fadeOut: 5000,
+        fadeOut: 10000,
     },
     'flicker': {
         title: 'Rainbowc circle',

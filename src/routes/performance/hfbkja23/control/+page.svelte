@@ -109,7 +109,7 @@
                 <p>Fade Out</p>
                 <p>{scene.fadeOut}ms</p>
             </div>
-            <input type="range" min="0" step="10" max="5000" bind:value={scene.fadeOut} />
+            <input type="range" min="0" step="10" max="10000" bind:value={scene.fadeOut} />
         </label>
 
         <label class="col-5">
