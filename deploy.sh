@@ -7,7 +7,7 @@ echo pwd
 
 echo "🛑 Stop server"
 
-pm2 delete all
+pm2 delete screens
 
 echo "⬇️ Pull repository"
 
@@ -20,6 +20,6 @@ npm run build
 
 echo "🚀 Start server"
 
-pm2 start server/server.js
+pm2 start pm2.config.cjs
 
 echo "✅ End deploy script"
