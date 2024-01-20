@@ -15,6 +15,7 @@ git pull
 
 echo "🔨 Build project"
 
+nvm use
 npm install
 npm run build
 
